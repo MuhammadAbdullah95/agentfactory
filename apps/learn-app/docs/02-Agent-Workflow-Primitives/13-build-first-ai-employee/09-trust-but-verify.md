@@ -87,29 +87,28 @@ teaching_guide:
   session_group: 4
   session_title: "Human-in-the-Loop Safety"
   key_points:
-    - "HITL is a safety pattern, not a limitation — it prevents the AI Employee from taking irreversible actions without human sign-off, like any real employee needing manager approval for expenses"
-    - "Folder-based workflow (/Pending_Approval/ -> /Approved/ or /Rejected/) extends the same file-based communication pattern students learned with /Needs_Action/ in L08"
-    - "Permission boundaries define WHAT auto-approves vs WHAT requires review — this is the governance layer that makes autonomous operation trustworthy"
-    - "The approval watcher script demonstrates the complete cycle: detection, logging, archival — students can verify every step"
-    - "Rejection testing is just as important as approval testing — the system must provably NOT execute rejected actions"
+    - "Permission boundaries are the governance layer that makes autonomous operation trustworthy — without them, watchers from L08 would trigger unrestricted actions; this lesson adds the safety gate that L12 Gold Capstone wires into the full orchestrator"
+    - "Folder-based workflow (/Pending_Approval/ -> /Approved/ or /Rejected/ -> /Done/) extends L08's file-based communication pattern from detection to governance — same mechanism, different purpose"
+    - "The approval watcher is a polling script (not watchdog-based) because human approval is measured in minutes, not milliseconds — this is a deliberate design choice students should understand"
+    - "Rejection testing is equally important as approval testing — the REJECTED_ prefix on archived files creates an audit trail that proves sensitive actions were NOT executed"
   misconceptions:
-    - "Students think HITL means the AI is not trusted — it means the AI handles routine tasks autonomously but sensitive actions get human review, like any real employee"
-    - "Students assume all actions need approval — the permission boundaries table explicitly defines auto-approve thresholds (e.g., emails to known contacts auto-approve)"
-    - "Students confuse /Pending_Approval/ with /Needs_Action/ — Needs_Action is for incoming items detected by watchers (L08), Pending_Approval is for outgoing actions awaiting human sign-off"
-    - "Students think moving files between folders is primitive — file-based workflows are visible, auditable, and work with any tool (Obsidian, CLI, scripts, watchers)"
+    - "Students confuse /Pending_Approval/ with /Needs_Action/ — Needs_Action is for INCOMING items detected by watchers (L08), Pending_Approval is for OUTGOING actions the employee wants to take but needs human sign-off for"
+    - "Students assume all actions need approval — the permission boundaries table explicitly defines auto-approve thresholds (emails to known contacts, payments under $50 to recurring payees), and the lesson's Trust Spectrum diagram shows this is a continuum, not binary"
+    - "Students think HITL means the AI is not trusted — frame it as delegation levels: a junior employee handles routine tasks independently but escalates sensitive decisions, exactly like a real workplace"
+    - "Students expect the approval watcher to execute real actions (send emails, make payments) — emphasize it only LOGS and ARCHIVES; the Safety Note at the end explains that connecting to real services is a production concern"
   discussion_prompts:
-    - "The permission table says payments under $50 to recurring payees auto-approve. Where would YOU set the threshold for your business, and why?"
-    - "Why does the approval request include an expiry field? What should happen when an approval request expires without a decision?"
-    - "How does HITL complement the watchers from L08? What would go wrong if your employee had watchers but NO approval gate?"
+    - "The permission table says payments under $50 to recurring payees auto-approve. Where would YOU set the threshold for your business, and what factors change that number?"
+    - "Why does the approval request include an expiry field? What should happen when a request expires — auto-reject, escalate, or something else?"
+    - "Your employee has watchers (L08) detecting new files and emails. Without the approval gate from this lesson, what could go wrong when a watcher triggers an action on a misidentified file?"
   teaching_tips:
-    - "Start with the 'wrong email' scenario in the opening — students immediately grasp why HITL matters when they imagine sending confidential data to the wrong person"
-    - "Demo the folder workflow physically: create a file in Pending_Approval, then move it to Approved and watch the script process it — the visible file movement makes the abstract concept concrete"
-    - "Have students write their OWN permission boundaries before showing the provided table — this makes the pattern personally relevant and reveals how context-dependent thresholds are"
-    - "Test the rejection path explicitly — students need to see that rejected files are logged but never processed"
+    - "Start with the Trust Spectrum diagram (Full Auto to Full Manual) before the permission table — students need the mental model of a continuum before they see specific thresholds"
+    - "Demo the folder workflow live in two terminals: run the watcher in one, move files in the other — the 5-second polling delay creates a tangible 'will it catch it?' moment that keeps students engaged"
+    - "Have students draft their OWN permission boundaries BEFORE showing the provided table — the gap between their intuition and the structured table reveals how context-dependent governance rules are"
+    - "When testing rejection, have students check BOTH the log file AND the Done/ folder — seeing REJECTED_NOT_EXECUTED in the log and the REJECTED_ prefix on the filename reinforces that two separate audit mechanisms confirm no action was taken"
   assessment_quick_check:
-    - "Name the four folders in the approval workflow and explain what each represents"
-    - "Give two examples of actions that should auto-approve and two that should always require human review"
-    - "What is the difference between /Needs_Action/ (from L08) and /Pending_Approval/ (this lesson)?"
+    - "What is the difference between /Needs_Action/ (L08) and /Pending_Approval/ (this lesson) — which direction does information flow in each?"
+    - "Name two actions from the permission table that auto-approve and explain what condition makes them safe to auto-approve"
+    - "A rejected payment request ends up in Done/ — how can you tell from the filename and log file that it was rejected and NOT executed?"
 
 # Generation metadata
 generated_by: "content-implementer v1.0.0"
@@ -119,9 +118,7 @@ version: "1.0.0"
 
 # Trust But Verify
 
-In L08, you gave your employee senses -- watchers that detect new emails and files arriving. Now your employee notices things on its own. But noticing and _acting_ are different responsibilities. Imagine your employee detects an invoice from a new vendor and immediately sends a $2,000 payment -- to the wrong bank account. Or drafts a reply to a sensitive client email and sends it before you review the tone. The watchers from L08 made your employee proactive. This lesson makes that proactivity _safe_.
-
-Human-in-the-Loop (HITL) is how real organizations handle this. A junior employee can schedule meetings and order office supplies without asking. But signing contracts, approving expenses over a threshold, or emailing the board? Those go through a manager. Your AI employee needs the same governance structure: clear boundaries defining what it can do autonomously and what requires your explicit sign-off.
+In L08, you gave your employee senses -- watchers that detect new emails and files arriving. Now your employee notices things on its own. But noticing and _acting_ are different responsibilities. A junior employee can schedule meetings and order office supplies without asking. But signing contracts, approving expenses over a threshold, or emailing the board? Those go through a manager. Your AI employee needs the same governance structure: clear boundaries defining what it can do autonomously and what requires your explicit sign-off.
 
 You will build a **folder-based approval workflow** where your employee writes requests to a `/Pending_Approval/` folder, waits for you to move them to `/Approved/` or `/Rejected/`, and only then acts (or logs the rejection). By the end, you will have a working safety gate that you can test end-to-end.
 
@@ -426,6 +423,8 @@ if __name__ == "__main__":
     main()
 ```
 
+**Why polling instead of watchdog?** The approval workflow doesn't need sub-second response times. A 5-second polling loop is simpler to debug and sufficient for human-paced approvals.
+
 Save this as `approval_watcher.py` in your vault:
 
 ```bash
@@ -624,22 +623,7 @@ The `REJECTED_` prefix makes it immediately visible during audits which items we
 
 ## Connecting to Your Orchestrator
 
-In L07, you built the `email-assistant` orchestrator. To integrate HITL, the orchestrator checks the permission boundaries before acting. When the action is sensitive, it writes an approval request instead of executing directly.
-
-Add this logic to your orchestrator's instructions:
-
-```markdown
-## Before Taking Any Action
-
-1. Check the action against Permission Boundaries in AGENTS.md
-2. If auto-approved: execute immediately
-3. If requires approval: create an approval request file in /Pending_Approval/
-   with YAML frontmatter (type, action, target, reason, created, expires, status)
-4. STOP and wait — do NOT execute the action
-5. Report: "Approval request created. Review in /Pending_Approval/"
-```
-
-The approval watcher handles the rest. When you approve, the watcher logs and archives. In a production setup, the watcher would also trigger the actual action (calling Gmail MCP to send the email, for example). For now, the logging proves the workflow works.
+You will integrate HITL with your full orchestrator pipeline in L12 (Gold Capstone). For now, your approval watcher works independently -- test it by manually creating approval requests in `/Pending_Approval/`, moving them to `/Approved/` or `/Rejected/`, and verifying the watcher processes them correctly. The workflow you built in this lesson is the complete safety gate; L12 connects it to the orchestrator so your employee writes approval requests automatically when it detects a sensitive action.
 
 ---
 

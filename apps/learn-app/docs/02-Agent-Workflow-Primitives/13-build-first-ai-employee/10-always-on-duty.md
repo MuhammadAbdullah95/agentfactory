@@ -83,31 +83,28 @@ teaching_guide:
   session_group: 4
   session_title: "Operations - Always-On Infrastructure"
   key_points:
-    - "A true Digital FTE does not stop working when you close your laptop - cron handles scheduled tasks, PM2 keeps watchers alive, Stop hooks enable multi-step persistence"
-    - "Cron is for scheduled operations (daily briefing at 8 AM), PM2 is for continuous operations (watchers that run forever) - students must understand this distinction"
-    - "PM2's 'pm2 save && pm2 startup' command pair is the key to surviving system reboots - without it, processes die on restart"
-    - "The Stop hook pattern (Ralph Wiggum loop) uses Claude Code's hook system to keep Claude iterating until a task file moves out of /Needs_Action/ - exit code 2 means 'keep going'"
-    - "This lesson completes the Silver tier infrastructure: L08 (Perception) + L09 (Safety) + L10 (Persistence) enable autonomous 24/7 operation"
+    - "Three distinct operation modes solve three distinct problems: PM2 for continuous (watchers from L08), cron for scheduled (daily briefing), Stop hooks for project-based (batch processing) - students must match each mode to its use case"
+    - "PM2's 'pm2 save && pm2 startup' is the single most skipped step - without both commands, processes vanish on reboot and students blame PM2 instead of their setup"
+    - "The Stop hook's exit code 2 is the only thing that distinguishes 'keep going' from 'stop' - exit 1 is silently ignored, which causes the most common debugging headache in this lesson"
+    - "This lesson completes the Silver tier stack: L08 watchers detect work, L09 HITL gates sensitive actions, L10 ensures the whole system runs without a human babysitting it - all three feed into the CEO Briefing capstone in L11"
   misconceptions:
-    - "Students think cron and PM2 do the same thing - cron runs tasks at specific times then exits, PM2 keeps long-running processes alive continuously"
-    - "Students assume PM2 prevents all crashes - PM2 restarts crashed processes, but it cannot detect silent failures (process running but not working)"
-    - "Students think always-on requires a server - for personal use, their laptop or a mini-PC running PM2 is sufficient; cloud VMs are optional"
-    - "Students skip 'pm2 startup' and wonder why processes disappear after reboot - this is the most common setup error"
-    - "Students think Stop hooks run shell scripts in .claude/hooks/ directory - Stop hooks are configured in .claude/settings.json and the hook script path is referenced there"
+    - "Students think cron and PM2 do the same thing - cron fires a task at a scheduled time and exits (like an alarm clock), PM2 keeps a process alive continuously and restarts it on crash (like a watchdog)"
+    - "Students skip 'pm2 startup' after running 'pm2 save' and wonder why processes disappear after reboot - both commands are required, and the sudo command PM2 outputs must actually be executed"
+    - "Students use exit code 1 in their Stop hook expecting it to keep Claude going - exit 1 is a non-blocking error that Claude ignores, only exit 2 triggers continuation"
+    - "Students think always-on requires a cloud server - for personal use, their laptop with PM2 and cron is sufficient; the L11 capstone runs entirely on local infrastructure"
   discussion_prompts:
-    - "The spec shows the CEO Briefing runs every Sunday night. What scheduled tasks would benefit YOUR workflow, and what cron expression would trigger them?"
-    - "What is the difference between a process that crashes (PM2 restarts it) and a task that spans multiple Claude turns (Stop hook handles it)?"
-    - "If you had to choose between scheduled operations (cron) and continuous operations (PM2/watchers) for your first deployment, which would deliver more value?"
+    - "In L09 you built approval gates for sensitive actions. Now those gates run 24/7. What new risks does always-on operation introduce that HITL alone does not cover?"
+    - "If you had to choose between scheduled operations (cron) and continuous operations (PM2/watchers) for your first deployment, which would deliver more immediate value for YOUR workflow?"
+    - "The Stop hook has a MAX_ITERATIONS safety valve set to 10. What would happen without it, and how would you decide the right number for a batch of 50 expense reports?"
   teaching_tips:
-    - "Demo PM2 status output live - 'pm2 list' output is more meaningful than abstract descriptions"
-    - "Cron syntax is notoriously confusing - use crontab.guru as a live reference tool during class"
-    - "Connect to L08: the FileWatcher from L08 is the primary candidate for PM2 management - show how they integrate"
-    - "For the Stop hook, start by showing the .claude/settings.json configuration FIRST, then the hook script - students need to see how Claude Code discovers and runs hooks"
-    - "Have students test the Stop hook with a simple task file before attempting multi-step workflows"
+    - "Demo PM2 crash recovery live: start the file watcher, run 'kill -9' on it, then immediately run 'pm2 list' to show the restart count incrementing - this 30-second demo is worth more than any explanation"
+    - "Cron syntax is notoriously confusing - open crontab.guru on the projector and have students build expressions interactively before touching the command line"
+    - "Connect explicitly to L08: the file_watcher.py in this lesson IS the watcher from L08, now made persistent - show students the evolution from 'runs until I close my terminal' to 'runs forever'"
+    - "For the Stop hook, walk through the exit code logic on a whiteboard BEFORE showing the script: draw the loop (Claude responds -> hook fires -> check tasks -> exit 0 or 2) so students see the control flow before reading bash"
   assessment_quick_check:
-    - "Write a cron expression for 'every weekday at 8 AM' and explain each field"
-    - "What two PM2 commands make a process survive a system reboot?"
-    - "How does a Stop hook tell Claude Code to keep going instead of stopping? (exit code 2)"
+    - "Write a cron expression for 'every weekday at 8 AM' and explain each of the five fields"
+    - "What two PM2 commands make a process survive a system reboot, and why is order important?"
+    - "Your Stop hook uses 'exit 1' but Claude keeps stopping after one task. What is wrong and what exit code should you use?"
 
 # Generation metadata
 generated_by: "content-implementer"
@@ -167,7 +164,7 @@ pm2 --version
 
 ### Step 2: Start Your Watcher Under PM2
 
-Use the FileWatcher from L08 (or any Python script that runs continuously). If you do not have a watcher yet, create a minimal one to test with:
+Use the `inbox_watcher.py` from L08 (or any Python script that runs continuously). If you don't have it, create the minimal version below:
 
 ```bash
 mkdir -p ~/projects/ai-vault/scripts
@@ -479,7 +476,7 @@ PM2 keeps processes alive. Cron fires at scheduled times. But what about work th
 
 The **Stop hook** solves this. Claude Code has a hook system where scripts run at specific lifecycle points. The `Stop` hook fires every time Claude finishes responding. If your hook script exits with code 2, Claude does not stop -- it keeps going.
 
-This creates a loop: Claude processes a task, tries to stop, the hook checks if more tasks remain, and if so, tells Claude to continue. The community calls this the "Ralph Wiggum loop" because Claude keeps going and going until the work is done.
+This creates a loop: Claude processes a task, tries to stop, the hook checks if more tasks remain, and if so, tells Claude to continue. The community calls this the "Ralph Wiggum loop" -- named after the Simpsons character who keeps going despite all signals to stop -- because Claude cheerfully persists until every task is done.
 
 ### How It Works
 
@@ -566,6 +563,8 @@ Key details:
 - `$CLAUDE_PROJECT_DIR` resolves to your project root automatically
 - The `Stop` event fires every time Claude finishes responding
 - `timeout: 10` prevents the hook from hanging
+
+Verify your hooks loaded correctly by checking Claude Code recognizes the configuration. If the hook does not trigger, double-check the JSON nesting -- a misplaced bracket will silently disable all hooks.
 
 ### Step 3: Test the Loop
 

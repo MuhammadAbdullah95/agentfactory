@@ -91,28 +91,28 @@ teaching_guide:
   session_group: 5
   session_title: "Gold Capstone - Autonomous Employee"
   key_points:
-    - "Gold Tier is production-readiness, not more features. The difference between Silver and Gold is error recovery, audit logging, and documentation that makes the system trustworthy for unsupervised operation"
-    - "The end-to-end pipeline test is the single most important verification: trigger an event and watch it flow through every component to completion"
-    - "Audit logging creates accountability. Without logs, there is no way to debug issues, verify actions, or demonstrate that HITL worked correctly"
-    - "Architecture documentation is a deliverable, not afterthought. If you cannot explain your system to someone who has never seen it, you do not fully understand it"
+    - "Gold Tier is production-readiness, not more features. Silver gave a business partner; Gold makes it trustworthy for unsupervised operation through error recovery, audit logging, and documentation"
+    - "The five-check verification pattern (Done folder, Approved cleanup, Log entry, Dashboard update, git commit) is the core teaching artifact -- each check proves a different handoff in the pipeline"
+    - "Error recovery has five categories with different strategies: transient errors retry, auth errors pause, logic errors re-route, data errors quarantine, system errors auto-restart. Students must match category to strategy, not apply one-size-fits-all"
+    - "Audit logging is the enforcement mechanism for HITL -- without the approval_status field in every log entry, there is no proof that sensitive actions went through human review"
   misconceptions:
-    - "Students think Gold means implementing every domain from the spec. The requirement is at least 2 domains integrated well with full error handling"
-    - "Students assume error recovery means the system never crashes. It means transient failures retry automatically and permanent failures degrade gracefully with human notification"
-    - "Students treat audit logging as optional polish. Without logs, the entire HITL guarantee is unverifiable"
-    - "Students skip architecture documentation thinking it is busywork. The documentation proves system understanding and enables future maintenance"
+    - "Students think Gold means implementing every domain from the spec. The requirement is at least 2 domains integrated well with full error handling, not breadth of features"
+    - "Students assume error recovery means the system never crashes. Exponential backoff handles transient failures; permanent failures like expired OAuth tokens must pause and alert a human"
+    - "Students expect Dashboard.md to update automatically after Step 1. The lesson explicitly states it is a static template -- automating dashboard updates is a Hackathon deliverable in L14"
+    - "Students treat architecture documentation as afterthought busywork. The README is a deliverable with a specific test: can someone who has never seen the system start, operate, and troubleshoot it from this document alone?"
   discussion_prompts:
-    - "The error categories table lists 5 types. Which type would be most dangerous for YOUR use case if unhandled?"
-    - "Audit logs contain timestamp, actor, target, parameters, result. What additional fields would be useful for YOUR domain?"
-    - "Why does the spec say never retry payments automatically, even though retrying API calls is standard practice?"
+    - "The error categories table lists 5 types with different recovery strategies. Which category would be most dangerous for YOUR use case if the wrong recovery strategy were applied?"
+    - "Your audit log captures timestamp, actor, target, parameters, approval_status, and result. If a client disputes an action your employee took, which fields prove the action was authorized?"
+    - "The retry wrapper uses exponential backoff (2s, 4s, 8s). Why not just retry immediately three times? What real-world scenario would that make worse?"
   teaching_tips:
-    - "Have students run the full pipeline FIRST before building error recovery. Seeing the happy path end-to-end builds confidence and reveals where failures actually occur"
-    - "The error handling table from L00 is the best teaching artifact. Walk through each category and ask which recovery strategy applies"
-    - "Frame documentation as the future-you test: if you return in 6 months, can you understand and modify the system from the README alone?"
-    - "Celebrate this milestone. Students who complete Gold have built a genuine autonomous system from scratch across 12 lessons"
+    - "Have students run the full invoice flow in Step 2 FIRST before building error recovery. Seeing the happy path end-to-end reveals exactly where failures would occur and makes the error categories table concrete"
+    - "Walk through the five-check verification (Step 2d) as a live exercise: have each student run all five bash commands and compare results. This is the most diagnostic moment in the capstone"
+    - "Dashboard.md is an intentional trap -- students will ask why it does not update automatically. Use this as a teaching moment about scope boundaries: Gold is wiring and reliability, Hackathon is automation polish"
+    - "Close by connecting back to L01: the vault that started as an empty Obsidian folder is now a production-grade autonomous system. The final directory tree in 'What You Built' is a powerful visual for the 12-lesson arc"
   assessment_quick_check:
-    - "Walk through the complete pipeline: what happens when a client email requesting an invoice arrives at 2 AM?"
-    - "What is the difference between transient error recovery (exponential backoff) and permanent error handling (graceful degradation with alert)?"
-    - "Show me a single audit log entry and explain every field"
+    - "Name the five error categories and the recovery strategy for each (transient=retry, auth=pause+alert, logic=re-route, data=quarantine, system=auto-restart)"
+    - "What are the seven required fields in every audit log entry? Which field proves HITL compliance?"
+    - "Explain the difference between what Gold adds over Silver in one sentence (not more features -- error recovery, audit logging, and documentation for unsupervised trust)"
 
 # Generation metadata
 generated_by: "content-implementer (autonomous execution)"
@@ -221,8 +221,10 @@ Your employee needs a single status file that shows what is happening right now.
 **Output:**
 
 ```
-(file created at ~/ai-vault/Dashboard.md)
+(file created at ~/projects/ai-vault/Dashboard.md)
 ```
+
+**Important:** This is a static template. Your orchestrator and watcher scripts do not automatically update Dashboard.md yet. For now, update it manually after each test run. Automating dashboard updates is a Hackathon deliverable (L14).
 
 The orchestrator updates this file after every action. The watcher deposits a timestamp when it starts. HITL approval moves update the "Pending Approvals" count. Errors increment the error counter. This file is your system's heartbeat.
 
@@ -232,6 +234,8 @@ The orchestrator updates this file after every action. The watcher deposits a ti
 
 ## Step 2: The Invoice Flow -- End-to-End
 
+**Note:** This walkthrough assumes your orchestrator can handle invoice requests. If your L07 email-assistant skill only handles email triage, you will need to extend it or test with an email-type trigger instead. The goal is to trace ONE request through the full pipeline, regardless of request type.
+
 This walkthrough traces one request through every component. Follow along by creating the trigger file yourself.
 
 ### 2a. Simulate the Trigger
@@ -239,7 +243,7 @@ This walkthrough traces one request through every component. Follow along by cre
 Create the file that a watcher would produce:
 
 ```bash
-cat > ~/ai-vault/Needs_Action/EMAIL_client_a_invoice_2026-01-07.md << 'EOF'
+cat > ~/projects/ai-vault/Needs_Action/EMAIL_client_a_invoice_2026-01-07.md << 'EOF'
 ---
 source: gmail_watcher
 detected: 2026-01-07T02:15:00Z
@@ -260,7 +264,7 @@ EOF
 **Output:**
 
 ```
-(file created at ~/ai-vault/Needs_Action/EMAIL_client_a_invoice_2026-01-07.md)
+(file created at ~/projects/ai-vault/Needs_Action/EMAIL_client_a_invoice_2026-01-07.md)
 ```
 
 ### 2b. Orchestrator Classifies and Delegates
@@ -282,10 +286,10 @@ claude -p "Check /Needs_Action/ for pending items and process them according to 
 **Verification:** Check that these files now exist:
 
 ```bash
-ls ~/ai-vault/Pending_Approval/
+ls ~/projects/ai-vault/Pending_Approval/
 # Should show: EMAIL_REPLY_client_a_2026-01-07.md
 
-ls ~/ai-vault/Plans/
+ls ~/projects/ai-vault/Plans/
 # Should show: PLAN_invoice_client_a.md
 ```
 
@@ -294,8 +298,8 @@ ls ~/ai-vault/Plans/
 Review the approval file, then approve:
 
 ```bash
-mv ~/ai-vault/Pending_Approval/EMAIL_REPLY_client_a_2026-01-07.md \
-   ~/ai-vault/Approved/EMAIL_REPLY_client_a_2026-01-07.md
+mv ~/projects/ai-vault/Pending_Approval/EMAIL_REPLY_client_a_2026-01-07.md \
+   ~/projects/ai-vault/Approved/EMAIL_REPLY_client_a_2026-01-07.md
 ```
 
 **Output:**
@@ -318,19 +322,19 @@ The approval watcher (or next orchestrator cycle) detects the approved file and:
 
 ```bash
 # 1. Original moved to Done
-ls ~/ai-vault/Done/ | grep client_a
+ls ~/projects/ai-vault/Done/ | grep client_a
 # Expected: EMAIL_client_a_invoice_2026-01-07.md
 
 # 2. Approval file cleaned up
-ls ~/ai-vault/Approved/
+ls ~/projects/ai-vault/Approved/
 # Expected: empty (file processed and archived)
 
 # 3. Log entry written
-cat ~/ai-vault/Logs/2026-01-07.json | python3 -m json.tool | grep email_send
+cat ~/projects/ai-vault/Logs/2026-01-07.json | python3 -m json.tool | grep email_send
 # Expected: action_type: "email_send"
 
 # 4. Dashboard updated
-grep "client_a" ~/ai-vault/Dashboard.md
+grep "client_a" ~/projects/ai-vault/Dashboard.md
 # Expected: row showing email_send with status "complete"
 
 # 5. Git commit recorded
@@ -402,6 +406,8 @@ def retry_with_backoff(func, max_retries=3, base_delay=2):
 
 The delays double each time: 2 seconds, 4 seconds, 8 seconds. This gives transient issues time to resolve without hammering the API.
 
+Save these functions in `~/projects/ai-vault/scripts/error_recovery.py`. Import them in your watcher scripts with `from scripts.error_recovery import retry_with_backoff`. This gives all your scripts a shared retry mechanism.
+
 ### Handle Authentication Failures
 
 Authentication errors are not transient -- retrying will not fix an expired token. Your employee must stop and ask for help:
@@ -411,7 +417,7 @@ import json
 from datetime import datetime
 from pathlib import Path
 
-def handle_auth_failure(error, vault_path="~/ai-vault"):
+def handle_auth_failure(error, vault_path="~/projects/ai-vault"):
     """Pause operations and alert human about auth failure."""
     vault = Path(vault_path).expanduser()
     alert = {
@@ -441,8 +447,8 @@ def handle_auth_failure(error, vault_path="~/ai-vault"):
 
 ```
 # When Gmail returns 401 Unauthorized:
-# 1. Creates ~/ai-vault/Needs_Action/ALERT_auth_failure.md
-# 2. Appends to ~/ai-vault/Logs/2026-01-07.json
+# 1. Creates ~/projects/ai-vault/Needs_Action/ALERT_auth_failure.md
+# 2. Appends to ~/projects/ai-vault/Logs/2026-01-07.json
 # 3. Operations pause until human resolves
 ```
 
@@ -500,7 +506,7 @@ from pathlib import Path
 
 def log_action(action_type, actor, target, parameters=None,
                approval_status="not_required", approved_by=None,
-               result="success", vault_path="~/ai-vault"):
+               result="success", vault_path="~/projects/ai-vault"):
     """Append a structured audit log entry."""
     vault = Path(vault_path).expanduser()
     log_dir = vault / "Logs"
@@ -541,27 +547,27 @@ Once logs exist, you can answer questions about your employee's behavior:
 
 ```bash
 # How many emails did the employee send today?
-grep '"action_type": "email_send"' ~/ai-vault/Logs/2026-01-07.json | wc -l
+grep '"action_type": "email_send"' ~/projects/ai-vault/Logs/2026-01-07.json | wc -l
 
 # Were there any errors?
-grep '"result": "failed"' ~/ai-vault/Logs/2026-01-07.json
+grep '"result": "failed"' ~/projects/ai-vault/Logs/2026-01-07.json
 
 # Did any action execute without approval?
-grep -v '"approval_status": "not_required"\|"approved"' ~/ai-vault/Logs/2026-01-07.json
+grep -v '"approval_status": "not_required"\|"approved"' ~/projects/ai-vault/Logs/2026-01-07.json
 
 # What happened between 2 AM and 6 AM?
-grep -E '"timestamp": "2026-01-07T0[2-5]' ~/ai-vault/Logs/2026-01-07.json
+grep -E '"timestamp": "2026-01-07T0[2-5]' ~/projects/ai-vault/Logs/2026-01-07.json
 ```
 
 **Output:**
 
 ```
 # Example: finding errors
-$ grep '"result": "failed"' ~/ai-vault/Logs/2026-01-07.json
+$ grep '"result": "failed"' ~/projects/ai-vault/Logs/2026-01-07.json
 {"timestamp":"2026-01-07T03:15:00Z","action_type":"email_send","result":"failed",...}
 
 # Example: counting sends
-$ grep '"action_type": "email_send"' ~/ai-vault/Logs/2026-01-07.json | wc -l
+$ grep '"action_type": "email_send"' ~/projects/ai-vault/Logs/2026-01-07.json | wc -l
 3
 ```
 
@@ -573,11 +579,54 @@ $ grep '"action_type": "email_send"' ~/ai-vault/Logs/2026-01-07.json | wc -l
 
 Your final deliverable is a README.md that explains the complete system. This is not busywork -- it is the "future you" test. If you return to this project in six months, can you understand and maintain it from this document alone?
 
-Create `~/ai-vault/README.md` with these sections:
+Create `~/projects/ai-vault/README.md`. Here is a complete example structure -- adapt it to match your actual components:
 
-**Section 1: Header and Architecture** -- Name the project, describe the three-layer flow (Perception to Memory to Reasoning to Action), and list the data paths between them.
+````markdown
+# Personal AI Employee
 
-**Section 2: Components Table** -- List every running component with its file location and purpose:
+An autonomous assistant that monitors email and file inputs, classifies requests,
+drafts responses, gates sensitive actions through human approval, and logs every step.
+
+## Architecture
+
+```
+External Event (email arrives, file drops)
+        │
+        ▼
+   ┌─────────┐
+   │ Watcher  │  (Gmail Watcher or File Watcher)
+   └────┬─────┘
+        │  creates markdown file
+        ▼
+ /Needs_Action/request.md
+        │
+        ▼
+   ┌──────────────┐
+   │ Orchestrator  │  (email-assistant master skill)
+   │  classifies   │
+   │  delegates    │
+   └──────┬───────┘
+          │
+    ┌─────┴──────┐
+    │            │
+    ▼            ▼
+ Routine      Sensitive
+    │            │
+    ▼            ▼
+ Auto-execute  /Pending_Approval/  (HITL)
+    │            │
+    │       Human reviews → /Approved/ or /Rejected/
+    │            │
+    ▼            ▼
+   ┌──────────────┐
+   │  MCP Action   │  (Gmail MCP sends email)
+   └──────┬───────┘
+          │
+          ▼
+   /Done/ + /Logs/ + Dashboard.md + git commit
+```
+
+## Components
 
 | Component        | Location                          | Purpose                              |
 | ---------------- | --------------------------------- | ------------------------------------ |
@@ -587,10 +636,10 @@ Create `~/ai-vault/README.md` with these sections:
 | Email Skills (4) | `.claude/skills/email-*/`         | Drafting, templates, summarizing     |
 | Subagents (3)    | `.claude/agents/`                 | Triage, suggest, track               |
 | Gmail MCP        | `.mcp.json`                       | External email operations            |
-| Audit Logger     | `utils/logger.py`                 | Structured JSON logging              |
-| Retry Wrapper    | `utils/retry.py`                  | Exponential backoff                  |
+| Audit Logger     | `scripts/logger.py`               | Structured JSON logging              |
+| Retry Wrapper    | `scripts/error_recovery.py`       | Exponential backoff                  |
 
-**Section 3: Starting the System** -- The exact commands to launch watchers, verify they run, and persist across reboots:
+## Setup and Starting
 
 ```bash
 # 1. Start watchers
@@ -604,15 +653,22 @@ pm2 list
 pm2 save && pm2 startup
 ```
 
-**Section 4: Operational Procedures** -- Daily check (2 min: Dashboard.md errors and approvals), weekly review (15 min: log patterns), and troubleshooting steps for common failures (watcher stopped, auth failure, MCP offline, disk full).
+## Operational Procedures
 
-**Output:**
+**Daily check (2 min):** Open Dashboard.md. Check error count and pending approvals.
 
-```
-(file created at ~/ai-vault/README.md)
-```
+**Weekly review (15 min):** Query logs for patterns --
+`grep '"result": "failed"' Logs/*.json` to find recurring failures.
 
-Adapt this template to your actual components. Add sections for any additional domains you integrated. The goal is that someone reading only this file can start, operate, and troubleshoot the system.
+**Troubleshooting:**
+
+- Watcher stopped → `pm2 restart gmail_watcher`
+- Auth failure → Check `/Needs_Action/` for ALERT file, re-authenticate, restart
+- MCP offline → Verify `.mcp.json` config, restart Claude Code
+- Disk full → Archive old `/Done/` files, clear old logs
+````
+
+Adapt this to your actual components. Add sections for any additional domains you integrated. The goal is that someone reading only this file can start, operate, and troubleshoot the system.
 
 ---
 

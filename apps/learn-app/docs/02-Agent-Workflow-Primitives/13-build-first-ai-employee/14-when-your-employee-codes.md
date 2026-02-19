@@ -20,7 +20,7 @@ keywords:
   ]
 chapter: 13
 lesson: 14
-duration_minutes: 15
+duration_minutes: 30
 
 # PEDAGOGICAL LAYER METADATA
 primary_layer: "Layer 4"
@@ -90,30 +90,32 @@ differentiation:
   remedial_for_struggling: "Bronze tier with guided checklist: vault first, then one watcher, then 3 skills, then orchestrator. Follow L01-L07 sequence exactly."
 
 teaching_guide:
-  lesson_type: "assignment"
+  lesson_type: "capstone"
   session_group: 6
   session_title: "Hackathon 0 Launch"
   key_points:
-    - "This is a build assignment, not a reading lesson -- students should finish reading and immediately start building"
-    - "Tier selection is the most important decision: honest self-assessment prevents frustration"
-    - "PLAN.md is not optional -- spec-first means writing the plan IS the first deliverable"
-    - "Every hackathon component maps directly to a Chapter 13 lesson -- nothing is new, only the integration is new"
+    - "This is a build assignment, not a reading lesson -- students should finish reading in 30 minutes and immediately start building"
+    - "Tier selection is the most important decision: the tier table maps directly to time commitment (Bronze 8-12h, Silver 20-30h, Gold 40h+, Platinum 60h+) -- honest self-assessment prevents Week 2 panic"
+    - "PLAN.md is the first graded deliverable, not paperwork -- judges compare plan vs outcome, and the spec-first pattern from L07's master skill applies here to the student's own project"
+    - "The Chapter 13 Reference Map table is the lesson's most important resource -- every hackathon component traces to a specific lesson (L01-L12), so nothing requires learning new material"
   misconceptions:
-    - "Students think they need to learn new tools -- the hackathon uses only what Chapters 1-13 taught"
-    - "Students underestimate Bronze and skip to Silver -- Bronze alone requires 8-12 hours of focused work"
-    - "Students think PLAN.md is busywork -- it is the specification that guides their entire build, and judges evaluate it"
-    - "Students think they must work alone -- Claude Code is their co-builder, and the Wednesday Research Meeting provides human support"
+    - "Students underestimate Bronze and skip to Silver -- Bronze requires a working vault, one watcher, 3+ skills, and an orchestrator, which is 8-12 hours of focused work"
+    - "Students think PLAN.md is busywork -- it is evaluated by judges (Judging Criteria: Documentation 15%) and drives the entire architecture; skipping it means building without a spec"
+    - "Students think Gold/Platinum are just 'more of Silver' -- Gold and Platinum require independent research into technologies not covered in Chapter 13 (CRM integration, multi-vault architecture)"
+    - "Students think they must work alone -- Claude Code is their co-builder (the Try With AI prompts demonstrate this), and the Wednesday Research Meeting catches design flaws early"
   discussion_prompts:
-    - "Which tier did you choose and why? What was the deciding factor -- time, ambition, or current skill level?"
-    - "Look at your PLAN.md architecture section. Which component are you least confident about building, and what would help?"
+    - "Which tier did you choose and why? What was the deciding factor -- available hours, ambition, or honest skill assessment from the L13 quiz results?"
+    - "Look at your PLAN.md architecture section. Which of the five layers (Brain, Memory, Senses, Hands, Safety) are you least confident about, and which lesson will you revisit?"
+    - "If your Gmail API went down mid-demo, how would your architecture handle it? Trace the graceful degradation path from L12."
   teaching_tips:
-    - "Have students declare tiers publicly in the first session -- social commitment increases follow-through"
-    - "Review 2-3 PLAN.md submissions live to show what good architecture planning looks like"
-    - "Remind students that Bronze is a complete, working system -- Gold and Platinum add features, not quality"
+    - "Have students declare tiers publicly in the first session -- social commitment increases follow-through, and peers can flag unrealistic scopes"
+    - "Review 2-3 PLAN.md submissions live, projecting the component table and asking the class to spot missing dependencies between components"
+    - "Remind students that Bronze scores high on Functionality (40% weight) beat incomplete Gold submissions -- the Judging Criteria table is worth reading aloud"
+    - "This is the chapter closer -- connect back to L00's specification by asking students to compare their PLAN.md architecture against the original five-layer spec"
   assessment_quick_check:
-    - "Show me your GitHub repo. Does it have the correct directory structure?"
-    - "Walk me through your PLAN.md. Which components will you build in Week 1 vs Week 2?"
-    - "Which Chapter 13 lesson taught the capability you are least confident about?"
+    - "Show me your GitHub repo. Does it have .claude/skills/, .claude/agents/, watchers/, and scripts/ directories?"
+    - "Walk me through your PLAN.md component table. For each component, which Chapter 13 lesson teaches it?"
+    - "What is your Week 1 vs Week 2 split, and why did you sequence the components in that order?"
 
 # Generation metadata
 generated_by: "content-implementer (autonomous execution)"
@@ -125,7 +127,7 @@ version: "1.0.0"
 
 In Lessons 01 through 13, you built every piece of a Personal AI Employee: vault memory, skills, subagents, Gmail MCP, watchers, HITL approval, 24/7 scheduling, and full orchestration. Each lesson produced a working component. Now you put them all together into something that is entirely yours.
 
-Hackathon 0 is your first build assignment. You will design, plan, and construct a complete Personal AI Employee from scratch -- not by following step-by-step instructions, but by applying what you learned to your own goals, your own workflows, and your own ambitions. The result is a working Digital FTE that runs on your machine and serves your life.
+Hackathon 0 is your first build assignment. This lesson gives you the starting structure -- repository, directory layout, and planning template. The building is up to you. You will design, plan, and construct a complete Personal AI Employee that serves your own goals, your own workflows, and your own ambitions. The result is a working Digital FTE that runs on your machine and serves your life.
 
 ## What You Are Building
 
@@ -155,6 +157,8 @@ Hackathon 0 has four tiers. Each tier builds on the previous one. Choose based o
 **Bronze is not the easy tier.** Bronze is a complete, working Personal AI Employee. It watches for events, processes them with skills, and delivers results. Silver, Gold, and Platinum add breadth and resilience -- but Bronze alone proves you can build a Digital FTE.
 
 Choose the tier that matches your honest assessment of available time. Completing Bronze thoroughly is worth far more than starting Gold and abandoning it halfway.
+
+**Gold and Platinum tiers** require technologies not covered in this chapter (CRM integration, multi-vault architecture). Expect independent research. Start with the MCP server registry at [npmjs.com/search?q=mcp-server](https://npmjs.com/search?q=mcp-server) to find integrations for your target platforms.
 
 ## Getting Started
 
@@ -269,6 +273,8 @@ git push -u origin main
 ```
 
 ## Judging Criteria
+
+This is a self-assessment rubric. Use it to evaluate your own work. If your cohort has peer review, share your repository and have a classmate score you using these criteria.
 
 Your hackathon submission is evaluated across four categories:
 

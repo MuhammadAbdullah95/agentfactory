@@ -84,26 +84,28 @@ teaching_guide:
   session_group: 4
   session_title: "Silver Capstone - CEO Briefing"
   key_points:
-    - "The CEO Briefing is what transforms the AI from assistant to business partner — it proactively audits and reports instead of waiting for commands"
-    - "The briefing cross-references three data sources (Business_Goals.md, /Done/, /Logs/) to generate insights no single source provides alone"
-    - "Proactive suggestions demonstrate the AI reasoning beyond its instructions — flagging unused subscriptions, upcoming deadlines, bottlenecks"
-    - "This capstone integrates all Silver tier capabilities: data from vault, scheduling from L10, verification patterns"
+    - "Cross-referencing is the core insight — connecting a missed deadline in /Done/ to a revenue shortfall in Business_Goals.md produces intelligence that no single data source contains alone"
+    - "The skill file (SKILL.md) is NOT code — it is structured English instructions that Claude interprets at runtime; students are writing audit logic in natural language, not Python"
+    - "This capstone wires together L08 watchers (feeding /Done/ and /Logs/ throughout the week), L09 HITL (subscription cancellation goes through /Pending_Approval/), and L10 cron (Sunday 11 PM trigger) — if students missed any of those, this lesson exposes the gap"
+    - "The verification checklist (Step 5) is the capstone assessment — students must trace every number in the briefing back to its source file to confirm the skill produced correct output"
   misconceptions:
-    - "Students think the CEO Briefing is just a summary — the proactive suggestions section is what makes it a business partner"
-    - "Students assume they need real financial data — the pattern works with task completion tracking alone"
-    - "Students expect the briefing to run automatically without setup — it requires a cron job and properly structured vault"
-    - "Students confuse the briefing template (output format) with the audit logic (the analysis that produces it)"
+    - "Students think the CEO Briefing is just a summary of completed tasks — the proactive suggestions section (flagging unused Notion, suggesting process changes for Client B delays) is what elevates it from report to business partner"
+    - "Students confuse the briefing template (the markdown output format in Step 3) with the audit logic (the analysis steps that produce it) — the template is just formatting, the logic is the real work"
+    - "Students expect the cron job to 'just work' without the vault being properly structured — if /Done/ files lack revenue fields or /Logs/ JSON is malformed, the briefing silently produces garbage"
+    - "Students skip the verification step because the briefing 'looks right' — the revenue total ($2,300) must be manually traced to the two revenue-bearing tasks ($1,500 + $800) to confirm correctness"
   discussion_prompts:
-    - "The briefing flags an unused Notion subscription. What other proactive suggestions could an AI Employee make by analyzing YOUR work patterns?"
-    - "If you received this briefing every Monday morning, what section would you read first and why?"
+    - "The briefing flags Notion ($15/month, 47 days inactive) and Grammarly ($12/month, 60 days inactive). What subscriptions in YOUR life would an audit like this catch?"
+    - "Client B's proposal took 3x the expected duration. If you saw this pattern repeat across 4 weeks of briefings, what process change would you make?"
+    - "If you received this briefing every Monday morning, what section would you read first — and what would that tell you about your priorities?"
   teaching_tips:
-    - "Show the complete CEO Briefing template from L00 first so students see the end product before building it"
-    - "Have students create their OWN Business_Goals.md with real objectives before building the audit logic"
-    - "The proactive suggestions section is the best demo moment — show how cross-referencing data reveals unused subscriptions"
+    - "Walk through the verification checklist (Step 5 table) LIVE — have students trace the $2,300 revenue total back to the two /Done/ files that contain revenue fields; this is the capstone's 'aha' moment"
+    - "Have students create their OWN Business_Goals.md with real objectives BEFORE building the skill — personal stakes make the briefing output meaningful rather than academic"
+    - "Demo the subscription audit by changing Notion's Last Activity date to yesterday and regenerating — show that the flag disappears, proving the audit logic is dynamic not static"
+    - "Pace the lesson around Step 3 (skill design) — Steps 1-2 are data setup that students can do quickly, but the SKILL.md structure needs careful explanation of how Claude interprets natural language instructions as audit logic"
   assessment_quick_check:
-    - "Name the three data sources the CEO Briefing cross-references"
-    - "What is the difference between the briefing template and the audit logic?"
-    - "Give one example of a proactive suggestion the AI Employee could make"
+    - "Name the three data sources and what each provides to the briefing (goals provide targets, /Done/ provides task completions and revenue, /Logs/ provides activity history)"
+    - "The briefing shows $2,300 weekly revenue — which two task files does that number come from and what are their individual amounts?"
+    - "What is the difference between the briefing template and the audit logic? (Template is output formatting; audit logic is the analysis steps that cross-reference sources)"
 
 # Generation metadata
 generated_by: "content-implementer (autonomous execution)"
@@ -121,9 +123,9 @@ This is the difference between an assistant that waits for commands and a busine
 
 ## The Business Handover
 
-A human executive assistant who prepared weekly briefings would cost thousands per month. They would review your calendar, check project statuses, scan your finances, and write a summary. The value was not the document itself -- it was the **cross-referencing**. Connecting a missed deadline to a revenue shortfall. Noticing a subscription you forgot to cancel.
+The value of a weekly briefing is not the document itself -- it is the **cross-referencing**. Connecting a missed deadline to a revenue shortfall. Noticing a subscription you forgot to cancel.
 
-Your AI employee does the same thing, but it reads faster, never forgets to check a folder, and works Sunday night while you sleep. The CEO Briefing is where your Silver tier infrastructure proves its value.
+Your AI employee reads faster, never forgets to check a folder, and works Sunday night while you sleep. The CEO Briefing is where your Silver tier infrastructure proves its value.
 
 ## Step 1: Create Business_Goals.md
 
@@ -507,7 +509,7 @@ Now run the skill manually:
 
 ```bash
 cd ~/projects/ai-vault
-claude "Run the ceo-briefing skill. Generate the Monday Morning CEO Briefing for the period February 12-18, 2026. Read Business_Goals.md, all files in /Done/, and all files in /Logs/. Write the briefing to /Briefings/2026-02-19_Monday_Briefing.md and then git commit."
+claude -p "Run the ceo-briefing skill. Generate the Monday Morning CEO Briefing for the period February 12-18, 2026. Read Business_Goals.md, all files in /Done/, and all files in /Logs/. Write the briefing to /Briefings/2026-02-19_Monday_Briefing.md and then git commit."
 ```
 
 Claude reads your three data sources, cross-references them, and produces the briefing. This is the moment where infrastructure becomes intelligence -- the skill does not just report, it analyzes.
@@ -612,7 +614,7 @@ crontab -e
 Add this line (runs Sunday at 11 PM):
 
 ```
-0 23 * * 0 cd ~/projects/ai-vault && claude "Run the ceo-briefing skill for this week" >> ~/projects/ai-vault/Logs/cron-briefing.log 2>&1
+0 23 * * 0 cd ~/projects/ai-vault && claude -p "Run the ceo-briefing skill for this week" >> ~/projects/ai-vault/Logs/cron-briefing.log 2>&1
 ```
 
 **Cron expression breakdown:**
@@ -634,7 +636,7 @@ crontab -l | grep briefing
 **Output:**
 
 ```
-0 23 * * 0 cd ~/projects/ai-vault && claude "Run the ceo-briefing skill for this week" >> ~/projects/ai-vault/Logs/cron-briefing.log 2>&1
+0 23 * * 0 cd ~/projects/ai-vault && claude -p "Run the ceo-briefing skill for this week" >> ~/projects/ai-vault/Logs/cron-briefing.log 2>&1
 ```
 
 Every Sunday at 11 PM, your employee wakes up, reads the week's data, generates the briefing, commits it to git, and goes back to sleep. Monday morning, the briefing is waiting.
@@ -647,7 +649,7 @@ Here is how the Silver tier components work together for the CEO Briefing:
 Sunday 11:00 PM
 ┌─────────────────────────────────────────────────────┐
 │ CRON (from L10)                                      │
-│ Triggers: claude "Run ceo-briefing skill"            │
+│ Triggers: claude -p "Run ceo-briefing skill"          │
 └────────────────────────┬────────────────────────────┘
                          │
                          ▼
