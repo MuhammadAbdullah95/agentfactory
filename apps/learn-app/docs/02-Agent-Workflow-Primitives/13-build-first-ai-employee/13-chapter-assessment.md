@@ -95,23 +95,28 @@ teaching_guide:
   session_group: 5
   session_title: "Chapter Assessment"
   key_points:
-    - "The assessment validates understanding across all three tiers — Bronze (skills, subagents, MCP), Silver (watchers, HITL, scheduling), Gold (error recovery, audit logging)"
-    - "Questions test both conceptual understanding (when to use skills vs subagents) and practical application (which recovery strategy for a given error)"
-    - "Students should target 80% on their tier's questions — Bronze questions are foundational for everyone"
+    - "Bronze questions (1-10) cover vault governance, skills vs subagents, MCP architecture, and the email-assistant orchestration pattern — these are prerequisites for every tier"
+    - "The hardest conceptual distinction tested is skill vs subagent (Q5) and single-line YAML descriptions (Q6) — students who built components in L02-L05 recall these, students who skimmed will guess wrong"
+    - "Gold Tier Q20 (full pipeline sequence) is the single best diagnostic question — a correct answer means the student can trace Perception-Reasoning-Approval-Action-Logging end-to-end from L12"
+    - "Every answer key entry references the specific lesson where the concept was taught — this makes the assessment double as a targeted review guide for L14 Hackathon prep"
   misconceptions:
-    - "Students think they must complete Gold Tier to pass the assessment — Bronze questions (1-10) are the foundation; Silver and Gold are extensions"
-    - "Students confuse the assessment with the hackathon submission — the quiz tests knowledge, the submission demonstrates working implementation"
-    - "Students assume getting a wrong answer means they failed the lesson — use the answer key explanations to identify which lesson to revisit"
+    - "Students think Gold Tier questions require Gold Tier implementation experience — they test conceptual understanding of error recovery and audit logging, not whether you built them"
+    - "Students confuse the assessment with the L14 Hackathon submission — the quiz tests knowledge recall, the hackathon requires a working GitHub repo with real components"
+    - "Students select Q6 answer B (dropdown rendering) because it sounds plausible — the actual reason is YAML parsing reliability across agent frameworks, a subtle but important distinction from L05"
+    - "Students assume 'exponential backoff' means 'retry forever' — Q17 specifically tests that transient recovery has a max retry count, and auth errors require human intervention not retries"
   discussion_prompts:
-    - "Which tier did you target and why? What would change your decision if you could start over?"
-    - "Which question surprised you most? What concept do you want to revisit?"
+    - "Q20 describes a 2 AM invoice email flowing through every component. Walk through what would happen differently if the Gmail API was down at step 4 — which error category applies and what does the employee do?"
+    - "Look at Q14 (permission boundaries). What actions in YOUR domain would you add to the always-approve and always-require-human lists?"
+    - "Which question did you get wrong that you were most confident about? What was the gap between what you assumed and what the lesson actually taught?"
   teaching_tips:
-    - "Use the Bronze questions (1-10) as a review session before the quiz — they cover the most testable concepts from L01-L07"
-    - "Have students grade themselves and identify their weakest area before reviewing the answer key"
-    - "The answer key references specific lessons — encourage students to revisit those lessons for any incorrect answers"
+    - "Run this as an open-book timed exercise (20 min) — students who built components will finish in 12 minutes, students who only read will need all 20. The time difference reveals depth of understanding"
+    - "After grading, have each student identify their single weakest lesson reference from the answer key — that lesson becomes required re-reading before L14 Hackathon"
+    - "Use Q9 (master skill orchestration) and Q20 (full pipeline) as whiteboard walkthroughs — draw the flow together as a class, then compare to the L12 pipeline diagram"
+    - "Frame the assessment as hackathon prep, not a gate — L14 requires exactly these concepts implemented in code, so every wrong answer is a gap to close before building"
   assessment_quick_check:
-    - "What are the three architecture layers from L00?"
-    - "Which tier concepts does each question block cover? (1-10 Bronze, 11-16 Silver, 17-20 Gold)"
+    - "Name the three watcher methods from Q11 without looking (check_for_updates, create_action_file, run) — this tests whether L08 stuck"
+    - "What are the 7 required fields in an audit log entry? (timestamp, action_type, actor, target, parameters, approval_status, result) — this tests L12 retention"
+    - "Explain in one sentence why auth errors cannot use exponential backoff retry — this tests the core distinction from Q17"
 
 generated_by: "content-implementer"
 created: "2026-02-19"
@@ -214,7 +219,7 @@ A) Multi-line descriptions exceed the YAML file size limit
 
 B) The description is displayed in Claude Code's agent selector dropdown, which only renders one line
 
-C) Multi-line descriptions can break the tool parsing that Claude Code uses to discover and invoke agents
+C) Multi-line descriptions can cause parsing issues in some agent frameworks, making agent discovery unreliable
 
 D) Single-line descriptions load faster and reduce memory consumption
 
@@ -314,7 +319,7 @@ A) Claude Code automatically deletes the rejected file and all related data
 
 B) The AI employee retries the action with modified parameters
 
-C) The action is cancelled — Claude Code reads the rejection, logs it, and does not execute the requested action
+C) The action is cancelled — Claude Code moves the file to /Done/ with a REJECTED\_ prefix, logs the denial, and does not execute the requested action
 
 D) The file is forwarded to a backup approver for a second opinion
 
@@ -354,7 +359,7 @@ D) `pm2 daemon` and `pm2 autostart`
 
 A) Gmail inbox, calendar events, and browser history
 
-B) Business_Goals.md, the /Done/ folder, and the /Accounting/ folder
+B) Business_Goals.md, the /Done/ folder, and the /Logs/ folder
 
 C) CLAUDE.md, AGENTS.md, and Dashboard.md
 
@@ -434,7 +439,7 @@ D) Watcher sends the email to Claude Code via API call; Claude Code responds wit
 
 **5. B** — Use a subagent when the task requires autonomous reasoning with varied outputs. Skills are for deterministic, reusable patterns (format an email). Subagents are for tasks needing judgment (triage an inbox and classify priority). (L05)
 
-**6. C** — Multi-line YAML descriptions can break the tool parsing that Claude Code uses to discover and invoke agents. A single-line description ensures reliable agent discovery. (L05)
+**6. C** — Multi-line YAML descriptions can cause parsing issues in some agent frameworks, making agent discovery unreliable. A single-line description is a best practice that ensures consistent behavior across tools. (L05)
 
 **7. B** — App Password provides SMTP send-only access in about 2 minutes of setup. OAuth provides full Gmail API access (read, search, labels, draft, send) in about 10 minutes, requiring a Google Cloud project. (L06)
 
@@ -450,13 +455,13 @@ D) Watcher sends the email to Claude Code via API call; Claude Code responds wit
 
 **12. B** — Poll-based watching is simpler (no webhook server), works locally (no public endpoint), and runs on your laptop without infrastructure. Event-based push requires exposing a public URL, which is impractical for a personal tool. (L08)
 
-**13. C** — Moving a file to /Rejected/ cancels the action. Claude Code reads the rejection, logs it as denied, and does not execute the requested action. The file stays in /Rejected/ as an audit record. (L09)
+**13. C** — Moving a file to /Rejected/ cancels the action. Claude Code moves the rejected file to /Done/ with a REJECTED\_ prefix, logs it as denied, and does not execute the requested action. The prefixed file in /Done/ serves as the audit record. (L09)
 
 **14. C** — The permission boundaries table specifies that payments to new payees or over $100 always require approval, as do social media replies and DMs. Email to known contacts and file creation can auto-approve. (L00, L09)
 
 **15. B** — `pm2 save` saves the current process list so PM2 knows what to restart. `pm2 startup` generates a system startup script so PM2 launches automatically after reboot. Together they make processes persistent. (L10)
 
-**16. B** — The CEO Briefing reads Business_Goals.md (your objectives and KPI thresholds), the /Done/ folder (completed tasks this week), and /Accounting/ (bank transactions and revenue) to generate the Monday morning report. (L00, L11)
+**16. B** — The CEO Briefing reads Business_Goals.md (your objectives and KPI thresholds), the /Done/ folder (completed tasks this week), and /Logs/ (financial data and transaction history) to generate the Monday morning report. (L00, L11)
 
 **Gold Tier**
 

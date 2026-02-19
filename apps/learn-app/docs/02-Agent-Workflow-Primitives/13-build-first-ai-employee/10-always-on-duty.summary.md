@@ -14,7 +14,7 @@ sidebar_position: 10.5
 
 3. **Cron Scheduling**: Five-field syntax (`minute hour day month weekday`), use `crontab -e` to schedule recurring tasks like weekly briefings
 
-4. **Ralph Wiggum Loop**: Claude Code Stop hook pattern — exit code 2 means "I'm not done yet, keep going", enabling multi-step autonomous work sessions
+4. **Task Persistence Loop**: Claude Code Stop hook pattern — exit code 2 means "I'm not done yet, keep going", enabling multi-step autonomous work sessions
 
 5. **Graceful Degradation**: When services are unavailable, log the error and continue with available data rather than crashing the entire pipeline
 

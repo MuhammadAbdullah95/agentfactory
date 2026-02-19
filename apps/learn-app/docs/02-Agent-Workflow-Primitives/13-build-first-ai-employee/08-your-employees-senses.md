@@ -83,28 +83,28 @@ teaching_guide:
   session_group: 3
   session_title: "Perception Layer - Filesystem Watcher"
   key_points:
-    - "Watchers solve the lazy agent problem - without them, your employee only works when you type a command; with them, it notices things on its own"
-    - "The watcher pattern separates detection from processing - watchers DETECT and DEPOSIT action files; Claude Code reads /Needs_Action/ and does the reasoning"
-    - "File-based communication (markdown in /Needs_Action/) is the bridge between the Perception layer and the Reasoning layer from L00's architecture"
-    - "This is the first Silver tier lesson - it marks the transition from human-triggered to event-triggered AI operation"
+    - "Watchers solve the lazy agent problem from L07's capstone - the Bronze employee has skills, subagents, and MCP but zero perception; this lesson fills that architectural gap"
+    - "The watcher pattern strictly separates detection from processing - watchers DETECT and DEPOSIT action files; Claude Code reads /Needs_Action/ and does the reasoning; this separation is why you can add new watchers (Gmail, calendar) without changing any reasoning code"
+    - "File-based communication (markdown in /Needs_Action/) bridges Perception to Reasoning from L00's three-layer architecture - the same pattern reappears in L10 (always-on-duty) and L12 (Gold capstone)"
+    - "The check-process-deposit three-method pattern (check_for_updates, create_action_file, run) is universal - filesystem uses event-based detection, Gmail uses polling, but both produce identical action files"
   misconceptions:
-    - "Students think watchers ARE Claude Code - watchers are lightweight Python scripts that TRIGGER Claude Code by writing files to the vault"
-    - "Students expect watchers to process files - watchers only DETECT and DEPOSIT; the reasoning happens in Claude Code when it reads /Needs_Action/"
-    - "Students think they need complex infrastructure - a 30-line Python script with watchdog is sufficient for personal use"
-    - "Students assume the watcher replaces manual triggering - watchers ADD a trigger mechanism; you can still interact with your employee directly"
+    - "Students think watchers ARE Claude Code or part of it - watchers are standalone Python scripts that run in a separate terminal; Claude Code never sees the watcher code, only the action files it produces"
+    - "Students expect watchers to process or analyze files - watchers only DETECT and DEPOSIT; a watcher that spots a PDF does not read it, classify it, or decide what to do"
+    - "Students think they need Docker, message queues, or complex infrastructure - a 30-line Python script with watchdog running in a terminal is the entire perception layer for personal use"
+    - "Students confuse event-based (watchdog) with poll-based (Gmail) detection and think one is better - both feed the same action file format; the detection method is an implementation detail"
   discussion_prompts:
-    - "The spec shows Gmail, WhatsApp, and File watchers. What other data sources in YOUR work would benefit from a watcher? What would the action file contain?"
-    - "Why does the architecture use file-based communication (/Needs_Action/ folder) instead of direct API calls between watchers and Claude Code?"
-    - "The watcher runs in an infinite loop. What are the tradeoffs of running it all the time vs starting it only during work hours?"
+    - "Your Bronze employee from L07 handles email. What data sources in YOUR work generate files that nobody processes for hours? What would a watcher's action file contain for those?"
+    - "Why does the architecture use markdown files in /Needs_Action/ instead of direct API calls between watchers and Claude Code? What would break if you used API calls instead?"
+    - "L09 introduces trust-but-verify approval gates. If a watcher detects a file and creates an action, who decides whether Claude Code should act on it? What could go wrong without that check?"
   teaching_tips:
-    - "Have students install watchdog and run the script FIRST before explaining the architecture in depth - early success builds confidence"
-    - "Demo the watcher creating a file in /Needs_Action/ and then show Claude Code reading it - the visual connection between perception and reasoning is the aha moment"
-    - "The Gmail Watcher is shown as architecture only - direct students to Hackathon 0 for the full implementation; this prevents the lesson from becoming a Gmail API tutorial"
-    - "Emphasize that watchdog handles the hard parts (OS-level file events) so students write business logic, not low-level filesystem code"
+    - "Have students run the watcher script BEFORE explaining architecture - drop a file, see the action file appear, then explain why it works; the 'it actually does something' moment in the first 5 minutes prevents glazing over during the conceptual sections"
+    - "Use two terminals side by side for the live demo: left terminal runs the watcher, right terminal drops files and reads /Needs_Action/ - this makes the perception-to-reasoning pipeline physically visible"
+    - "Students just completed the Bronze capstone (L07) which was conceptually heavy; this lesson is a palate cleanser with immediate hands-on wins - lean into that energy"
+    - "The Gmail Watcher comparison table is the key forward-looking moment - spend time on it because students build the Gmail Watcher in Hackathon 0 (L14); establish that the pattern is identical, only the detection source changes"
   assessment_quick_check:
-    - "What problem do watchers solve? (The lazy agent problem - without watchers, the employee only works when you type a command)"
-    - "What does a watcher create when it detects something, and where does it go? (A markdown action file in /Needs_Action/)"
-    - "Name the three parts of the watcher pattern (check for updates, create action file, run loop)"
+    - "What problem do watchers solve and which architectural layer do they fill? (The lazy agent problem; they fill the Perception layer that was missing from the Bronze employee)"
+    - "A watcher detects a new PDF. What exactly does it create, what does the file contain, and where does it go? (A markdown action file with YAML frontmatter metadata, deposited in /Needs_Action/)"
+    - "What is the difference between how the filesystem watcher and the Gmail watcher detect changes? (Filesystem uses event-based detection via watchdog; Gmail uses poll-based detection on a timer; both produce the same action file format)"
 
 # Generation metadata
 generated_by: "content-implementer v1.0.0"
@@ -205,13 +205,15 @@ Installed 1 package in 0.3s
  + watchdog==4.0.0
 ```
 
+**Note:** `watchdog` may not detect events reliably on network-mounted filesystems or Windows Subsystem for Linux (WSL). If you are on WSL, test with a local directory first.
+
 ### Step 2: Create the Drop Folder and Vault Directories
 
 Before writing the watcher, create the directories it needs:
 
 ```bash
 mkdir -p ~/employee-inbox
-mkdir -p ~/ai-vault/Needs_Action
+mkdir -p ~/projects/ai-vault/Needs_Action
 ```
 
 **Output:**
@@ -223,14 +225,14 @@ mkdir -p ~/ai-vault/Needs_Action
 Verify they exist:
 
 ```bash
-ls -d ~/employee-inbox ~/ai-vault/Needs_Action
+ls -d ~/employee-inbox ~/projects/ai-vault/Needs_Action
 ```
 
 **Output:**
 
 ```
 /Users/yourname/employee-inbox
-/Users/yourname/ai-vault/Needs_Action
+/Users/yourname/projects/ai-vault/Needs_Action
 ```
 
 ### Step 3: Write the Watcher Script
@@ -249,7 +251,7 @@ from watchdog.events import FileSystemEventHandler
 
 # Configuration
 DROP_FOLDER = Path.home() / "employee-inbox"
-VAULT_NEEDS_ACTION = Path.home() / "ai-vault" / "Needs_Action"
+VAULT_NEEDS_ACTION = Path.home() / "projects" / "ai-vault" / "Needs_Action"
 
 class InboxHandler(FileSystemEventHandler):
     """Handles file creation events in the drop folder."""
@@ -313,18 +315,6 @@ if __name__ == "__main__":
     print("[WATCHER] Stopped.")
 ```
 
-**What each part does:**
-
-| Component                   | Purpose                                                     |
-| --------------------------- | ----------------------------------------------------------- |
-| `DROP_FOLDER`               | The directory the watcher monitors -- your "employee inbox" |
-| `VAULT_NEEDS_ACTION`        | Where action files are deposited for Claude Code            |
-| `InboxHandler`              | Responds to file creation events                            |
-| `on_created()`              | Fires when a new file appears in the drop folder            |
-| `Observer`                  | The watchdog engine that monitors filesystem events         |
-| `observer.schedule()`       | Connects the handler to the folder                          |
-| `while True: time.sleep(1)` | Keeps the script alive until you press Ctrl+C               |
-
 ### Step 4: Run the Watcher
 
 Open a terminal and start the watcher:
@@ -337,11 +327,13 @@ python file_watcher.py
 
 ```
 [WATCHER] Monitoring: /Users/yourname/employee-inbox
-[WATCHER] Action files go to: /Users/yourname/ai-vault/Needs_Action
+[WATCHER] Action files go to: /Users/yourname/projects/ai-vault/Needs_Action
 [WATCHER] Press Ctrl+C to stop
 ```
 
 The watcher is now running. Leave this terminal open.
+
+**Safety Note:** Watchers run as background processes with filesystem access. Only monitor directories you control. Never point a watcher at system directories (`/`, `/etc`, `C:\Windows`). The watcher in this lesson writes files but does not delete or modify anything -- it is read-only on the source and write-only on the action folder.
 
 ### Step 5: Test It
 
@@ -362,7 +354,7 @@ echo "Q4 revenue report draft" > ~/employee-inbox/q4-report.txt
 Check that the action file was created:
 
 ```bash
-ls ~/ai-vault/Needs_Action/
+ls ~/projects/ai-vault/Needs_Action/
 ```
 
 **Output:**
@@ -374,7 +366,7 @@ FILE_q4-report_2026-02-19_10-30-45.md
 Read the action file contents:
 
 ```bash
-cat ~/ai-vault/Needs_Action/FILE_q4-report_2026-02-19_10-30-45.md
+cat ~/projects/ai-vault/Needs_Action/FILE_q4-report_2026-02-19_10-30-45.md
 ```
 
 **Output:**
@@ -464,31 +456,7 @@ The Gmail Watcher follows the identical pattern but polls the Gmail API instead 
 | **Action file content** | File metadata (name, size, path) | Email metadata (sender, subject, priority) |
 | **Complexity**          | ~30 lines                        | ~80 lines (API auth + pagination)          |
 
-The Gmail Watcher's `check_for_updates()` queries Gmail for unread messages since the last check. When it finds one, `create_action_file()` writes a markdown file like this:
-
-```
----
-type: email_received
-source: gmail
-sender: client@bigcorp.com
-subject: Contract renewal timeline
-detected: 2026-02-19T10:45:00
-status: pending
----
-
-# New Email Detected
-
-- **From**: client@bigcorp.com
-- **Subject**: Contract renewal timeline
-- **Received**: 2026-02-19 10:45:00
-- **Preview**: We need to finalize the renewal by end of month...
-
-## Action Required
-
-Triage this email using inbox-triager subagent and suggest responses.
-```
-
-**Building the Gmail Watcher is a Hackathon deliverable** (L14). You already have Gmail MCP configured from L06 and the inbox-triager from L05. The watcher connects them by depositing action files that trigger your existing reasoning pipeline. The pattern you learned in this lesson -- detect, create action file, deposit -- is exactly the same.
+You will build the Gmail Watcher in Hackathon 0 (L14). You already have Gmail MCP configured from L06 and the inbox-triager from L05. The watcher connects them by depositing action files that trigger your existing reasoning pipeline. The pattern you learned in this lesson -- detect, create action file, deposit -- is exactly the same.
 
 ---
 
@@ -498,7 +466,7 @@ Triage this email using inbox-triager subagent and suggest responses.
 | ------------------------------------------------- | ----------------------------------- | -------------------------------------------------------------------------------- |
 | `ModuleNotFoundError: No module named 'watchdog'` | Library not installed               | Run `pip install watchdog`                                                       |
 | Watcher runs but no detection                     | File created before watcher started | Watcher only detects files created AFTER it starts running                       |
-| `PermissionError` on action file                  | `/Needs_Action/` directory missing  | Run `mkdir -p ~/ai-vault/Needs_Action`                                           |
+| `PermissionError` on action file                  | `/Needs_Action/` directory missing  | Run `mkdir -p ~/projects/ai-vault/Needs_Action`                                  |
 | Watcher detects file twice                        | Some editors save temp files first  | Add a filter: `if src.name.startswith('.') or src.name.endswith('.tmp'): return` |
 | Watcher stops when terminal closes                | Script runs in foreground           | Lesson 10 covers running watchers as persistent services with PM2                |
 
@@ -511,10 +479,10 @@ Triage this email using inbox-triager subagent and suggest responses.
 **Prompt 1: Test the Full Pipeline**
 
 ```
-I have a file watcher running that deposits action files in ~/ai-vault/Needs_Action/.
+I have a file watcher running that deposits action files in ~/projects/ai-vault/Needs_Action/.
 I just dropped a file called "invoice-acme-jan.pdf" into ~/employee-inbox/.
 
-Check ~/ai-vault/Needs_Action/ for the action file it created.
+Check ~/projects/ai-vault/Needs_Action/ for the action file it created.
 Read the action file and tell me:
 1. What file was detected?
 2. When was it detected?
@@ -539,5 +507,3 @@ Show me the updated on_created() method.
 ```
 
 **What you're learning:** This is iterative refinement of your watcher. You built the basic version; now you are refining it with AI assistance to handle real-world edge cases. The AI suggests filtering patterns you might not have considered, and you decide which filters match your actual workflow.
-
-**Safety Note:** Watchers run as background processes with filesystem access. Only monitor directories you control. Never point a watcher at system directories (`/`, `/etc`, `C:\Windows`). The watcher in this lesson writes files but does not delete or modify anything -- it is read-only on the source and write-only on the action folder.
