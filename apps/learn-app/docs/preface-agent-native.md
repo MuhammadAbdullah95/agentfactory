@@ -367,7 +367,7 @@ Options B and C are both **Digital FTEs (AI Employees)**—distinguished by the 
 
 #### Pre-Built AI Employees: The New Category
 
-The arrival of Pre-Built AI Employees—led by [OpenClaw](https://github.com/openclaw/openclaw) with 180,000+ GitHub stars in weeks—signals that the "buy" path has matured into a viable alternative to building from scratch.
+The arrival of Pre-Built AI Employees—led by [OpenClaw](https://github.com/openclaw/openclaw) with 209,000+ GitHub stars in under three months—signals that the "buy" path has matured into a viable alternative to building from scratch.
 
 Pre-Built AI Employees come in two flavors:
 

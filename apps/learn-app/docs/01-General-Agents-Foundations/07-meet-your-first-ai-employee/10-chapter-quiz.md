@@ -29,7 +29,7 @@ explanation: "The fundamental distinction is architectural, not just conversatio
 source: "Lesson 1: The AI Employee Moment"
 },
 {
-question: "Your manager asks why OpenClaw crossed 208,000 GitHub stars faster than any repository in history. They want to understand what this growth validates about the AI Employee market. Which conclusion is best supported by OpenClaw's trajectory?",
+question: "Your manager asks why OpenClaw crossed 209,000 GitHub stars faster than any repository in history. They want to understand what this growth validates about the AI Employee market. Which conclusion is best supported by OpenClaw's trajectory?",
 options: [
 "OpenClaw succeeded because it uses a proprietary language model that outperforms all competitors in every benchmark, giving it response quality no open-source alternative could match at launch",
 "The bottleneck for AI Employees was never demand — it was accessibility; making setup easy and integrating with existing messaging apps drove explosive adoption",
@@ -289,7 +289,7 @@ options: [
 "This crosses the line from demo to daily use — the agent now operates on your real data instead of generating its own content, which is what transforms 'AI tool' into 'AI Employee'"
 ],
 correctOption: 3,
-explanation: "Until this moment, every task your AI Employee performed operated on information it generated itself — research from training data, files it created, reports it wrote. Useful, but self-contained. When it reads YOUR inbox, the sandbox disappears. The data flowing through is your real life: names you recognize, subjects you've been ignoring, requests that actually need your attention. This is what drove 208,000 people to star OpenClaw — not the chat interface, not the agent loop, but the moment your agent handles your real work. The architectural significance is that tool access (connecting to systems where your actual work lives) is what makes the 'employee' label accurate. Intelligence alone doesn't make an employee; access to real work does.",
+explanation: "Until this moment, every task your AI Employee performed operated on information it generated itself — research from training data, files it created, reports it wrote. Useful, but self-contained. When it reads YOUR inbox, the sandbox disappears. The data flowing through is your real life: names you recognize, subjects you've been ignoring, requests that actually need your attention. This is what drove 209,000 people to star OpenClaw — not the chat interface, not the agent loop, but the moment your agent handles your real work. The architectural significance is that tool access (connecting to systems where your actual work lives) is what makes the 'employee' label accurate. Intelligence alone doesn't make an employee; access to real work does.",
 source: "Lesson 7: Connecting Google Workspace"
 },
 {
@@ -481,7 +481,7 @@ OpenClaw's rise validated several conclusions about the AI Employee paradigm, ba
 
 | What Was Proved                               | Evidence                                                                                                                        | Implication                                                                                          |
 | --------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------- |
-| **People want AI Employees**                  | 208,000 GitHub stars (fastest in history); 1.5 million agents on Moltbook; Mac Minis sold out for dedicated AI hardware         | The bottleneck was never demand. It was accessibility. Make setup easy and adoption follows.         |
+| **People want AI Employees**                  | 209,000 GitHub stars (fastest in history); 1.5 million agents on Moltbook; Mac Minis sold out for dedicated AI hardware         | The bottleneck was never demand. It was accessibility. Make setup easy and adoption follows.         |
 | **The architecture is simpler than expected** | You set up a working AI Employee in Lesson 2 using the same 6 patterns. No PhD-level innovation required.                       | Building AI Employees is an engineering challenge, not a research challenge. The patterns are known. |
 | **UX drives adoption more than features**     | WhatsApp and Telegram integration drove adoption more than any technical capability. Users want AI in the app they already use. | Channel integration (I/O Adapters) is the primary adoption driver, not a nice-to-have.               |
 | **MIT license unlocked everything**           | Anyone could fork, modify, and deploy. Community skills, third-party integrations, and enterprise deployments followed.         | The patterns are free forever. You are not locked into any vendor.                                   |

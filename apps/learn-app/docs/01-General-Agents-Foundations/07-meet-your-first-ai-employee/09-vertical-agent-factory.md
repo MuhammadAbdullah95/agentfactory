@@ -4,7 +4,7 @@ title: "NanoClaw and the Agent Factory"
 chapter: 7
 lesson: 9
 duration_minutes: 25
-description: "Meet NanoClaw -- a radically different AI Employee architecture that addresses the security problems from Lesson 5 -- and see how it connects to the Agent Factory blueprint for building AI Employees for every profession"
+description: "Explore NanoClaw -- an AI Employee architecture optimized for container isolation -- and discover why the Intelligence Layer is the real moat in building AI Employees for every profession"
 keywords:
   [
     "NanoClaw",
@@ -114,15 +114,15 @@ teaching_guide:
 
 You have spent eight lessons with one AI Employee. You set it up on Telegram, gave it real work, watched it delegate to a coding agent, connected it to your actual Google Workspace, and assessed what works and what remains unsolved.
 
-Through all of that, one tension kept surfacing: OpenClaw is powerful, but its shared-memory architecture means every agent shares the same process, the same filesystem, the same attack surface. The 135,000 exposed instances, the malicious skills on ClawHub, the one-click remote code execution -- these are not bugs. They are consequences of an architectural choice.
+Through all of that, one truth kept reinforcing itself: the patterns work. Gateway, channels, memory, skills, scheduling, delegation -- these are universal. OpenClaw proved it at 209,000-star scale, and the ecosystem responded. Developers who saw the same patterns asked: what if I optimized for different constraints?
 
-What if someone made a different choice?
+The security realities from Lesson 5 -- 135,000 exposed instances, malicious skills on ClawHub, the one-click RCE vulnerability -- are real engineering challenges. They are not unique to OpenClaw. They emerge whenever all agent components run in a shared process, which is the most common architecture for good reason: it is simple to build and simple to deploy. But when your threat model includes patient records, financial data, or legal documents, a different architecture earns its complexity.
 
 ## Meet NanoClaw
 
-On January 31, 2026, a developer named Gavriel Cohen released NanoClaw. It did not try to add more features to OpenClaw. It went the opposite direction: strip everything down to roughly 500 lines of core TypeScript, isolate every agent inside its own container, and plug in the Claude Agent SDK for the actual reasoning.
+On January 31, 2026, a developer named Gavriel Cohen released NanoClaw. Where OpenClaw optimized for feature completeness and community reach, NanoClaw optimized for a different constraint: container isolation for sensitive data. Strip everything down to roughly few hundred lines of core TypeScript, isolate every agent inside its own container, and plug in the Claude Agent SDK for the actual reasoning.
 
-Here is how NanoClaw compares to what you have been using:
+Here is how the two architectures differ -- not better or worse, but optimized for different threat models:
 
 | Property             | OpenClaw (Your Chapter 7 Experience)               | NanoClaw                                                         |
 | -------------------- | -------------------------------------------------- | ---------------------------------------------------------------- |
@@ -133,7 +133,7 @@ Here is how NanoClaw compares to what you have been using:
 | **Security default** | Everything accessible unless explicitly restricted | Nothing accessible unless explicitly granted                     |
 | **Extension model**  | Feature PRs that grow the codebase                 | Claude Code skills that transform your fork                      |
 
-NanoClaw is not a replacement for OpenClaw. It is a different answer to the same question you have been wrestling with since Lesson 5: how do you give an AI Employee real autonomy without creating a security disaster?
+NanoClaw is not a replacement for OpenClaw -- the 209,000-star project that validated the entire category remains the most feature-complete and community-supported option. NanoClaw is a different architectural answer optimized for a specific constraint: when the data inside the agent boundary is too sensitive for a shared process.
 
 ## Body + Brain: Separating What OpenClaw Combined
 

@@ -167,17 +167,33 @@ The use cases above are real -- people are building every one of them. But the h
 
 These are not reasons to avoid building compound workflows. They are the engineering constraints that define the difference between a weekend project and a production system. When you build your own AI Employee from scratch later in this book, you will confront each of these directly.
 
+## The Ecosystem Response
+
+OpenClaw's patterns were so clearly right that other developers saw them and asked: "What if I optimized for MY constraints?"
+
+The result is an ecosystem of implementations, each making different architectural tradeoffs:
+
+| Project      | Language   | Optimization                                            | Threat Model Fit                                         |
+| ------------ | ---------- | ------------------------------------------------------- | -------------------------------------------------------- |
+| **OpenClaw** | TypeScript | Feature completeness, 30+ channels, massive community   | Internal tools, personal productivity, rapid prototyping |
+| **NanoClaw** | TypeScript | Container isolation, ~500 lines, full auditability      | Regulated data (patient records, financial documents)    |
+| **nanobot**  | Python     | 4K lines, kernel architecture, readable in an afternoon | Learning agent internals, Python-native teams            |
+
+Other implementations exist in Rust and Go, proving the patterns are language-agnostic. The Body -- runtime, channels, tools -- is table stakes. Different teams build different Bodies because their threat models demand it.
+
+The insight that matters: **the moat is not which Body you choose. It is the Intelligence Layer -- Agent Skills that encode domain knowledge, MCP servers that connect to domain systems.** That layer is portable across every Body in the table above. Your investment in domain expertise survives any platform change.
+
 ## What Transfers
 
 These patterns appear in every agent framework, not just OpenClaw. The names change. The architecture does not.
 
 | Chapter 7 Pattern | OpenClaw                          | AutoGPT               | CrewAI                    | Your Own (Later) |
-| ----------------- | --------------------------------- | --------------------- | ------------------------- | --------------------- |
-| Scheduling (L03)  | Cron jobs + autonomous invocation | Continuous mode loop  | Task scheduling           | Your design           |
-| Memory (L04)      | MEMORY.md + conversation history  | JSON file persistence | Shared memory object      | Your design           |
-| Skills (L05)      | SKILL.md files on ClawHub         | Plugins in registry   | Tool definitions          | Your design           |
-| Delegation (L06)  | Claude Code integration           | Sub-agent spawning    | Agent-to-agent delegation | Your design           |
-| Integration (L07) | gog + OAuth connectors            | Plugin API calls      | Tool integrations         | Your design           |
+| ----------------- | --------------------------------- | --------------------- | ------------------------- | ---------------- |
+| Scheduling (L03)  | Cron jobs + autonomous invocation | Continuous mode loop  | Task scheduling           | Your design      |
+| Memory (L04)      | MEMORY.md + conversation history  | JSON file persistence | Shared memory object      | Your design      |
+| Skills (L05)      | SKILL.md files on ClawHub         | Plugins in registry   | Tool definitions          | Your design      |
+| Delegation (L06)  | Claude Code integration           | Sub-agent spawning    | Agent-to-agent delegation | Your design      |
+| Integration (L07) | gog + OAuth connectors            | Plugin API calls      | Tool integrations         | Your design      |
 
 The "Your Own" column is intentionally blank. When you build your own AI Employee, you fill it in -- choosing how to implement each pattern based on what you learned here.
 
@@ -219,6 +235,6 @@ failure mode.
 
 **What you're learning:** Multi-agent orchestration as a design pattern. The delegation pattern from Lesson 6 scales to complex business problems, but coordination failures multiply with each agent added. Designing for failure -- identifying the single biggest thing that can go wrong -- is what makes the difference between a system that works once and a system that works reliably.
 
-You have now seen what OpenClaw proved and what it left unsolved. Individual patterns are powerful. Composed patterns are transformative. And the hard problems -- security, reliability, cost, generalizability -- are what separate the builders from the tinkerers.
+You have now seen what OpenClaw proved, what it left unsolved, and how the ecosystem responded. Individual patterns are powerful. Composed patterns are transformative. And choosing the right Body for your threat model is an engineering decision, not a popularity contest.
 
-In the next lesson, you will meet NanoClaw -- a radically different architecture that addresses the security problems from Lesson 5 head-on -- and see how it connects to the Agent Factory blueprint for building AI Employees for every profession.
+In the next lesson, you will look closely at NanoClaw -- the implementation optimized for container isolation and regulated data -- and see how it connects to the Agent Factory blueprint for building AI Employees for every profession.

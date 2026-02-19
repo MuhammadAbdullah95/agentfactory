@@ -11,7 +11,7 @@ sidebar_position: 1.5
 - **AI Employee vs Chatbot**: The difference is architectural (autonomous scheduling, persistent memory, multi-step workflows), not conversational quality.
 - **Six Dimensions of Difference**: Trigger, scope, memory, tools, schedule, and interface separate passive chatbots from autonomous AI Employees.
 - **Five Essential Components**: Every AI Employee system requires a gateway, channel adapters, agent loop, skills, and memory.
-- **OpenClaw as Validation**: 202k GitHub stars in under 3 months proved mass demand for AI Employees, not just smarter chatbots.
+- **OpenClaw as Validation**: 209k GitHub stars in under 3 months proved mass demand for AI Employees, not just smarter chatbots.
 - **Security Is Existential**: 341 malicious skills and critical RCE vulnerabilities show that an AI Employee with access to your data is a high-value attack target.
 
 ## Mental Models

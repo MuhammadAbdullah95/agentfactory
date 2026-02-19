@@ -124,6 +124,10 @@ One gateway per host. That is the design. It owns all messaging connections -- W
 
 **The pattern: Orchestration.**
 
+:::tip Claude Code for Gateway Troubleshooting
+If you have Claude Code from Chapter 3, you can ask it to diagnose gateway issues: "Read my OpenClaw gateway logs and tell me why the last message failed" or "Check if my gateway service is running and restart it if needed." The manual commands in this lesson are what you need to understand -- Claude Code accelerates the operational work once you do.
+:::
+
 ## Channels -- Your Employee's Communication Layer
 
 Each messaging platform your employee connects to is a **channel**. Telegram uses grammY. WhatsApp uses Baileys. Discord uses its Bot API. Each is an adapter that translates platform-specific messages into a common internal format.

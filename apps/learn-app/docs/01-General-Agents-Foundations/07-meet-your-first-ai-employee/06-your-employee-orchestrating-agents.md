@@ -92,6 +92,10 @@ teaching_guide:
 
 # Your Employee Delegating to Claude Code
 
+:::info Prerequisites
+This lesson requires **tmux** (a terminal multiplexer) and **Claude Code** (from Chapter 3) installed on your machine. The first exercise checks for tmux and installs it if needed. If you do not have Claude Code installed, revisit Chapter 3 before continuing.
+:::
+
 Your employee has been handling tasks on its own: creating files, setting up morning briefings, doing research, managing your schedule. For tasks like "create weekly-goals.md" or "design a daily routine," it uses its own built-in tools and does fine.
 
 But what happens when you need actual code written? A Python script, a data processing tool, a file organizer? Your employee is not a coding specialist. It will try -- and it may produce something -- but it is not the right tool for the job.
