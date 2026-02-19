@@ -7,8 +7,6 @@ description: >-
   "what should I study", "show my progress", "continue where I left off",
   "browse the book", or asks about AI agents, Claude Code, or skills.
   Do NOT use for general coding help or unrelated questions.
-license: MIT
-allowed-tools: Bash, Read, Write
 compatibility: Requires Python 3.10+ (stdlib only, no pip). Works in Claude Code and Claude.ai with code execution.
 metadata:
   author: Panaversity
