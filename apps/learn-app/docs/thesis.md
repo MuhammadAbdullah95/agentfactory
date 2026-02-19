@@ -31,16 +31,6 @@ In the AI era, the most valuable companies won't sell software—they'll manufac
 </p>
 
 <p style={{
-  fontSize: '1.15rem',
-  lineHeight: '1.9',
-  fontWeight: '500',
-  color: 'var(--ifm-color-emphasis-800)',
-  marginTop: '2rem'
-}}>
-For most tasks, AI paired with a human outperforms AI working alone. Human judgment, context, and verification are what turn raw AI capability into trusted outcomes.
-</p>
-
-<p style={{
   fontSize: '1.1rem',
   lineHeight: '1.9',
   fontWeight: '500',
@@ -48,16 +38,6 @@ For most tasks, AI paired with a human outperforms AI working alone. Human judgm
   marginTop: '2rem'
 }}>
 The SaaS era sold subscriptions; the Agent Factory era sells results. Buyers define intent. Agents execute. Humans supervise and verify. This model industrializes execution through machine-readable specs, reusable skills, Standard Tool Protocols (MCP: a shared tool-connection standard), and cloud-native infrastructure—shifting the focus from manual workflows to <strong>capability on demand</strong>.
-</p>
-
-<p style={{
-  fontSize: '1.15rem',
-  lineHeight: '1.9',
-  fontWeight: '500',
-  color: 'var(--ifm-color-emphasis-800)',
-  marginTop: '2rem'
-}}>
-The shift is not learning to code differently—it is learning to wield AI and agents to do far more than build apps. Your fluency in system design and user experience is exactly what it takes to design, deploy, and verify intelligent systems that solve real business problems at scale.
 </p>
 
 <p style={{
