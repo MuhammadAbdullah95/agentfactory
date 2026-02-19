@@ -277,6 +277,141 @@ def cmd_progress():
     print(json.dumps(data, indent=2))
 
 
+# ── Auth commands (agent-driven, non-blocking) ───────────────────────────
+
+DEVICE_PENDING_PATH = Path.home() / ".agentfactory" / "device-pending.json"
+
+
+def cmd_auth_start():
+    """Start device auth flow. Non-blocking — returns immediately with user code.
+
+    Saves device_code to ~/.agentfactory/device-pending.json for polling.
+    Prints JSON: {user_code, verification_uri, interval, expires_in}
+    """
+    sso = _sso_url()
+    data = json.dumps({
+        "client_id": CLIENT_ID,
+        "scope": "openid profile email",
+    }).encode()
+    req = Request(f"{sso}/api/auth/device/code", data=data, method="POST")
+    req.add_header("Content-Type", "application/json")
+
+    try:
+        with urlopen(req, timeout=15) as resp:
+            result = json.loads(resp.read())
+    except HTTPError as e:
+        print(json.dumps({
+            "status": "error",
+            "error": f"Failed to start device flow: {e.code}",
+        }))
+        sys.exit(1)
+    except OSError as e:
+        print(json.dumps({
+            "status": "error",
+            "error": f"Connection failed: {e}",
+        }))
+        sys.exit(1)
+
+    # Save pending state for auth-poll
+    pending = {
+        "device_code": result["device_code"],
+        "interval": result.get("interval", 5),
+        "sso_url": sso,
+    }
+    DEVICE_PENDING_PATH.parent.mkdir(parents=True, exist_ok=True)
+    DEVICE_PENDING_PATH.write_text(json.dumps(pending))
+    DEVICE_PENDING_PATH.chmod(0o600)
+
+    # Return info for the agent to show the user
+    print(json.dumps({
+        "status": "started",
+        "user_code": result["user_code"],
+        "verification_uri": result.get("verification_uri", f"{sso}/device"),
+        "interval": result.get("interval", 5),
+        "expires_in": result.get("expires_in", 600),
+    }))
+
+
+def cmd_auth_poll():
+    """Poll once for device auth completion. Non-blocking.
+
+    Prints JSON: {status: "pending"|"complete"|"expired"|"denied"|"error"}
+    On "complete", credentials are saved to ~/.agentfactory/credentials.json.
+    """
+    if not DEVICE_PENDING_PATH.exists():
+        print(json.dumps({
+            "status": "error",
+            "error": "No pending auth. Run auth-start first.",
+        }))
+        sys.exit(1)
+
+    try:
+        pending = json.loads(DEVICE_PENDING_PATH.read_text())
+    except (json.JSONDecodeError, OSError):
+        print(json.dumps({
+            "status": "error",
+            "error": "Cannot read pending auth state.",
+        }))
+        sys.exit(1)
+
+    sso = pending["sso_url"]
+    poll_data = json.dumps({
+        "client_id": CLIENT_ID,
+        "device_code": pending["device_code"],
+        "grant_type": "urn:ietf:params:oauth:grant-type:device_code",
+    }).encode()
+    req = Request(f"{sso}/api/auth/device/token", data=poll_data, method="POST")
+    req.add_header("Content-Type", "application/json")
+
+    try:
+        with urlopen(req, timeout=15) as resp:
+            tokens = json.loads(resp.read())
+
+        # Success — save credentials
+        CREDENTIALS_PATH.parent.mkdir(parents=True, exist_ok=True)
+        CREDENTIALS_PATH.write_text(json.dumps(tokens, indent=2))
+        CREDENTIALS_PATH.chmod(0o600)
+
+        # Clean up pending file
+        DEVICE_PENDING_PATH.unlink(missing_ok=True)
+
+        print(json.dumps({"status": "complete"}))
+
+    except HTTPError as e:
+        try:
+            body = json.loads(e.read())
+        except Exception:
+            body = {}
+        error = body.get("error", "")
+
+        if error == "authorization_pending":
+            print(json.dumps({"status": "pending"}))
+        elif error == "slow_down":
+            # Update interval in pending file
+            pending["interval"] = pending.get("interval", 5) + 5
+            DEVICE_PENDING_PATH.write_text(json.dumps(pending))
+            print(json.dumps({
+                "status": "pending",
+                "interval": pending["interval"],
+            }))
+        elif error == "expired_token":
+            DEVICE_PENDING_PATH.unlink(missing_ok=True)
+            print(json.dumps({"status": "expired"}))
+        elif error == "access_denied":
+            DEVICE_PENDING_PATH.unlink(missing_ok=True)
+            print(json.dumps({"status": "denied"}))
+        else:
+            print(json.dumps({
+                "status": "error",
+                "error": body.get("error_description", str(body)),
+            }))
+    except OSError as e:
+        print(json.dumps({
+            "status": "error",
+            "error": f"Connection failed: {e}",
+        }))
+
+
 # ── Entry point ───────────────────────────────────────────────────────────
 
 USAGE = """\
@@ -288,9 +423,12 @@ Commands:
   lesson <part> <chapter> <lesson>          Read a lesson
   complete <chapter> <lesson> [duration]    Mark lesson complete
   progress                                  View learning progress
+  auth-start                                Start device auth (non-blocking)
+  auth-poll                                 Poll auth status (non-blocking)
 
 Environment:
-  CONTENT_API_URL  API base URL (default: https://content-api.panaversity.org)
+  CONTENT_API_URL     API base URL (default: https://content-api.panaversity.org)
+  PANAVERSITY_SSO_URL SSO base URL (default: https://sso.panaversity.org)
 """
 
 
@@ -328,6 +466,12 @@ def main():
 
     elif cmd == "progress":
         cmd_progress()
+
+    elif cmd == "auth-start":
+        cmd_auth_start()
+
+    elif cmd == "auth-poll":
+        cmd_auth_poll()
 
     else:
         print(f"Unknown command: {cmd}", file=sys.stderr)

@@ -10,7 +10,7 @@ description: >-
 compatibility: Requires Python 3.10+ (stdlib only, no pip). Works in Claude Code and Claude.ai with code execution.
 metadata:
   author: Panaversity
-  version: 0.9.0
+  version: 1.0.0
   category: education
   tags: [learning, tutoring, ai-agents, personalization]
 ---
@@ -110,30 +110,57 @@ Setup Progress:
 
 Update the tracker as each step completes. This turns setup into visible momentum, not a mystery.
 
-**If progress returns "Not authenticated":**
+**If progress returns "Not authenticated" — handle auth yourself:**
 
-**Do NOT run auth.py through Bash** — it blocks (polls until browser approval) and will hang your session. Instead, stay in your teaching persona and explain warmly:
+You drive the entire auth flow. The learner never leaves this conversation.
 
-> This is a quick one-time setup — takes about 30 seconds. I need you to connect your account so I can track your progress and save your XP.
->
-> **Run this in a separate terminal:**
->
-> ```
-> python3 <absolute-path-to>/scripts/auth.py
-> ```
->
-> It will show a code and open your browser. Enter the code, approve it, then come back and say "done".
+```bash
+# 1. Start the device flow (returns immediately with a code)
+python3 scripts/api.py auth-start
+```
 
-**While waiting for auth**, engage them with a micro-task to build early investment:
+This returns JSON: `{status, user_code, verification_uri, ...}`. Then:
+
+```bash
+# 2. Open their browser automatically
+open "{verification_uri}"    # macOS
+# xdg-open "{verification_uri}"  # Linux
+```
+
+Show the code warmly — stay in persona:
+
+> I've opened your browser to connect your account — this is a quick one-time setup (about 30 seconds).
+>
+> **Enter this code when the page loads: `{user_code}`**
+>
+> I'll detect when you're done automatically.
+
+**While waiting**, engage them with a micro-task to build early investment:
 
 > While that's connecting — quick question to help me personalize your learning:
 > **What's one thing you'd love to build with AI agents?** (A personal assistant? A business workflow? Just curious to learn?)
 
-This keeps them thinking and invested instead of staring at a terminal.
+Then poll until auth completes — wait the `interval` seconds between each attempt:
+
+```bash
+# 3. Poll (run every {interval} seconds, typically 5s)
+python3 scripts/api.py auth-poll
+```
+
+Poll returns `{"status": "pending"}`, `{"status": "complete"}`, or `{"status": "expired"}`.
+
+- **"pending"**: Wait `interval` seconds and poll again. Engage the learner while waiting.
+- **"complete"**: Auth succeeded! Update the tracker and continue to Step 2.
+- **"expired"**: Code expired. Run `auth-start` again for a fresh code.
+- **"denied"**: User rejected. Explain and offer to try again.
+
+After `auth-poll` returns `"complete"`, verify with `progress`:
+
+```bash
+python3 scripts/api.py progress
+```
 
 **Do NOT onboard (name/preferences) until auth succeeds.** Everything before auth is wasted if they can't authenticate.
-
-After the user confirms auth is complete, retry `progress`. Only proceed to Step 2 when it returns data (even empty data is fine — it means auth works).
 
 ### Step 2: Load Learner Context
 
@@ -313,18 +340,19 @@ User says: "I want to learn about AI agents"
 Actions:
   1. Run health → OK. Run progress → "Not authenticated"
   2. Show setup tracker: [x] API  [ ] Auth  [ ] Profile  [ ] First lesson
-  3. Warm auth message: "Quick 30-second setup — run this in your terminal..."
-  4. While waiting: "What's one AI agent idea you'd love to build?"
-  5. User says "done" → retry progress → OK
-  6. Update tracker: [x] API  [x] Auth  [ ] Profile  [ ] First lesson
-  7. Ask name, learning preference, tutor name
-  8. User says "Call me Sarah, I like examples, call yourself Professor Ada"
-  9. Create MEMORY.md, verify fields
-  10. "Great to meet you, Sarah! I'm Professor Ada. You're now an Agent Builder."
-  11. Reference their agent idea: "You mentioned wanting to build X — we'll get there."
-  12. Fetch tree, suggest Chapter 1, Lesson 1
-  13. Teach interactively using Tutor mode
-Result: Setup feels like progress, not friction. Learner engaged from minute one.
+  3. Run auth-start → get user_code "ABCD-1234", open browser automatically
+  4. Show code warmly: "I've opened your browser. Enter code: ABCD-1234"
+  5. While waiting: "What's one AI agent idea you'd love to build?"
+  6. Poll auth-poll every 5s → "pending"... "pending"... "complete"!
+  7. Update tracker: [x] API  [x] Auth  [ ] Profile  [ ] First lesson
+  8. Ask name, learning preference, tutor name
+  9. User says "Call me Sarah, I like examples, call yourself Professor Ada"
+  10. Create MEMORY.md, verify fields
+  11. "Great to meet you, Sarah! I'm Professor Ada. You're now an Agent Builder."
+  12. Reference their agent idea: "You mentioned wanting to build X — we'll get there."
+  13. Fetch tree, suggest Chapter 1, Lesson 1
+  14. Teach interactively using Tutor mode
+Result: Auth is seamless — learner never leaves the conversation.
 ```
 
 ### Example 3: First-time user (already authenticated)
@@ -369,14 +397,16 @@ All references live in `references/`. Read them on-demand — don't load all at 
 
 ## Commands Reference
 
-| Command                                                         | Description                                  |
-| --------------------------------------------------------------- | -------------------------------------------- |
-| `python3 scripts/api.py health`                                 | API health check (no auth)                   |
-| `python3 scripts/api.py tree`                                   | Book structure JSON                          |
-| `python3 scripts/api.py lesson <part> <chapter> <lesson>`       | Lesson content + frontmatter                 |
-| `python3 scripts/api.py complete <chapter> <lesson> [duration]` | Mark complete, earn XP                       |
-| `python3 scripts/api.py progress`                               | Learning progress + total lessons            |
-| `python3 scripts/auth.py`                                       | Authenticate via device flow (opens browser) |
+| Command                                                         | Description                                      |
+| --------------------------------------------------------------- | ------------------------------------------------ |
+| `python3 scripts/api.py health`                                 | API health check (no auth)                       |
+| `python3 scripts/api.py tree`                                   | Book structure JSON                              |
+| `python3 scripts/api.py lesson <part> <chapter> <lesson>`       | Lesson content + frontmatter                     |
+| `python3 scripts/api.py complete <chapter> <lesson> [duration]` | Mark complete, earn XP                           |
+| `python3 scripts/api.py progress`                               | Learning progress + total lessons                |
+| `python3 scripts/api.py auth-start`                             | Start device auth — returns code, non-blocking   |
+| `python3 scripts/api.py auth-poll`                              | Poll auth status once — returns JSON status      |
+| `python3 scripts/auth.py`                                       | Manual auth fallback (blocks until browser done) |
 
 ## Configuration
 
@@ -391,8 +421,8 @@ Token auto-refreshes on 401 (max 1 retry). All errors print to stderr.
 
 | Error                 | Meaning          | Response                                                                                                                                            |
 | --------------------- | ---------------- | --------------------------------------------------------------------------------------------------------------------------------------------------- |
-| "Not authenticated"   | No credentials   | Tell user to run `scripts/auth.py` in separate terminal (do NOT run via Bash — it blocks)                                                           |
-| "Token expired"       | Refresh failed   | Tell user to run `scripts/auth.py` in separate terminal (do NOT run via Bash — it blocks)                                                           |
+| "Not authenticated"   | No credentials   | Run `auth-start` + `auth-poll` flow (see Step 1). Agent handles this — no user action needed except entering the code in browser.                   |
+| "Token expired"       | Refresh failed   | Auto-refresh handles most cases. If still failing, run `auth-start` + `auth-poll` to get fresh tokens.                                              |
 | "Payment required"    | 402 — no credits | Tell learner, don't crash                                                                                                                           |
 | "Not found"           | Wrong slugs      | Show tree, help pick correctly                                                                                                                      |
 | "Rate limited"        | 429              | Wait 30s, retry                                                                                                                                     |
