@@ -194,70 +194,67 @@ SKILL.md says to cache tree to `cache/tree.json`, and the error table says "Conn
 
 ---
 
-## Required Fixes (Priority Order)
+## Fixes Applied (v0.8.0, commit 8cb4a2cf)
 
-### Fix 1: Tutor Name Enforcement (CRITICAL — blocks 3 evals)
+All 6 fixes were implemented in SKILL.md v0.8.0 and teaching-modes.md.
 
-**Problem**: SKILL.md Step 2 says to ask for tutor name, but the agent didn't capture it.
+### Fix 1: Tutor Name — APPLIED
 
-**Fix**: Add verification step in SKILL.md:
-```
-### Step 2: Load Learner Context
-...
-- **MEMORY.md missing**: First-time learner — ask three questions:
-  1. "What's your name?"
-  2. "How do you prefer to learn?" (examples/theory/hands-on)
-  3. "What would you like to call me?" (e.g., "Coach", "Professor Ada")
-  **VERIFY**: After creating MEMORY.md, confirm Tutor name field is populated.
-  Do NOT proceed to Step 3 until all three answers are saved.
-```
+Step 2 now asks 3 explicit questions (name, learning preference, tutor name) with self-naming fallback ("If they skip this or say 'just Claude', pick a warm name yourself") and a VERIFY step that reads back MEMORY.md before proceeding.
 
-### Fix 2: Mastery Gating Threshold (CRITICAL — blocks 1 eval)
+**Eval impact**: Unblocks SET-1, SET-4, PERS-5.
 
-**Problem**: "Score < 3/5" is ambiguous with variable question counts.
+### Fix 2: Mastery Gating — APPLIED (judgment-based, no thresholds)
 
-**Fix**: Change SKILL.md Step 6:
-```
-- Score < 60% (e.g., 2/3, 2/4, 2/5): DO NOT advance — re-teach weak areas first
-- Score 60-79%: Advance, but flag weak areas for spaced review
-- Score 80%+: Advance confidently
-```
+Replaced rigid "< 3/5" threshold with teacher judgment. Important Rules now says: "use your judgment: did they grasp the core ideas?" Step 6 quiz section has a 4-branch decision tree:
+- Foundational gap → re-teach
+- Surface-level miss → advance with flag
+- Rote/shallow answers → probe deeper
+- When in doubt → ask the learner
 
-With this rule, 2/3 (66.7%) would advance but flag — which is reasonable. Or if we want stricter mastery: "Score < 70%: DO NOT advance."
+**Eval impact**: Addresses QUIZ-7. Agent uses understanding quality, not percentages.
 
-### Fix 3: Tree Cache Fallback (blocks ERR-2)
+### Fix 3: Tree Cache Fallback — APPLIED
 
-**Problem**: Error table says "Connection failed → try later" but doesn't mention cache fallback.
+Error table "Connection failed" row now explicitly mentions `cache/tree.json` and `cache/current-lesson.json` fallback.
 
-**Fix**: Add to error table:
-```
-| "Connection failed"   | Network issue    | If cache/tree.json exists, use it. Otherwise: check URL, try later |
-```
+**Eval impact**: Addresses ERR-2.
 
-### Fix 4: Feynman Mandate (blocks TEACH-9, TEACH-10)
+### Fix 4: Feynman Mandate — APPLIED
 
-**Problem**: Feynman is described as "periodically" but not mandated.
+Added to Important Rules: "Feynman check at least once per lesson — before quizzing, ask the learner to explain one core concept back to you in simple terms. If they can't, re-teach that part. This is non-negotiable."
 
-**Fix**: Add to Important Rules:
-```
-- **Feynman check at least once per lesson** — ask "explain this back to me in simple terms" before quizzing
-```
+**Eval impact**: Addresses TEACH-9, TEACH-10.
 
-### Fix 5: session.md Active Mode Field
+### Fix 5: session.md Active Mode — APPLIED
 
-**Problem**: session.md template includes `Active mode:` but prior session didn't populate it.
+Step 5 now explicitly says to write active teaching mode and update on every mode switch or phase transition.
 
-**Fix**: Add to SKILL.md Step 5:
-```
-Update session.md with current phase, lesson slugs, AND active teaching mode.
-```
+**Eval impact**: Addresses CTX-4.
 
-### Fix 6: Frustration Signal in Mode Table
+### Fix 6: Frustration/Boredom Signals — APPLIED
 
-**Problem**: "I give up" / frustration signals aren't in the mode selection signal table.
+Added to SKILL.md error recovery table and Coach mode triggers. Added to teaching-modes.md Signal-Based Switching table:
+- "This is too hard" / "I give up" → Coach (scaffold down)
+- "This is too easy" / "I'm bored" → Simulator (challenge up)
 
-**Fix**: Add to Teaching Modes table in SKILL.md:
-```
-| "This is too hard" / "I give up" | Coach | Scaffold down, simplify |
-| "This is too easy" / "I'm bored" | Simulator | Challenge up |
-```
+**Eval impact**: Addresses MODE-7.
+
+---
+
+## Post-Fix Predicted Scorecard
+
+| Dimension | Pre-Fix | Post-Fix (predicted) | Change |
+|-----------|---------|---------------------|--------|
+| 1. Skill Activation | 6/8 + 2 risk | 6/8 + 2 risk | No change (needs live test) |
+| 2. Session Setup | 4/7 FAIL | 6/7 LIKELY PASS | Fix 1 unblocks SET-1, SET-4 |
+| 3. Teaching Quality | 7/10 risk | 9/10 LIKELY PASS | Fix 4 mandates Feynman |
+| 4. Mode Selection | 6/8 risk | 7/8 LIKELY PASS | Fix 6 adds frustration routing |
+| 5. Quiz Quality | 6/8 FAIL | 7/8 LIKELY PASS | Fix 2 uses judgment mastery |
+| 6. Personalization | 3/6 FAIL | 5/6 LIKELY PASS | Fix 1 unblocks PERS-5 |
+| 7. Error Recovery | 3/4 risk | 4/4 LIKELY PASS | Fix 3 adds cache fallback |
+| 8. Context Management | 3/4 risk | 4/4 LIKELY PASS | Fix 5 adds active mode |
+
+**Post-Fix Verdict**: LIKELY PASS — all 3 hard fails addressed, all 4 soft risks mitigated. Remaining uncertainty is on Skill Activation false positives (ACT-7, ACT-8) which require live testing.
+
+**Next**: Live eval with Content API deployed to confirm predictions.
