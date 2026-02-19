@@ -1,369 +1,358 @@
 ---
 sidebar_position: 14
-title: "When Your Employee Codes"
-description: "Discover the inversion pattern: your AI Employee orchestrates Claude Code to write actual software, demonstrating the Agent Factory thesis -- agents that build agents"
+title: "Hackathon 0: Build Your Personal AI Employee"
+sidebar_label: "L14: Hackathon 0"
+description: "The Hackathon 0 assignment challenges you to build a complete Personal AI Employee from scratch, applying every skill from Chapter 13. Choose your tier, plan your architecture, and start building."
 keywords:
   [
-    coding agent,
-    agent orchestration,
-    sub-agents,
+    hackathon,
+    personal ai employee,
+    capstone project,
+    agent architecture,
     claude code,
-    openclaw coding,
-    agent factory thesis,
-    PTY mode,
-    multi-agent,
-    self-building agents,
-    delegation chain,
+    obsidian vault,
+    watchers,
+    MCP servers,
+    HITL,
+    skills,
+    subagents,
+    digital fte,
   ]
 chapter: 13
 lesson: 14
-duration_minutes: 30
+duration_minutes: 15
+
+# PEDAGOGICAL LAYER METADATA
+primary_layer: "Layer 4"
+layer_progression: "L4 (Spec-Driven Assignment)"
+layer_1_foundation: "N/A (capstone assignment builds on all prior lessons)"
+layer_2_collaboration: "N/A"
+layer_3_intelligence: "N/A"
+layer_4_capstone: "Students plan and build a complete Personal AI Employee using spec-driven approach"
 
 # HIDDEN SKILLS METADATA
 skills:
-  - name: "Agent Orchestration Comprehension"
+  - name: "Architecture Planning"
     proficiency_level: "B1"
-    category: "Conceptual"
-    bloom_level: "Analyze"
-    digcomp_area: "Problem-Solving"
-    measurable_at_this_level: "Student can explain how a Custom Agent orchestrates a General Agent, identifying the chain of delegation from user to AI Employee to coding agent"
+    category: "Applied"
+    bloom_level: "Create"
+    digcomp_area: "Problem Solving"
+    measurable_at_this_level: "Student can design a multi-component AI Employee architecture selecting appropriate skills, subagents, watchers, and MCP integrations for their chosen tier"
 
-  - name: "Multi-Agent Architecture Understanding"
+  - name: "Spec-First Project Design"
     proficiency_level: "B1"
     category: "Conceptual"
-    bloom_level: "Understand"
+    bloom_level: "Create"
     digcomp_area: "Digital Content Creation"
-    measurable_at_this_level: "Student can describe the sub-agent pattern (main agent, orchestrator, worker) and explain why PTY mode, workdir isolation, and background process monitoring exist"
+    measurable_at_this_level: "Student can write a PLAN.md specification that defines architecture, weekly goals, component inventory, and technology choices before implementation begins"
+
+  - name: "Tier-Based Scope Management"
+    proficiency_level: "A2"
+    category: "Soft"
+    bloom_level: "Evaluate"
+    digcomp_area: "Problem Solving"
+    measurable_at_this_level: "Student can assess their own skill level and available time to select an appropriate hackathon tier with realistic deliverables"
+
+  - name: "Component Composition"
+    proficiency_level: "B1"
+    category: "Technical"
+    bloom_level: "Analyze"
+    digcomp_area: "Programming"
+    measurable_at_this_level: "Student can identify which Chapter 13 components (vault, skills, subagents, watchers, MCP, HITL, scheduling) are required for their chosen tier and how they connect"
 
 learning_objectives:
-  - objective: "Explain the inversion pattern: Custom Agent orchestrating General Agent"
+  - objective: "Evaluate your skill level and available time to select an appropriate hackathon tier"
+    proficiency_level: "A2"
+    bloom_level: "Evaluate"
+    assessment_method: "Student submits tier declaration with justification based on time availability and current skills"
+
+  - objective: "Design a Personal AI Employee architecture using PLAN.md as spec-first artifact"
+    proficiency_level: "B1"
+    bloom_level: "Create"
+    assessment_method: "PLAN.md contains architecture description, weekly goals, component inventory, and technology choices"
+
+  - objective: "Initialize a hackathon repository with correct directory structure for Claude Code projects"
+    proficiency_level: "A2"
+    bloom_level: "Apply"
+    assessment_method: "GitHub repository created with .claude/skills/, .claude/agents/, watchers/, and scripts/ directories"
+
+  - objective: "Map Chapter 13 lessons to hackathon components, identifying which capabilities each tier requires"
     proficiency_level: "B1"
     bloom_level: "Analyze"
-    assessment_method: "Student can draw the delegation chain (User -> Telegram -> OpenClaw -> Claude Code -> code changes -> results back to user) and explain what makes this different from direct coding"
-
-  - objective: "Describe how the coding-agent skill uses PTY mode, workdir isolation, and background processes to safely delegate coding work"
-    proficiency_level: "B1"
-    bloom_level: "Understand"
-    assessment_method: "Student can explain why PTY mode is required, why workdir isolation matters, and how background process monitoring prevents runaway agents"
-
-  - objective: "Articulate why 'agents that build agents' represents the Agent Factory thesis"
-    proficiency_level: "B1"
-    bloom_level: "Evaluate"
-    assessment_method: "Student can connect the OpenClaw -> Claude Code pattern to the broader thesis that General Agents create Custom Agents, and Custom Agents orchestrate General Agents in return"
+    assessment_method: "Student can trace each tier requirement back to the specific lesson where that capability was taught"
 
 cognitive_load:
   new_concepts: 3
-  assessment: "3 new concepts (agent-to-agent delegation, the coding-agent skill pattern, the self-building recursive loop). High conceptual density but built on 6 prior lessons of foundation."
+  assessment: "3 new concepts (tier-based scoping, architecture planning from spec, hackathon submission workflow). Most content synthesizes existing knowledge from L01-L13 rather than introducing new material."
 
 differentiation:
-  extension_for_advanced: "Explore OpenClaw's sub-agent documentation. Design a multi-agent workflow where OpenClaw spawns 3 parallel Claude Code instances to fix 3 different issues simultaneously using git worktrees."
-  remedial_for_struggling: "Focus on the delegation chain diagram. Trace one message from your phone through OpenClaw to Claude Code and back. Write down each step."
+  extension_for_advanced: "Platinum tier: cloud deployment with local/cloud work-zone specialization, multi-vault architecture, monitoring dashboards"
+  remedial_for_struggling: "Bronze tier with guided checklist: vault first, then one watcher, then 3 skills, then orchestrator. Follow L01-L07 sequence exactly."
 
 teaching_guide:
-  lesson_type: "core"
-  session_group: 5
-  session_title: "Agent-to-Agent Orchestration"
+  lesson_type: "assignment"
+  session_group: 6
+  session_title: "Hackathon 0 Launch"
   key_points:
-    - "The inversion pattern is the chapter's thesis made visible: a Custom Agent (your AI Employee) orchestrating a General Agent (Claude Code) to write actual software"
-    - "Three safety mechanisms make agent-to-agent delegation reliable: PTY mode (interactive terminal), workdir isolation (filesystem sandbox), background mode (non-blocking execution)"
-    - "The self-building recursive loop (General Agent builds Custom Agent, Custom Agent orchestrates General Agent) means your AI Employee can improve itself"
-    - "This lesson bridges Chapter 13 (build your employee) to the broader Agent Factory thesis from Chapter 1 — agents that build agents"
+    - "This is a build assignment, not a reading lesson -- students should finish reading and immediately start building"
+    - "Tier selection is the most important decision: honest self-assessment prevents frustration"
+    - "PLAN.md is not optional -- spec-first means writing the plan IS the first deliverable"
+    - "Every hackathon component maps directly to a Chapter 13 lesson -- nothing is new, only the integration is new"
   misconceptions:
-    - "Students think the AI Employee writes code itself — it delegates to Claude Code, a specialized coding agent; the Employee is the manager, not the developer"
-    - "Students confuse PTY mode with a safety feature — PTY mode is a COMPATIBILITY requirement; without it, interactive coding agents hang or produce broken output"
-    - "Students assume the self-building pattern is theoretical — OpenClaw literally uses Claude Code to modify its own source code, and this is documented in the lesson"
-    - "Students think parallel coding requires special infrastructure — PM2 from L10 plus git worktrees is sufficient for running multiple Claude Code instances"
+    - "Students think they need to learn new tools -- the hackathon uses only what Chapters 1-13 taught"
+    - "Students underestimate Bronze and skip to Silver -- Bronze alone requires 8-12 hours of focused work"
+    - "Students think PLAN.md is busywork -- it is the specification that guides their entire build, and judges evaluate it"
+    - "Students think they must work alone -- Claude Code is their co-builder, and the Wednesday Research Meeting provides human support"
   discussion_prompts:
-    - "The lesson shows a 10-step delegation chain from your phone to code changes. At which step does the most value get added, and why?"
-    - "The self-building pattern means your AI Employee can extend its own capabilities. What safeguards would you want before allowing an AI to modify its own code?"
-    - "Compare the two approaches: LLM generating code in chat vs Claude Code working on the filesystem. When would the simpler chat approach actually be better?"
+    - "Which tier did you choose and why? What was the deciding factor -- time, ambition, or current skill level?"
+    - "Look at your PLAN.md architecture section. Which component are you least confident about building, and what would help?"
   teaching_tips:
-    - "The delegation chain diagram (10 steps from phone to code) is the lesson's centerpiece — walk through it step by step, mapping each to the 6 universal patterns"
-    - "If students have Claude Code installed, the live demo ('Build me a snake game in Python') is dramatically more convincing than reading about it"
-    - "The comparison table (without vs with coding-agent skill) is the best 'aha moment' — the difference between copy-paste coding and autonomous development"
-    - "End by connecting to Chapter 13: students will build their own AI Employee, and that employee can use Claude Code to extend itself — the seed that grows"
+    - "Have students declare tiers publicly in the first session -- social commitment increases follow-through"
+    - "Review 2-3 PLAN.md submissions live to show what good architecture planning looks like"
+    - "Remind students that Bronze is a complete, working system -- Gold and Platinum add features, not quality"
   assessment_quick_check:
-    - "Draw the delegation chain from your phone to code changes — how many AI agents are involved and what role does each play?"
-    - "Name the three safety mechanisms for agent-to-agent delegation and explain what each prevents"
-    - "Explain the self-building loop in one sentence: how does a Custom Agent use a General Agent to improve itself?"
+    - "Show me your GitHub repo. Does it have the correct directory structure?"
+    - "Walk me through your PLAN.md. Which components will you build in Week 1 vs Week 2?"
+    - "Which Chapter 13 lesson taught the capability you are least confident about?"
+
+# Generation metadata
+generated_by: "content-implementer (autonomous execution)"
+created: "2026-02-19"
+version: "1.0.0"
 ---
 
-# When Your Employee Codes
+# Hackathon 0: Build Your Personal AI Employee
 
-In Lesson 06, you crystallized the 6 universal agent patterns and assessed what OpenClaw proved and what it didn't. You can now evaluate any agent framework in minutes. But the lesson ended with a promise: there is still one more thing to see in OpenClaw -- the most surprising pattern of all.
+In Lessons 01 through 13, you built every piece of a Personal AI Employee: vault memory, skills, subagents, Gmail MCP, watchers, HITL approval, 24/7 scheduling, and full orchestration. Each lesson produced a working component. Now you put them all together into something that is entirely yours.
 
-Here it is. If you have Claude Code installed on your machine, send this message to your Telegram bot: "Build me a REST API for tracking my reading list."
+Hackathon 0 is your first build assignment. You will design, plan, and construct a complete Personal AI Employee from scratch -- not by following step-by-step instructions, but by applying what you learned to your own goals, your own workflows, and your own ambitions. The result is a working Digital FTE that runs on your machine and serves your life.
 
-Something unexpected happens. Your AI Employee does not attempt to write code directly through the LLM. It does not paste Python into a chat message and hope for the best. Instead, it launches Claude Code -- a fully autonomous coding agent -- in a background terminal, pointed at a project directory, with a pseudo-terminal for proper interactive control. Your phone becomes a remote control for a developer-grade coding tool.
+## What You Are Building
 
-This is the inversion. Your AI Employee (a Custom Agent you configured) is commanding Claude Code (a General Agent that can build anything). You built the custom agent. The custom agent now orchestrates the general agent. This is not a feature bolted onto OpenClaw as an afterthought. This is the Agent Factory thesis made visible: agents that build agents.
+Your Personal AI Employee has five architectural layers. Every layer maps to lessons you have already completed:
 
-:::tip Hands-On vs Read-Along Path
+```
+Brain:    Claude Code            (the General Agent that executes everything)
+Memory:   Obsidian Vault         (AGENTS.md governance, skills, knowledge)
+Senses:   Python Watchers        (Gmail watcher, file watcher, cron triggers)
+Hands:    MCP Servers            (Gmail MCP, Browser MCP, filesystem tools)
+Safety:   HITL Approval          (human-in-the-loop for sensitive actions)
+```
 
-This lesson's demo requires a coding agent (Claude Code, Codex CLI, or similar) installed on your machine. OpenClaw's bundled `coding-agent` skill detects available coding tools automatically.
+The Brain reads the Memory to understand its role. The Senses detect events that need attention. The Brain decides what to do and uses its Hands to act. Safety ensures nothing sensitive happens without your approval. This is the architecture from L00's specification, and every component exists because you built it in a prior lesson.
 
-**Hands-on path** (recommended): Install Claude Code first:
+## Choose Your Tier
+
+Hackathon 0 has four tiers. Each tier builds on the previous one. Choose based on how much time you can invest and how far you want to push.
+
+| Tier         | Time   | What You Build                   | Key Deliverables                                                                                                     |
+| ------------ | ------ | -------------------------------- | -------------------------------------------------------------------------------------------------------------------- |
+| **Bronze**   | 8-12h  | Vault + 1 watcher + basic skills | Working vault with AGENTS.md, one filesystem or Gmail watcher, 3+ skills, basic orchestrator                         |
+| **Silver**   | 20-30h | Multiple watchers + scheduling   | All Bronze + Gmail watcher, scheduled tasks via cron or PM2, LinkedIn auto-posting skill, HITL for sensitive actions |
+| **Gold**     | 40h+   | Business integration             | All Silver + Odoo/CRM integration via MCP, social media management, CEO Briefing automation, error recovery          |
+| **Platinum** | 60h+   | Cloud deployment                 | All Gold + cloud VM deployment, local/cloud work-zone specialization, multi-vault architecture, monitoring dashboard |
+
+**Bronze is not the easy tier.** Bronze is a complete, working Personal AI Employee. It watches for events, processes them with skills, and delivers results. Silver, Gold, and Platinum add breadth and resilience -- but Bronze alone proves you can build a Digital FTE.
+
+Choose the tier that matches your honest assessment of available time. Completing Bronze thoroughly is worth far more than starting Gold and abandoning it halfway.
+
+## Getting Started
+
+### Step 1: Create Your Hackathon Repository
 
 ```bash
-npm install -g @anthropic-ai/claude-code
-```
-
-Then send the coding request to your bot. You will see the full delegation chain in action.
-
-**Read-along path**: If you do not have a coding agent installed or prefer not to install one now, this lesson is fully understandable by reading the walkthrough and diagrams below. The architectural patterns are the same whether you observe them live or trace them on paper. You will use Claude Code directly in Chapter 13 regardless.
-
-:::
-
-## The Message That Changes Everything
-
-Walk through what happens when you type "Build me a snake game in Python" on Telegram. Every step maps to a pattern you already know:
-
-1. **Message arrives at Gateway** (Orchestration pattern from L04)
-2. **Gateway routes to your agent session** (State Isolation pattern from L04)
-3. **Agent recognizes this as a coding task** -- the LLM reads the request and determines that it requires writing files, not just generating text
-4. **Agent activates the coding-agent skill** (Capability Packaging pattern from L05)
-5. **Skill launches Claude Code in background** with PTY mode enabled
-6. **Claude Code works autonomously** in a sandboxed directory -- reading files, writing code, running tests, fixing errors
-7. **Progress is monitored** via process polling
-8. **Claude Code signals completion** by triggering a notification back to OpenClaw
-9. **OpenClaw delivers the result** back through the Gateway to Telegram
-10. **You receive the finished code on your phone**
-
-The delegation chain:
-
-```
-You -> Phone -> Telegram -> OpenClaw Gateway -> coding-agent skill
-  -> Claude Code (background PTY) -> code changes -> results
-    -> OpenClaw -> Telegram -> Phone -> You
-```
-
-Count the AI agents in that chain. There are two. Your AI Employee (OpenClaw) delegated work to another AI agent (Claude Code). This is agent-to-agent orchestration -- and it happened because you sent a text message from your phone.
-
-## How the Coding-Agent Skill Works
-
-The coding-agent skill is a standard SKILL.md file -- the same format you learned to create in Lesson 05. But its instructions tell the agent how to launch and manage external coding tools. It supports multiple coding agents:
-
-| Coding Agent        | Command                    | Strengths                                                               |
-| ------------------- | -------------------------- | ----------------------------------------------------------------------- |
-| **Claude Code**     | `claude 'Your task'`       | Anthropic's terminal coding agent, strong at complex multi-file changes |
-| **Codex CLI**       | `codex exec 'Your task'`   | OpenAI's coding agent, requires git repo                                |
-| **OpenCode**        | `opencode run 'Your task'` | Open-source alternative                                                 |
-| **Pi Coding Agent** | `pi 'Your task'`           | Lightweight, supports multiple providers                                |
-
-The skill does not simply run a command and wait. It manages three critical safety mechanisms that make agent-to-agent delegation reliable.
-
-### PTY Mode: Why Interactive Terminals Matter
-
-Coding agents are interactive terminal applications, not simple scripts. They display progress bars, colored output, interactive prompts, and real-time status updates. Without a pseudo-terminal (PTY), the output breaks, colors disappear, or the agent hangs waiting for terminal input that never arrives.
-
-The skill enforces PTY mode for every coding agent invocation:
-
-```
-bash pty:true workdir:~/project command:"claude 'Build a snake game in Python'"
+mkdir personal-ai-employee
+cd personal-ai-employee
+git init
 ```
 
 **Output:**
 
 ```
-OpenClaw -> Launching Claude Code with PTY...
-Session started. Claude Code is working on: Build a snake game in Python
+Initialized empty Git repository in /Users/you/personal-ai-employee/.git/
 ```
 
-The `pty:true` flag allocates a virtual terminal, giving the coding agent a proper interactive environment. Skip this flag and the agent stalls silently -- one of the most common mistakes when first integrating coding agents.
+### Step 2: Create the Directory Structure
 
-### Workdir Isolation: Containing the Blast Radius
-
-The `workdir` parameter restricts the coding agent to a specific directory. Claude Code only sees files in that directory and its subdirectories. It cannot wander into your personal files, read your SSH keys, or modify unrelated projects.
-
-```
-workdir:~/projects/snake-game
-```
-
-This is the same State Isolation pattern from L04, applied at the filesystem level instead of the session level. Each coding task gets its own sandbox. If the coding agent makes a mess, the mess stays contained.
-
-### Background Mode: Long Tasks Without Blocking
-
-Short tasks (fix a typo, add a function) complete in seconds. But building a REST API or refactoring a module might take minutes. Background mode prevents the coding agent from blocking your conversation:
-
-```
-bash pty:true background:true workdir:~/project command:"claude 'Build REST API'"
+```bash
+mkdir -p .claude/skills .claude/agents
+mkdir -p watchers scripts
+touch AGENTS.md CLAUDE.md PLAN.md README.md
 ```
 
 **Output:**
 
 ```
-Session started in background. ID: session_abc123
-Use /status session_abc123 to check progress.
+(no output - directories and files created silently)
 ```
 
-The skill returns a session ID immediately. You can continue chatting with your AI Employee about other tasks while the coding agent works. When you want an update:
-
-- `process action:log sessionId:abc123` -- read the coding agent's terminal output
-- `process action:poll sessionId:abc123` -- check if it's still running or finished
-
-When the coding agent finishes, it triggers an OpenClaw notification:
+Your initial structure:
 
 ```
-openclaw system event --text "Done: Built REST API with 4 endpoints, all tests passing"
+personal-ai-employee/
+├── .claude/
+│   ├── skills/          # Your employee's expertise (L02-L04)
+│   └── agents/          # Your employee's specialists (L05)
+├── watchers/            # Event detection scripts (L08)
+├── scripts/             # Utility scripts (L10)
+├── AGENTS.md            # Governance rules (L01)
+├── CLAUDE.md            # Context for Claude Code (L01)
+├── PLAN.md              # Your architecture spec (this lesson)
+└── README.md            # Project documentation
 ```
 
-Your phone buzzes with the result. No polling required.
+### Step 3: Write Your PLAN.md
 
-## The Delegation Chain: Why This Changes Everything
+This is your first deliverable. PLAN.md is not paperwork -- it is the specification that drives your entire build. Write it before you write a single skill.
 
-Compare two approaches to the same request -- "Build me a REST API for my reading list":
+```markdown
+# Hackathon 0 Plan
 
-**Without the coding-agent skill:**
+## Tier: [Bronze / Silver / Gold / Platinum]
 
-```
-You -> OpenClaw -> LLM generates code in chat -> you copy-paste
-  -> you fix errors manually -> you run tests yourself
-```
+## Why This Tier
 
-The LLM produces code in a chat window. It cannot see your file system. It cannot run the code. It cannot read error messages. It cannot iterate. You become the integration layer between the LLM's output and the actual computer.
+[1-2 sentences: your available time, your goals, your honest skill assessment]
 
-**With the coding-agent skill:**
+## Architecture
 
-```
-You -> OpenClaw -> coding-agent skill -> Claude Code
-  -> reads files, writes code, runs tests, fixes errors, iterates
-    -> delivers working result
-```
+[Describe your planned architecture. What will each layer do?]
 
-Claude Code has access to the file system. It creates files, runs them, reads error messages, and fixes issues autonomously. It operates like a developer sitting at a terminal -- not like a chatbot pasting code into a message.
+- Brain: Claude Code with [describe AGENTS.md governance approach]
+- Memory: Obsidian vault storing [what knowledge?]
+- Senses: [which watchers? what events do they detect?]
+- Hands: [which MCP servers? what actions can they perform?]
+- Safety: [what requires HITL approval?]
 
-This is delegation, not generation. OpenClaw does not try to be a coding expert. It recognizes the task type and routes it to a specialist. This is the same management pattern humans use: a good manager does not do every task personally -- they identify the right person for the job and delegate.
+## Week 1 Goals
 
-## The Self-Building Pattern
+- [ ] Goal 1
+- [ ] Goal 2
+- [ ] Goal 3
 
-Here is where the architecture becomes recursive.
+## Week 2 Goals
 
-OpenClaw's own development uses this exact pattern. The OpenClaw repository contains a file called CLAUDE.md (a symlink to AGENTS.md) -- a configuration file that tells Claude Code how to work on the OpenClaw codebase itself.
+- [ ] Goal 4
+- [ ] Goal 5
+- [ ] Goal 6
 
-Follow this chain:
+## Components I Will Build
 
-1. You send a message to OpenClaw: "Fix issue #78 in the OpenClaw repo"
-2. OpenClaw activates the coding-agent skill
-3. The skill launches Claude Code pointed at the OpenClaw source code
-4. Claude Code reads AGENTS.md (which is the CLAUDE.md configuration)
-5. Claude Code uses those instructions to understand the codebase -- its conventions, test patterns, architecture
-6. Claude Code fixes the issue, runs tests, commits, and pushes
-7. OpenClaw reports the result back to you on Telegram
+| Component              | Type  | Description                    | Lesson Reference | Priority |
+| ---------------------- | ----- | ------------------------------ | ---------------- | -------- |
+| Example: email-drafter | Skill | Draft emails with tone control | L02              | Week 1   |
+|                        |       |                                |                  |          |
 
-The Custom Agent (OpenClaw) is using the General Agent (Claude Code) to modify its own source code. Peter Steinberger, OpenClaw's creator, described this on X with a line that captures the entire architecture: "The Claw gotta orchestrate itself."
+## Technologies
 
-It was not a joke. It is the architecture. The AI Employee you configured is using a coding agent to improve itself.
-
-## Parallel Coding at Scale
-
-A single coding agent handles one task at a time. But OpenClaw can spawn multiple coding agents simultaneously, turning your phone into a command center for parallel development work.
-
-**Practical scenarios:**
-
-- **Parallel issue fixing**: Create git worktrees for each issue, launch separate Claude Code instances in each worktree
-- **Batch code review**: One coding agent per pull request, all analyzing code in parallel
-- **Multi-file refactoring**: Split a large refactoring into independent modules, assign one agent per module
-
-OpenClaw manages concurrency through sub-agent configuration:
-
-| Setting                 | Default | Purpose                                                                               |
-| ----------------------- | ------- | ------------------------------------------------------------------------------------- |
-| **maxSpawnDepth**       | 2       | An orchestrator sub-agent can spawn its own workers (main -> orchestrator -> workers) |
-| **maxChildrenPerAgent** | 5       | Caps how many active child processes one session can manage                           |
-| **maxConcurrent**       | 8       | Global limit on parallel coding agents                                                |
-
-The depth limit prevents infinite recursion. The concurrency limit prevents your machine from running out of memory. Results flow back up the chain: workers report to orchestrator, orchestrator reports to main agent, main agent reports to you.
-
-This is not theoretical. OpenClaw users run parallel coding agents from their phone to fix multiple issues, review multiple PRs, and build multiple features simultaneously.
-
-## The Agent Factory Thesis, Demonstrated
-
-Recall the thesis from Chapter 1: General Agents build Custom Agents. Custom Agents solve domain problems.
-
-OpenClaw completes the second half of the loop:
-
-```
-General Agent (Claude Code)
-    | builds
-    v
-Custom Agent (OpenClaw with your skills)
-    | orchestrates
-    v
-General Agent (Claude Code)
-    | extends
-    v
-Custom Agent (now with new capabilities)
-    | orchestrates again...
-    v
+- Brain: Claude Code
+- Memory: Obsidian
+- Watchers: [which ones and why]
+- MCP Servers: [which ones and why]
+- Scheduling: [cron / PM2 / other]
 ```
 
-Each cycle through this loop:
+### Step 4: Push to GitHub
 
-1. The **General Agent** builds or improves the Custom Agent
-2. The **Custom Agent** orchestrates the General Agent for new work
-3. The General Agent's work makes the **Custom Agent more capable**
-4. The more capable Custom Agent can orchestrate **more sophisticated work**
+```bash
+git add -A
+git commit -m "hackathon 0: initial structure and plan"
+git remote add origin https://github.com/YOUR-USERNAME/personal-ai-employee.git
+git push -u origin main
+```
 
-This is a self-improving system. The boundary between "using" an AI Employee and "developing" one disappears. Your AI Employee is simultaneously your tool and your development partner.
+**Output:**
 
-## What This Means for Chapter 13
+```
+[main (root-commit) abc1234] hackathon 0: initial structure and plan
+ 6 files changed, 0 insertions(+), 0 deletions(-)
+```
 
-In Chapter 13, you build your own AI Employee using Claude Code. Now you understand something the previous six lessons only hinted at:
+## Judging Criteria
 
-You will not just build an AI Employee. You will build an AI Employee that can use Claude Code to extend itself. The specification you write is not a static blueprint. It is a seed that grows -- because the thing you build can command the same tools you used to build it.
+Your hackathon submission is evaluated across four categories:
 
-The 6 universal patterns are your architectural foundation. The coding-agent skill is your bridge from understanding to building. And the self-improvement loop means your first version is never your last.
+| Category          | Weight | What Judges Look For                                                                                        |
+| ----------------- | ------ | ----------------------------------------------------------------------------------------------------------- |
+| **Functionality** | 40%    | Does it work? Can you demo the full pipeline from event detection through processing to result delivery?    |
+| **Architecture**  | 25%    | Clean vault structure, proper skill/agent separation, AGENTS.md governance, components that compose cleanly |
+| **Safety**        | 20%    | HITL approval for sensitive actions, audit logging, error handling, no uncontrolled side effects            |
+| **Documentation** | 15%    | README with architecture diagram, PLAN.md with clear goals, LESSONS_LEARNED.md with honest reflection       |
+
+A Bronze submission that scores high on Functionality and Safety will outrank a Gold submission that crashes during the demo. Working software wins.
+
+## Submission Requirements
+
+Your final repository must contain:
+
+1. **README.md** -- Project overview with architecture diagram (ASCII or image)
+2. **PLAN.md** -- Your original plan (judges compare plan vs outcome)
+3. **Working demo** -- Screen recording or live demonstration showing the full pipeline
+4. **LESSONS_LEARNED.md** -- What you built, what surprised you, what you would do differently
+
+The LESSONS_LEARNED.md is not optional. Reflection is how you convert a project into lasting skill. Write it honestly -- judges value self-awareness over polish.
+
+## Chapter 13 Reference Map
+
+Every hackathon component traces back to a specific lesson. If you get stuck on a component, revisit the lesson that taught it:
+
+| Component                   | Lesson                               | What You Learned                                             |
+| --------------------------- | ------------------------------------ | ------------------------------------------------------------ |
+| Obsidian vault + AGENTS.md  | L01: Your Employee's Memory          | Vault creation, governance files, Claude Code context        |
+| Writing skills              | L02: Teaching Your Employee to Write | SKILL.md format, skill directory structure                   |
+| Skill formats and templates | L03: Teaching Professional Formats   | Template skills with variable substitution                   |
+| Analysis skills             | L04: Teaching Email Intelligence     | Summarization and extraction patterns                        |
+| Subagents                   | L05: Hiring Specialists              | Agent files, when skills vs subagents                        |
+| Gmail MCP                   | L06: Granting Email Access           | MCP configuration, 19 Gmail tools                            |
+| Orchestration               | L07: Bronze Capstone                 | Master skill pattern, delegation logic, graceful degradation |
+| Watchers                    | L08: Your Employee's Senses          | Gmail watcher, file watcher, event detection                 |
+| HITL approval               | L09: Trust But Verify                | Approval workflows for sensitive actions                     |
+| 24/7 scheduling             | L10: Always On Duty                  | cron, PM2, watchdog patterns                                 |
+| CEO Briefing                | L11: Silver Capstone                 | Automated reporting and audit                                |
+| Full integration            | L12: Gold Capstone                   | Autonomous employee with error recovery                      |
+
+If your chosen tier requires a component you do not feel confident about, that lesson is your study guide. Re-read it. Rebuild its example. Then adapt it for your hackathon project.
+
+## Wednesday Research Meeting
+
+You are not building alone. The weekly Wednesday Research Meeting is where you bring questions, show progress, and get live help from instructors and peers.
+
+Bring your PLAN.md to the first meeting. Walk through your architecture. Get feedback before you invest 10 hours building something that has a structural flaw. The meeting exists precisely for this -- catching design problems early is faster than fixing implementation problems late.
 
 ## Try With AI
 
-### Prompt 1: Delegation Chain Analysis
+### Prompt 1: Architecture Review
 
 ```
-Walk me through the complete chain of events when I send this message
-to my OpenClaw bot on Telegram: "Build a Python script that monitors
-my Downloads folder and organizes files by type."
+I am building a Personal AI Employee for Hackathon 0. Here is my
+PLAN.md:
 
-Trace every step: from my phone, through the Gateway, to the coding
-agent skill, to Claude Code, and back to my phone. For each step,
-identify which of the 6 universal agent patterns (orchestration,
-I/O adapters, state isolation, capability packaging, externalized
-memory, autonomous invocation) is being used.
+[paste your PLAN.md here]
+
+Review my architecture. For each layer (Brain, Memory, Senses, Hands,
+Safety), tell me:
+1. Is anything missing for my chosen tier?
+2. Are there dependencies between components I have not accounted for?
+3. What should I build first, second, and third to minimize rework?
 ```
 
-**What you're learning:** Seeing the 6 universal patterns in action during a real agent-to-agent delegation. This connects abstract architecture (Lesson 04) to concrete behavior, reinforcing that the patterns are not just categories -- they are active mechanisms you can trace through real systems.
+**What you are learning:** Using AI as an architecture reviewer before you start building. A 5-minute review of your plan can save hours of rework. This is the spec-first pattern from Chapter 13 applied to your own project -- write the spec, validate the spec, then build.
 
-### Prompt 2: Self-Improvement Design
-
-```
-Design a scenario where an AI Employee uses Claude Code to improve
-itself. Start with a basic AI Employee that only handles email
-summarization. Show me a 5-step evolution where:
-
-1. The employee identifies a limitation in its own capabilities
-2. It uses Claude Code to build a new skill for that limitation
-3. It tests the new skill in its own workspace
-4. It integrates the skill into its active skill set
-5. It can now handle something it could not handle before
-
-For each step, explain: what triggers it, what the coding agent does,
-and what changes in the employee's capabilities afterward.
-```
-
-**What you're learning:** Self-improving systems design. This is the recursive loop at the heart of the Agent Factory thesis: agents that build better versions of themselves. Understanding this loop prepares you to design your Chapter 13 AI Employee as an evolving system rather than a static tool.
-
-### Prompt 3: Your Domain Application
+### Prompt 2: Scope Estimation
 
 ```
-I work in [YOUR DOMAIN]. Design an agent-to-agent workflow where:
+I have [X hours] available over the next two weeks for Hackathon 0.
+I chose the [Bronze/Silver/Gold/Platinum] tier.
 
-1. An AI Employee (Custom Agent) manages my daily tasks via messaging
-2. When it encounters a task that requires code, it delegates to
-   Claude Code (General Agent)
-3. Claude Code builds the solution
-4. The AI Employee integrates and delivers the result
+Here are the components I plan to build:
+[paste your component table from PLAN.md]
 
-Be specific about: what domain tasks trigger coding delegation, what
-Claude Code builds, and how the results flow back to me on my phone.
+For each component, estimate:
+- How many hours it will take me as a beginner
+- What the most common failure point is
+- Whether I should build it in Week 1 or Week 2
+
+Then tell me honestly: is my tier realistic for my available time?
 ```
 
-**What you're learning:** Applying the agent orchestration pattern to your own work. The value of agent-to-agent delegation depends entirely on YOUR context -- what tasks you face, what tools you need built, and how results should reach you. This prompt bridges abstract architecture to personal design decisions for Chapter 13.
+**What you are learning:** Honest scope estimation is a professional skill. AI can help you calibrate expectations before you commit. If the estimate says your plan needs 40 hours and you have 15, you know to descope now rather than panic later. This is constraint-based planning -- the same pattern your AI Employee uses when it evaluates task feasibility.

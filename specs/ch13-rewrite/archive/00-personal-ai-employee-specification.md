@@ -12,7 +12,7 @@ keywords:
   - Watchers
   - Human-in-the-Loop
   - autonomous agent
-chapter: 13
+chapter: 10
 lesson: 0
 duration_minutes: 30
 
@@ -163,12 +163,6 @@ Choose your target based on your experience and ambition:
 - Full architecture documentation
 
 **What You'll Have**: A Digital FTE that operates 24/7, handles multiple domains, recovers from errors, and maintains audit trails.
-
-### Hackathon Tier: Full Project Build
-
-**Time Investment**: 8-60+ hours (self-paced, see L14)
-
-After completing the chapter, the Hackathon 0 assignment (L14) challenges you to build a complete Personal AI Employee project from scratch. Choose Bronze through Platinum scope based on your ambition. Submit as a GitHub repository.
 
 ---
 
@@ -374,12 +368,10 @@ Move this file to /Rejected folder.
 
 | Action Category | Auto-Approve Threshold | Always Require Approval    |
 | --------------- | ---------------------- | -------------------------- |
-| Email replies   | To known contacts\*    | New contacts, bulk sends   |
+| Email replies   | To known contacts      | New contacts, bulk sends   |
 | Payments        | < $50 recurring        | All new payees, > $100     |
 | Social media    | Scheduled posts        | Replies, DMs               |
 | File operations | Create, read           | Delete, move outside vault |
-
-_\*Known contacts: people you've exchanged 3+ emails with in the past 90 days AND whose address is in your contacts or CRM. Define this threshold in your `Company_Handbook.md`._
 
 ### 5. Continuous vs Scheduled Operations
 
@@ -544,20 +536,6 @@ Store logs in `/Vault/Logs/YYYY-MM-DD.json` and retain for minimum 90 days.
 | L11    | Silver Capstone                 | CEO Briefing                | Silver    |
 | L12    | Gold Capstone                   | Full autonomous employee    | Gold      |
 | L13    | Chapter Assessment              | Quiz & submission           | —         |
-| L14    | Hackathon 0 Assignment          | Full project build          | Hackathon |
-
-### Hackathon Tier: Full Project Build
-
-**Time Investment**: 8-60+ hours (self-paced after completing chapter)
-
-**Deliverables** (choose your level):
-
-- **Bronze Hackathon** (8-12h): Vault + one watcher + basic skills
-- **Silver Hackathon** (20-30h): Multiple watchers + LinkedIn posting + scheduling
-- **Gold Hackathon** (40h+): Odoo integration + social media + CEO Briefing
-- **Platinum Hackathon** (60h+): Cloud deployment + local/cloud work-zone specialization
-
-**What You'll Have**: A full Personal AI Employee project built to your chosen scope, submitted as a GitHub repository with documentation. See L14 for the complete Hackathon 0 assignment specification.
 
 ---
 

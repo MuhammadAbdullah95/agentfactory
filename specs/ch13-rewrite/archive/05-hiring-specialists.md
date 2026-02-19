@@ -14,7 +14,7 @@ keywords:
   - autonomous reasoning
   - response suggestion
   - follow-up tracking
-chapter: 13
+chapter: 10
 lesson: 5
 duration_minutes: 35
 
@@ -153,18 +153,17 @@ This lesson introduces **subagents**—autonomous components that reason through
 
 You've built skills that guide consistent execution. Skills are like recipe cards: follow the steps, get predictable results. But what happens when the "recipe" depends on analyzing the situation first?
 
-| Characteristic       | Skills                                    | Subagents                                |
-| -------------------- | ----------------------------------------- | ---------------------------------------- |
-| **Primary function** | Guidance for consistent execution         | Autonomous reasoning and classification  |
-| **Decision points**  | 2-4 (simple branching)                    | 5+ (complex analysis)                    |
-| **Output type**      | Predictable format                        | Context-dependent conclusions            |
-| **User interaction** | User triggers directly with `/skill-name` | System delegates via Task tool           |
-| **Best for**         | Templates, tone guidelines, formatting    | Classification, prioritization, analysis |
+| Characteristic | Skills | Subagents |
+|----------------|--------|-----------|
+| **Primary function** | Guidance for consistent execution | Autonomous reasoning and classification |
+| **Decision points** | 2-4 (simple branching) | 5+ (complex analysis) |
+| **Output type** | Predictable format | Context-dependent conclusions |
+| **User interaction** | User triggers directly with `/skill-name` | System delegates via Task tool |
+| **Best for** | Templates, tone guidelines, formatting | Classification, prioritization, analysis |
 
-**The key insight**: Skills tell Claude _how_ to do something. Subagents tell Claude _what_ to do after analyzing a situation.
+**The key insight**: Skills tell Claude *how* to do something. Subagents tell Claude *what* to do after analyzing a situation.
 
 Consider prioritizing an email. A skill might say "Urgent emails come from the CEO." But that's a single rule. Real prioritization requires analyzing:
-
 - Who sent it?
 - What's the subject about?
 - Is there a deadline mentioned?
@@ -201,6 +200,7 @@ description: |
   It analyzes sender, subject, and content.
 model: sonnet
 ---
+
 # CORRECT - Single line (can be long)
 ---
 name: inbox-triager
@@ -212,12 +212,12 @@ tools: Read, Grep
 
 **Required YAML fields:**
 
-| Field         | Purpose                                     | Format                      |
-| ------------- | ------------------------------------------- | --------------------------- |
-| `name`        | Agent identifier (used in Task tool)        | lowercase-with-hyphens      |
+| Field | Purpose | Format |
+|-------|---------|--------|
+| `name` | Agent identifier (used in Task tool) | lowercase-with-hyphens |
 | `description` | When to use this agent (activation trigger) | Single line, max 1024 chars |
-| `model`       | Which model to use                          | `sonnet`, `opus`, `haiku`   |
-| `tools`       | Comma-separated tool access                 | `Read, Grep, Glob, Edit`    |
+| `model` | Which model to use | `sonnet`, `opus`, `haiku` |
+| `tools` | Comma-separated tool access | `Read, Grep, Glob, Edit` |
 
 **Output:**
 
@@ -266,7 +266,6 @@ Classify incoming emails into priority categories for efficient inbox management
 ### Urgent (respond within hours)
 
 **Signals:**
-
 - From: Direct manager, C-level executives, key clients
 - Subject contains: "URGENT", "ASAP", "deadline today", "escalation"
 - Explicit same-day deadlines in body
@@ -277,7 +276,6 @@ Classify incoming emails into priority categories for efficient inbox management
 ### Important (respond within 24 hours)
 
 **Signals:**
-
 - From: Team members, project stakeholders, active clients
 - Subject contains: Decision needed, blocker mentioned, meeting-related
 - References active projects you own
@@ -288,7 +286,6 @@ Classify incoming emails into priority categories for efficient inbox management
 ### Normal (respond within 2-3 days)
 
 **Signals:**
-
 - From: Cross-functional teams, vendors, extended network
 - FYI or status update content
 - Routine requests without urgency
@@ -299,7 +296,6 @@ Classify incoming emails into priority categories for efficient inbox management
 ### Low (respond when convenient)
 
 **Signals:**
-
 - From: Newsletters, automated systems, mass distribution
 - No action required, purely informational
 - Can be archived for reference
@@ -340,12 +336,12 @@ When analyzing an email, follow this sequence:
 
 Present results in a scannable table:
 
-| Priority  | From              | Subject                  | Reason                                 |
-| --------- | ----------------- | ------------------------ | -------------------------------------- |
-| Urgent    | boss@company.com  | Q4 Numbers - Need by 3pm | Explicit deadline, direct manager      |
-| Important | pm@team.com       | Sprint blocker           | Blocker mentioned, project stakeholder |
-| Normal    | vendor@ext.com    | Invoice attached         | Routine, no deadline                   |
-| Low       | news@industry.com | Weekly digest            | Newsletter, FYI only                   |
+| Priority | From | Subject | Reason |
+|----------|------|---------|--------|
+| Urgent | boss@company.com | Q4 Numbers - Need by 3pm | Explicit deadline, direct manager |
+| Important | pm@team.com | Sprint blocker | Blocker mentioned, project stakeholder |
+| Normal | vendor@ext.com | Invoice attached | Routine, no deadline |
+| Low | news@industry.com | Weekly digest | Newsletter, FYI only |
 
 ## Context Awareness
 
@@ -464,12 +460,12 @@ Before generating responses, analyze:
 
 Adjust response suggestions based on email priority:
 
-| Priority  | Response Approach                         |
-| --------- | ----------------------------------------- |
-| Urgent    | Lead with action/answer, details optional |
-| Important | Complete response with next steps         |
-| Normal    | Standard professional response            |
-| Low       | Quick acknowledgment sufficient           |
+| Priority | Response Approach |
+|----------|------------------|
+| Urgent | Lead with action/answer, details optional |
+| Important | Complete response with next steps |
+| Normal | Standard professional response |
+| Low | Quick acknowledgment sufficient |
 
 ## Context Analysis
 
@@ -540,14 +536,14 @@ Direct mentions of dates or times:
 
 Context-based urgency without explicit dates:
 
-| Email Type          | Implicit Deadline   |
-| ------------------- | ------------------- |
-| Meeting-related     | Before meeting date |
-| Proposal sent       | 5-7 business days   |
-| First outreach      | 7 days              |
-| Second follow-up    | 14 days from first  |
-| Urgent request      | 24-48 hours         |
-| Partnership inquiry | 10-14 days          |
+| Email Type | Implicit Deadline |
+|------------|-------------------|
+| Meeting-related | Before meeting date |
+| Proposal sent | 5-7 business days |
+| First outreach | 7 days |
+| Second follow-up | 14 days from first |
+| Urgent request | 24-48 hours |
+| Partnership inquiry | 10-14 days |
 
 ### No Follow-Up Needed
 
@@ -563,14 +559,14 @@ Recognize when tracking isn't required:
 
 Recommended timing based on email type:
 
-| Email Type      | First Follow-Up | Second Follow-Up | Final  |
-| --------------- | --------------- | ---------------- | ------ |
-| Cold outreach   | Day 7           | Day 14           | Day 21 |
-| Warm intro      | Day 5           | Day 10           | Day 15 |
-| Proposal        | Day 5           | Day 10           | Day 14 |
-| Meeting request | Day 3           | Day 7            | Day 10 |
-| Urgent request  | Day 2           | Day 4            | Day 7  |
-| Internal team   | Day 3           | Day 7            | -      |
+| Email Type | First Follow-Up | Second Follow-Up | Final |
+|------------|----------------|------------------|-------|
+| Cold outreach | Day 7 | Day 14 | Day 21 |
+| Warm intro | Day 5 | Day 10 | Day 15 |
+| Proposal | Day 5 | Day 10 | Day 14 |
+| Meeting request | Day 3 | Day 7 | Day 10 |
+| Urgent request | Day 2 | Day 4 | Day 7 |
+| Internal team | Day 3 | Day 7 | - |
 
 ## Tracking Logic
 
@@ -591,12 +587,12 @@ When analyzing sent emails:
 
 Present tracking status in actionable format:
 
-| Email                          | Sent   | Follow-Up Due | Status                 |
-| ------------------------------ | ------ | ------------- | ---------------------- |
-| Partnership proposal to Marcus | Dec 20 | Dec 27        | ⚠️ Due today           |
-| Meeting request to Sarah       | Dec 23 | Dec 28        | ⏰ Due in 1 day        |
-| Cold outreach to Alex          | Dec 15 | Dec 22        | ❌ Overdue (5 days)    |
-| Quarterly update to team       | Dec 24 | -             | ✅ No follow-up needed |
+| Email | Sent | Follow-Up Due | Status |
+|-------|------|---------------|--------|
+| Partnership proposal to Marcus | Dec 20 | Dec 27 | ⚠️ Due today |
+| Meeting request to Sarah | Dec 23 | Dec 28 | ⏰ Due in 1 day |
+| Cold outreach to Alex | Dec 15 | Dec 22 | ❌ Overdue (5 days) |
+| Quarterly update to team | Dec 24 | - | ✅ No follow-up needed |
 
 ## Actions
 
@@ -630,7 +626,6 @@ Generate weekly overview:
 > Closed this week: 12
 >
 > **Top priority follow-ups:**
->
 > 1. Partnership proposal to Marcus (overdue 5 days)
 > 2. Meeting request to Sarah (due tomorrow)
 
@@ -653,25 +648,25 @@ Works with `inbox-triager` to correlate sent/received.
 
 With three subagents built, you can now apply a clear decision framework for future automation:
 
-| Use SKILL when...                 | Use SUBAGENT when...                   |
-| --------------------------------- | -------------------------------------- |
-| Task is content generation        | Task requires reasoning/classification |
-| Output format is predictable      | Output depends on analysis             |
-| User triggers directly (`/skill`) | System triggers automatically          |
-| Reusable template applies         | Custom logic for each case             |
-| 2-4 decision points               | 5+ decision points                     |
-| Same steps every time             | Steps vary by context                  |
+| Use SKILL when... | Use SUBAGENT when... |
+|-------------------|----------------------|
+| Task is content generation | Task requires reasoning/classification |
+| Output format is predictable | Output depends on analysis |
+| User triggers directly (`/skill`) | System triggers automatically |
+| Reusable template applies | Custom logic for each case |
+| 2-4 decision points | 5+ decision points |
+| Same steps every time | Steps vary by context |
 
 **Practical examples:**
 
-| Task                               | Component | Reasoning                                   |
-| ---------------------------------- | --------- | ------------------------------------------- |
-| Draft email with consistent tone   | Skill     | Predictable format, user-triggered          |
-| Prioritize 50 inbox emails         | Subagent  | Analysis required, context-dependent output |
-| Apply follow-up template           | Skill     | Template substitution, predictable steps    |
-| Decide which emails need follow-up | Subagent  | Deadline detection requires reasoning       |
-| Format meeting notes               | Skill     | Structure is consistent                     |
-| Classify customer support tickets  | Subagent  | Category depends on content analysis        |
+| Task | Component | Reasoning |
+|------|-----------|-----------|
+| Draft email with consistent tone | Skill | Predictable format, user-triggered |
+| Prioritize 50 inbox emails | Subagent | Analysis required, context-dependent output |
+| Apply follow-up template | Skill | Template substitution, predictable steps |
+| Decide which emails need follow-up | Subagent | Deadline detection requires reasoning |
+| Format meeting notes | Skill | Structure is consistent |
+| Classify customer support tickets | Subagent | Category depends on content analysis |
 
 ---
 
@@ -760,7 +755,6 @@ Combined with your skills from previous lessons:
 ```
 
 This architecture separates concerns:
-
 - **Skills** handle consistent execution (templates, formatting, tone)
 - **Subagents** handle reasoning (classification, prioritization, deadline detection)
 

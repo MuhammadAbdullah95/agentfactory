@@ -14,7 +14,7 @@ keywords:
   - email automation
   - Gmail API
   - AI email assistant
-chapter: 13
+chapter: 10
 lesson: 6
 duration_minutes: 30
 
@@ -537,10 +537,6 @@ Email automation is powerful but risky. A typo in a recipient address or an AI-g
 | Internal team updates      | Send directly (lower risk)                |
 | Anything with attachments  | Draft → Verify attachment → Send manually |
 | Emails to executives       | Draft → Review tone → Send manually       |
-
-:::tip Defining "Known Contacts"
-The L00 specification says email replies to "known contacts" can be auto-approved. Define this explicitly for your employee: known contacts are people you've exchanged **3+ emails with** in the past 90 days AND whose email address is in your contacts or CRM. Everyone else is a "new contact" requiring draft review. Encode this definition in your `Company_Handbook.md` or `AGENTS.md` so your employee applies it consistently.
-:::
 
 **Implementation**: Tell Claude your preference:
 

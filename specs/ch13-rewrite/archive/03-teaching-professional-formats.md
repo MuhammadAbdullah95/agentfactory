@@ -14,7 +14,7 @@ keywords:
   - meeting requests
   - professional communication
   - SKILL.md
-chapter: 13
+chapter: 10
 lesson: 3
 duration_minutes: 25
 
@@ -140,10 +140,10 @@ This lesson changes that. You'll build an **email-templates skill** that encodes
 
 Compare two approaches to sending 20 personalized outreach emails:
 
-| Approach             | Time per Email                            | Consistency                          | Improvement                                          |
-| -------------------- | ----------------------------------------- | ------------------------------------ | ---------------------------------------------------- |
-| **Manual prompting** | 3-5 minutes (explaining format each time) | Variable (depends on prompt quality) | None (starts fresh each time)                        |
-| **Template skill**   | 30 seconds (fill variables, send)         | High (same structure every time)     | Compounds (refine template once, all emails improve) |
+| Approach | Time per Email | Consistency | Improvement |
+|----------|----------------|-------------|-------------|
+| **Manual prompting** | 3-5 minutes (explaining format each time) | Variable (depends on prompt quality) | None (starts fresh each time) |
+| **Template skill** | 30 seconds (fill variables, send) | High (same structure every time) | Compounds (refine template once, all emails improve) |
 
 The math is clear: 20 emails at 4 minutes each = 80 minutes. With templates: 20 emails at 30 seconds = 10 minutes. That's 70 minutes saved—per batch.
 
@@ -169,14 +169,12 @@ The double-brace syntax `{{...}}` is unambiguous. Claude recognizes it immediate
 **2. Structured Sections**
 
 Each template needs:
-
 - **Purpose**: When to use this template
 - **Variables**: What information is required
 - **Template**: The actual email structure
 - **Example**: A filled-out version showing the pattern
 
 Structure enables automation. When Claude sees a complete template, it can:
-
 - Prompt you for missing variables
 - Substitute values correctly
 - Validate the result makes sense
@@ -187,7 +185,6 @@ Templates should prevent common mistakes, not just provide structure:
 
 ```markdown
 ## Anti-Patterns
-
 - Generic openers ("I hope this finds you well")
 - Wall of text (4-5 short paragraphs max)
 - Multiple CTAs (one clear ask only)
@@ -223,7 +220,6 @@ Your skill will follow Claude Code's standard structure:
 ## Building the SKILL.md
 
 The SKILL.md file is the entry point. It tells Claude:
-
 - What this skill does
 - When to activate it
 - How to use the templates
@@ -245,7 +241,6 @@ Reusable email templates with variable substitution for consistent, efficient co
 ## When to Use This Skill
 
 Activate this skill when user needs to:
-
 - Send cold outreach to new contacts
 - Follow up on unanswered emails
 - Request meetings or calls
@@ -256,7 +251,6 @@ Activate this skill when user needs to:
 ### 1. Cold Outreach (`templates/cold-outreach.md`)
 
 For first contact with new connections. Focuses on:
-
 - Personalized hook (why reaching out to THEM)
 - Brief credibility (proof you're worth hearing)
 - Clear value proposition (what's in it for them)
@@ -265,7 +259,6 @@ For first contact with new connections. Focuses on:
 ### 2. Follow-Up (`templates/follow-up.md`)
 
 For re-engaging after no response. Focuses on:
-
 - Non-accusatory reference to previous message
 - New value addition (not just "checking in")
 - Easier response options
@@ -273,7 +266,6 @@ For re-engaging after no response. Focuses on:
 ### 3. Meeting Request (`templates/meeting-request.md`)
 
 For scheduling calls or meetings. Focuses on:
-
 - Clear context (why meeting makes sense)
 - Specific agenda (what you'll discuss)
 - Multiple time options (respect their calendar)
@@ -282,12 +274,12 @@ For scheduling calls or meetings. Focuses on:
 
 Templates use `{{variable_name}}` syntax:
 
-| Variable             | Description              |
-| -------------------- | ------------------------ |
-| `{{recipient_name}}` | First name of recipient  |
-| `{{company}}`        | Recipient's company name |
-| `{{topic}}`          | Email subject matter     |
-| `{{sender_name}}`    | Your name                |
+| Variable | Description |
+|----------|-------------|
+| `{{recipient_name}}` | First name of recipient |
+| `{{company}}` | Recipient's company name |
+| `{{topic}}` | Email subject matter |
+| `{{sender_name}}` | Your name |
 
 Additional template-specific variables are documented in each template file.
 
@@ -303,7 +295,6 @@ Additional template-specific variables are documented in each template file.
 ## Integration Notes
 
 This skill works well with:
-
 - Gmail MCP for direct sending
 - Calendar tools for meeting request coordination
 - CRM data for personalization
@@ -331,15 +322,15 @@ First contact with someone who doesn't know you. The goal is to earn a response,
 
 ## Variables
 
-| Variable             | Description                           | Example                                               |
-| -------------------- | ------------------------------------- | ----------------------------------------------------- |
-| `{{recipient_name}}` | First name                            | "Sarah"                                               |
-| `{{hook}}`           | Why reaching out to THEM specifically | "Your Kubernetes talk at KubeCon"                     |
-| `{{hook_subject}}`   | Subject line hook                     | "Your Kubernetes talk - question from a practitioner" |
-| `{{credibility}}`    | Brief proof you're worth hearing      | "I've helped 200+ developers adopt similar patterns"  |
-| `{{value_prop}}`     | What's in it for them                 | "Include your approach as a case study"               |
-| `{{cta}}`            | Low-friction next step                | "15-minute call next week"                            |
-| `{{sender_name}}`    | Your name                             | "Alex"                                                |
+| Variable | Description | Example |
+|----------|-------------|---------|
+| `{{recipient_name}}` | First name | "Sarah" |
+| `{{hook}}` | Why reaching out to THEM specifically | "Your Kubernetes talk at KubeCon" |
+| `{{hook_subject}}` | Subject line hook | "Your Kubernetes talk - question from a practitioner" |
+| `{{credibility}}` | Brief proof you're worth hearing | "I've helped 200+ developers adopt similar patterns" |
+| `{{value_prop}}` | What's in it for them | "Include your approach as a case study" |
+| `{{cta}}` | Low-friction next step | "15-minute call next week" |
+| `{{sender_name}}` | Your name | "Alex" |
 
 ## Template
 
@@ -377,13 +368,13 @@ Alex
 
 These patterns reduce response rates:
 
-| Pattern                      | Problem                | Instead                             |
-| ---------------------------- | ---------------------- | ----------------------------------- |
-| "I hope this finds you well" | Generic, wastes space  | Jump to personalized hook           |
-| Long paragraphs              | Overwhelming on mobile | Keep to 2-3 sentences per paragraph |
-| Multiple asks                | Confuses priority      | One clear CTA only                  |
-| "I'm sure you're busy"       | Apologetic, low status | Confident, value-first framing      |
-| Obvious template feel        | Breaks trust           | Genuine personalization in hook     |
+| Pattern | Problem | Instead |
+|---------|---------|---------|
+| "I hope this finds you well" | Generic, wastes space | Jump to personalized hook |
+| Long paragraphs | Overwhelming on mobile | Keep to 2-3 sentences per paragraph |
+| Multiple asks | Confuses priority | One clear CTA only |
+| "I'm sure you're busy" | Apologetic, low status | Confident, value-first framing |
+| Obvious template feel | Breaks trust | Genuine personalization in hook |
 
 ## Tone Guidance
 
@@ -415,13 +406,13 @@ Re-engage after no response without being pushy. Adds value instead of just "che
 
 ## Variables
 
-| Variable             | Description                 | Example                                      |
-| -------------------- | --------------------------- | -------------------------------------------- |
-| `{{recipient_name}}` | First name                  | "Marcus"                                     |
-| `{{original_topic}}` | What first email was about  | "Partnership opportunity"                    |
-| `{{new_value}}`      | Additional value or context | "Your v2.0 release makes this more relevant" |
-| `{{easier_option}}`  | Lower-friction alternative  | "3-minute Loom video instead of call"        |
-| `{{sender_name}}`    | Your name                   | "Alex"                                       |
+| Variable | Description | Example |
+|----------|-------------|---------|
+| `{{recipient_name}}` | First name | "Marcus" |
+| `{{original_topic}}` | What first email was about | "Partnership opportunity" |
+| `{{new_value}}` | Additional value or context | "Your v2.0 release makes this more relevant" |
+| `{{easier_option}}` | Lower-friction alternative | "3-minute Loom video instead of call" |
+| `{{sender_name}}` | Your name | "Alex" |
 
 ## Template
 
@@ -457,20 +448,20 @@ Alex
 
 Strategic timing increases response rates:
 
-| Follow-up | Timing                 | Approach                           |
-| --------- | ---------------------- | ---------------------------------- |
-| First     | 5-7 business days      | Add new value, maintain confidence |
-| Second    | 10-14 days after first | Offer easier response option       |
-| Final     | 21 days                | Give explicit permission to say no |
+| Follow-up | Timing | Approach |
+|-----------|--------|----------|
+| First | 5-7 business days | Add new value, maintain confidence |
+| Second | 10-14 days after first | Offer easier response option |
+| Final | 21 days | Give explicit permission to say no |
 
 ## Anti-Patterns
 
-| Pattern                 | Problem                    | Instead                          |
-| ----------------------- | -------------------------- | -------------------------------- |
-| "Just checking in"      | No value, annoys recipient | Add new information or context   |
-| "Did you see my email?" | Accusatory tone            | Assume they're busy, add value   |
-| "I'll keep this brief"  | Draws attention to length  | Just be brief, don't announce it |
-| Exact same message      | Shows no effort            | Reference something new          |
+| Pattern | Problem | Instead |
+|---------|---------|---------|
+| "Just checking in" | No value, annoys recipient | Add new information or context |
+| "Did you see my email?" | Accusatory tone | Assume they're busy, add value |
+| "I'll keep this brief" | Draws attention to length | Just be brief, don't announce it |
+| Exact same message | Shows no effort | Reference something new |
 ```
 
 **Why this works:**
@@ -495,15 +486,15 @@ Schedule time efficiently by demonstrating value upfront. The recipient should k
 
 ## Variables
 
-| Variable             | Description                | Example                                            |
-| -------------------- | -------------------------- | -------------------------------------------------- |
-| `{{recipient_name}}` | First name                 | "Priya"                                            |
-| `{{context}}`        | Why meeting makes sense    | "Based on our Slack thread about rate limiting"    |
-| `{{topic}}`          | Meeting subject            | "API integration"                                  |
-| `{{duration}}`       | Time commitment            | "30 min"                                           |
-| `{{agenda_items}}`   | Specific topics (bulleted) | Review limits, discuss patterns, agree on solution |
-| `{{time_options}}`   | 3 specific time slots      | Tuesday 2 PM, Wednesday 10 AM, Thursday 3 PM       |
-| `{{sender_name}}`    | Your name                  | "Alex"                                             |
+| Variable | Description | Example |
+|----------|-------------|---------|
+| `{{recipient_name}}` | First name | "Priya" |
+| `{{context}}` | Why meeting makes sense | "Based on our Slack thread about rate limiting" |
+| `{{topic}}` | Meeting subject | "API integration" |
+| `{{duration}}` | Time commitment | "30 min" |
+| `{{agenda_items}}` | Specific topics (bulleted) | Review limits, discuss patterns, agree on solution |
+| `{{time_options}}` | 3 specific time slots | Tuesday 2 PM, Wednesday 10 AM, Thursday 3 PM |
+| `{{sender_name}}` | Your name | "Alex" |
 
 ## Template
 
@@ -530,13 +521,11 @@ Hi Priya,
 Based on our Slack thread about the rate limiting issue, I think we'd resolve this faster in a quick call.
 
 Proposed agenda (30 min):
-
 - Review current rate limits (5 min)
 - Discuss your usage patterns (10 min)
 - Agree on solution approach (15 min)
 
 Would any of these work?
-
 - Tuesday 2-2:30 PM EST
 - Wednesday 10-10:30 AM EST
 - Thursday 3-3:30 PM EST
@@ -545,22 +534,22 @@ Alex
 
 ## Best Practices
 
-| Practice                     | Why It Works                               |
-| ---------------------------- | ------------------------------------------ |
-| Include specific agenda      | Shows you've prepared, respects their time |
-| Offer 3 time options minimum | Increases chance of fit                    |
-| State duration clearly       | Sets expectations, shows respect           |
-| Include time zone            | Prevents confusion, especially remote      |
-| Time-boxed agenda items      | Demonstrates efficiency                    |
+| Practice | Why It Works |
+|----------|--------------|
+| Include specific agenda | Shows you've prepared, respects their time |
+| Offer 3 time options minimum | Increases chance of fit |
+| State duration clearly | Sets expectations, shows respect |
+| Include time zone | Prevents confusion, especially remote |
+| Time-boxed agenda items | Demonstrates efficiency |
 
 ## Anti-Patterns
 
-| Pattern                | Problem                  | Instead                      |
-| ---------------------- | ------------------------ | ---------------------------- |
-| "Let's hop on a call"  | Vague, no agenda         | Specific purpose with agenda |
-| "When are you free?"   | Puts burden on them      | Offer specific times         |
-| "Quick sync" (no time) | Unclear commitment       | State exact duration         |
-| Back-to-back requests  | Assumes first time works | Offer alternatives upfront   |
+| Pattern | Problem | Instead |
+|---------|---------|---------|
+| "Let's hop on a call" | Vague, no agenda | Specific purpose with agenda |
+| "When are you free?" | Puts burden on them | Offer specific times |
+| "Quick sync" (no time) | Unclear commitment | State exact duration |
+| Back-to-back requests | Assumes first time works | Offer alternatives upfront |
 ```
 
 ---
@@ -570,21 +559,18 @@ Alex
 Your SKILL.md defines when to use each template. But Claude needs to recognize intent from natural language:
 
 **Cold Outreach indicators:**
-
 - "I want to reach out to..."
 - "First time contacting..."
 - "Introduce myself to..."
 - "Initial outreach to..."
 
 **Follow-Up indicators:**
-
 - "Haven't heard back from..."
 - "Follow up on my previous..."
 - "Circle back with..."
 - "Re-engage with..."
 
 **Meeting Request indicators:**
-
 - "Schedule a call with..."
 - "Set up a meeting..."
 - "Find time to discuss..."
@@ -607,7 +593,6 @@ mkdir -p .claude/skills/email-templates/templates
 **Step 2: Create SKILL.md and template files**
 
 Copy the content from this lesson into:
-
 - `.claude/skills/email-templates/SKILL.md`
 - `.claude/skills/email-templates/templates/cold-outreach.md`
 - `.claude/skills/email-templates/templates/follow-up.md`
@@ -624,7 +609,6 @@ partnership for our developer education content."
 ```
 
 **Expected behavior:**
-
 1. Claude recognizes this as cold outreach
 2. Loads the cold-outreach template
 3. Identifies variables: `{{recipient_name}}` = Sarah, `{{company}}` = DataFlow Inc
@@ -651,15 +635,14 @@ Each refinement teaches you something about your preferences. Update the templat
 
 The three core templates handle most professional email needs. But you can extend for your domain:
 
-| Domain                 | Additional Templates                                   |
-| ---------------------- | ------------------------------------------------------ |
-| **Sales**              | Demo request, pricing follow-up, contract renewal      |
-| **Recruiting**         | Candidate outreach, interview scheduling, offer letter |
-| **Investor Relations** | Intro request, update email, pitch deck follow-up      |
-| **Customer Success**   | Onboarding check-in, renewal reminder, upsell intro    |
+| Domain | Additional Templates |
+|--------|---------------------|
+| **Sales** | Demo request, pricing follow-up, contract renewal |
+| **Recruiting** | Candidate outreach, interview scheduling, offer letter |
+| **Investor Relations** | Intro request, update email, pitch deck follow-up |
+| **Customer Success** | Onboarding check-in, renewal reminder, upsell intro |
 
 Each new template follows the same structure:
-
 1. Purpose
 2. Variables table
 3. Template
@@ -675,12 +658,12 @@ The pattern is the reusable intelligence. Templates are just instantiations.
 
 You now have a production-ready email templates skill:
 
-| Component              | Purpose                                           |
-| ---------------------- | ------------------------------------------------- |
-| **SKILL.md**           | Entry point with activation triggers and workflow |
-| **cold-outreach.md**   | First contact template with personalization       |
-| **follow-up.md**       | Re-engagement template with value-add approach    |
-| **meeting-request.md** | Scheduling template with agenda and options       |
+| Component | Purpose |
+|-----------|---------|
+| **SKILL.md** | Entry point with activation triggers and workflow |
+| **cold-outreach.md** | First contact template with personalization |
+| **follow-up.md** | Re-engagement template with value-add approach |
+| **meeting-request.md** | Scheduling template with agenda and options |
 
 This skill represents **Layer 3 intelligence**—tacit knowledge (your email patterns) transformed into explicit, reusable assets. Every email you send using these templates reinforces the pattern. Every refinement improves all future emails.
 

@@ -13,7 +13,7 @@ keywords:
   - professional communication
   - skill creation
   - AI collaboration
-chapter: 13
+chapter: 10
 lesson: 2
 duration_minutes: 30
 
