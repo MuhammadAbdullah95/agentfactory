@@ -23,7 +23,10 @@ def main():
     sso_url = os.environ.get("PANAVERSITY_SSO_URL", SSO_URL)
 
     # Step 1: Request device code
-    data = json.dumps({"client_id": CLIENT_ID}).encode()
+    data = json.dumps({
+        "client_id": CLIENT_ID,
+        "scope": "openid profile email",
+    }).encode()
     req = Request(
         f"{sso_url}/api/auth/device/code", data=data, method="POST"
     )
