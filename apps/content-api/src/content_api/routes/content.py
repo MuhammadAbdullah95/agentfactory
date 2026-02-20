@@ -43,13 +43,31 @@ async def get_tree(
 async def get_lesson(
     request: Request,
     response: Response,
-    part: str,
-    chapter: str,
-    lesson: str,
+    part: str = "",
+    chapter: str = "",
+    lesson: str = "",
+    path: str = "",
     user: CurrentUser = Depends(get_current_user),
 ) -> LessonContentResponse:
-    """Get lesson content with frontmatter and optional metering."""
-    logger.info(f"[Lesson] User {user.id}: {part}/{chapter}/{lesson}")
+    """Get lesson content with frontmatter and optional metering.
+
+    Accepts either:
+      - path: Full path from tree (e.g., "01-Part/02-chapter/03-sub/04-lesson")
+      - part + chapter + lesson: Individual slugs (flat chapters only)
+    """
+    # Resolve path: prefer explicit path, fall back to part/chapter/lesson
+    if path:
+        segments = path.strip("/").split("/")
+        lesson_path = path.strip("/")
+        # Extract chapter and lesson slugs for response/logging
+        chapter = segments[-2] if len(segments) >= 2 else chapter
+        lesson = segments[-1] if segments else lesson
+    elif part and chapter and lesson:
+        lesson_path = f"{part}/{chapter}/{lesson}"
+    else:
+        raise HTTPException(status_code=400, detail="Provide 'path' or 'part'+'chapter'+'lesson'")
+
+    logger.info(f"[Lesson] User {user.id}: {lesson_path}")
 
     credit_charged = False
     reservation_id: str | None = None
@@ -116,7 +134,7 @@ async def get_lesson(
 
     # Load content
     try:
-        result = await load_lesson_content(part, chapter, lesson)
+        result = await load_lesson_content(lesson_path)
     except Exception as e:
         logger.error(f"[Lesson] Content load failed: {e}")
         # Release reservation if content load fails

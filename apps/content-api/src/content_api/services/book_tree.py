@@ -116,10 +116,16 @@ async def build_book_tree() -> BookTreeResponse:
         position_match = re.match(r"^(\d+)", lesson_slug)
         sidebar_position = int(position_match.group(1)) if position_match else 0
 
+        # Build full path relative to docs root (handles sub-chapter nesting)
+        # For "part/chapter/lesson.md" → "part/chapter/lesson"
+        # For "part/chapter/sub-chapter/lesson.md" → "part/chapter/sub-chapter/lesson"
+        lesson_path = "/".join(segments[:-1]) + "/" + lesson_slug
+
         lesson = LessonMeta(
             slug=lesson_slug,
             title=slug_to_title(lesson_slug),
             sidebar_position=sidebar_position,
+            path=lesson_path,
         )
         chapter.lessons.append(lesson)
         total_lessons += 1

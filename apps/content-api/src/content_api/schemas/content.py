@@ -12,6 +12,7 @@ class LessonMeta(BaseModel):
     title: str
     sidebar_position: int = 0
     has_exercise: bool = False
+    path: str = ""  # Full path relative to docs root (e.g., "01-Part/02-chapter/03-sub/04-lesson")
 
 
 class ChapterMeta(BaseModel):

@@ -191,12 +191,23 @@ def cmd_tree():
     print(json.dumps(data, indent=2))
 
 
-def cmd_lesson(part: str, chapter: str, lesson: str):
-    """Fetch a single lesson."""
-    data = _api_get(
-        "/api/v1/content/lesson",
-        {"part": part, "chapter": chapter, "lesson": lesson},
-    )
+def cmd_lesson(*args: str):
+    """Fetch a single lesson.
+
+    Accepts either:
+        lesson <path>                  (uses path from tree, e.g. "01-Part/02-ch/03-lesson")
+        lesson <part> <chapter> <lesson>  (legacy 3-arg form)
+    """
+    if len(args) == 1:
+        data = _api_get("/api/v1/content/lesson", {"path": args[0]})
+    elif len(args) == 3:
+        data = _api_get(
+            "/api/v1/content/lesson",
+            {"part": args[0], "chapter": args[1], "lesson": args[2]},
+        )
+    else:
+        print("Usage: api.py lesson <path>  OR  api.py lesson <part> <chapter> <lesson>", file=sys.stderr)
+        sys.exit(1)
     print(json.dumps(data, indent=2))
 
 
@@ -228,7 +239,8 @@ Usage: api.py <command> [args]
 Commands:
   health                                    Check API health
   tree                                      Browse book structure
-  lesson <part> <chapter> <lesson>          Read a lesson
+  lesson <path>                             Read a lesson (path from tree)
+  lesson <part> <chapter> <lesson>          Read a lesson (legacy 3-arg)
   complete <chapter> <lesson> [duration]    Mark lesson complete
   progress                                  View learning progress
 
@@ -255,13 +267,7 @@ def main():
         cmd_tree()
 
     elif cmd == "lesson":
-        if len(sys.argv) != 5:
-            print(
-                "Usage: api.py lesson <part> <chapter> <lesson>",
-                file=sys.stderr,
-            )
-            sys.exit(1)
-        cmd_lesson(sys.argv[2], sys.argv[3], sys.argv[4])
+        cmd_lesson(*sys.argv[2:])
 
     elif cmd == "complete":
         if len(sys.argv) < 4:

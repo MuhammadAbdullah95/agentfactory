@@ -105,18 +105,19 @@ async def fetch_from_github(lesson_path: str) -> tuple[str, bool]:
 
 
 @cache_response(ttl=CONTENT_CACHE_TTL)
-async def load_lesson_content(part_slug: str, chapter_slug: str, lesson_slug: str) -> dict:
+async def load_lesson_content(lesson_path: str) -> dict:
     """Load lesson content with caching.
 
     Args:
-        part_slug: Part directory name (e.g., "01-General-Agents-Foundations")
-        chapter_slug: Chapter directory name (e.g., "02-general-agents")
-        lesson_slug: Lesson file name without extension (e.g., "03-my-lesson")
+        lesson_path: Full path relative to docs root
+            (e.g., "01-Part/02-chapter/03-lesson" or "01-Part/02-chapter/03-sub/04-lesson")
 
     Returns:
         Dict with content, frontmatter_dict, chapter_slug, lesson_slug
     """
-    lesson_path = f"{part_slug}/{chapter_slug}/{lesson_slug}"
+    segments = lesson_path.strip("/").split("/")
+    chapter_slug = segments[-2] if len(segments) >= 2 else ""
+    lesson_slug = segments[-1] if segments else ""
 
     content, success = await fetch_from_github(lesson_path)
 

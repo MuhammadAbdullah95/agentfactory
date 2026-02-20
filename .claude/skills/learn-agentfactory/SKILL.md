@@ -180,8 +180,10 @@ Read cache file. Display as navigable outline (parts > chapters > lessons). Sugg
 
 ### Step 5: Fetch & Teach
 
+Use the `path` field from the tree JSON for each lesson (handles sub-chapters automatically):
+
 ```bash
-python3 scripts/api.py lesson {part} {chapter} {lesson} > ~/.agentfactory/learner/cache/current-lesson.json
+python3 scripts/api.py lesson {path} > ~/.agentfactory/learner/cache/current-lesson.json
 ```
 
 Read the cached file. **Before teaching, extract and review these frontmatter fields** (they drive your entire teaching approach):
@@ -414,7 +416,7 @@ All references live in `references/`. Read them on-demand — don't load all at 
 | --------------------------------------------------------------- | ---------------------------------------------- |
 | `python3 scripts/api.py health`                                 | API health check (no auth)                     |
 | `python3 scripts/api.py tree`                                   | Book structure JSON                            |
-| `python3 scripts/api.py lesson <part> <chapter> <lesson>`       | Lesson content + frontmatter                   |
+| `python3 scripts/api.py lesson <path>`                          | Lesson content + frontmatter (path from tree)  |
 | `python3 scripts/api.py complete <chapter> <lesson> [duration]` | Mark complete, earn XP                         |
 | `python3 scripts/api.py progress`                               | Learning progress + total lessons              |
 | `python3 scripts/auth.py ensure`                                | Authenticate (cached/refresh/browser). Blocks. |
@@ -437,7 +439,7 @@ All references live in `references/`. Read them on-demand — don't load all at 
 | "Not authenticated"   | No credentials   | Run `python3 scripts/auth.py ensure` (see Step 1). Agent handles this — opens browser automatically.                                                |
 | "Token expired"       | Refresh failed   | `auth.py ensure` handles refresh automatically. If still failing, run `python3 scripts/auth.py login` for a fresh browser login.                    |
 | "Payment required"    | 402 — no credits | Tell learner, don't crash                                                                                                                           |
-| "Not found"           | Wrong slugs      | Show tree, help pick correctly                                                                                                                      |
+| "Not found"           | Wrong path       | Re-fetch tree, use the `path` field from tree JSON to fetch lesson                                                                                  |
 | "Rate limited"        | 429              | Wait 30s, retry                                                                                                                                     |
 | "Service unavailable" | 503              | Skip call, use cached data from `cache/`                                                                                                            |
 | "Connection failed"   | Network issue    | If `cache/tree.json` or `cache/current-lesson.json` exists, use it. Otherwise: tell learner, try later. Never end the session over a network error. |
