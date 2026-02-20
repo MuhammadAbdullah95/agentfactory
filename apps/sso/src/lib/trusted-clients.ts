@@ -133,10 +133,15 @@ export const TRUSTED_CLIENTS = [
     clientId: "learn-skill-cli-client",
     name: "Learn Skill CLI",
     type: "public" as const,
-    redirectUrls: [], // Device flow doesn't use redirects
+    // Localhost callbacks are intentional — CLI tool always runs locally.
+    // Do NOT use getRedirectUrls() which strips localhost in production.
+    redirectUrls: [
+      "http://localhost:9876/callback",
+      "http://127.0.0.1:9876/callback",
+    ],
     disabled: false,
     skipConsent: true,
-    metadata: { deviceFlow: true },
+    metadata: { authCodePKCE: true },
   },
 ];
 
@@ -179,6 +184,7 @@ export const CLIENT_DESCRIPTIONS = {
   "learn-skill-cli-client": {
     purpose: "CLI-based learning skill for Claude Code",
     audience: "Developers using the learn-agentfactory skill",
-    security: "Public client using RFC 8628 device flow, no client secret",
+    security:
+      "Public client using authorization code + PKCE, localhost callback, no client secret",
   },
 } as const;

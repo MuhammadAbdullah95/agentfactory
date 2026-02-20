@@ -115,48 +115,24 @@ Update the tracker as each step completes. This turns setup into visible momentu
 You drive the entire auth flow. The learner never leaves this conversation.
 
 ```bash
-# 1. Start the device flow (returns immediately with a code)
-python3 scripts/api.py auth-start
+python3 scripts/auth.py ensure
 ```
 
-This returns JSON: `{status, user_code, verification_uri, ...}`. Then:
+This single command handles everything: checks for a valid cached token, refreshes if expired, or opens the browser for a fresh login. It blocks until auth completes and prints the id_token to stdout on success (exit 0) or an error to stderr on failure (exit non-zero).
 
-```bash
-# 2. Open their browser automatically
-open "{verification_uri}"    # macOS
-# xdg-open "{verification_uri}"  # Linux
-```
+Tell the learner warmly:
 
-Show the code warmly — stay in persona:
+> I'm opening your browser to connect your account — this is a quick one-time setup (about 30 seconds). Click **Authorize** when the page loads and I'll continue automatically.
 
-> I've opened your browser to connect your account — this is a quick one-time setup (about 30 seconds).
->
-> **Enter this code when the page loads: `{user_code}`**
->
-> I'll detect when you're done automatically.
-
-**While waiting**, engage them with a micro-task to build early investment:
+**While the command blocks**, engage them with a micro-task to build early investment:
 
 > While that's connecting — quick question to help me personalize your learning:
 > **What's one thing you'd love to build with AI agents?** (A personal assistant? A business workflow? Just curious to learn?)
 
-Then poll until auth completes. **Poll silently — do NOT announce each "pending" result.** Just wait and retry quietly. Only speak to the learner when the status changes (complete/expired/denied) or when you want to chat while waiting.
+- **Exit 0**: Auth succeeded! Update the tracker and continue to Step 2.
+- **Non-zero exit**: Show the error warmly — "Looks like that didn't work. Let me try again." Re-run `auth.py ensure`.
 
-```bash
-# 3. Poll (run every {interval} seconds, typically 5s)
-sleep 5 && python3 scripts/api.py auth-poll
-```
-
-Poll returns `{"status": "pending"}`, `{"status": "complete"}`, or `{"status": "expired"}`.
-
-- **"pending"**: Wait `interval` seconds and poll again silently. Do NOT tell the user it's still pending.
-- **"complete"**: Auth succeeded! Update the tracker and continue to Step 2.
-- **"expired"**: Code expired. Run `auth-start` again for a fresh code.
-- **"denied"**: User rejected. Explain and offer to try again.
-
-**Max 12 polls (60 seconds)**, then pause and ask: "Still working on it? I can generate a fresh code if needed."
-
-After `auth-poll` returns `"complete"`, verify with `progress`:
+After auth succeeds, verify with `progress`:
 
 ```bash
 python3 scripts/api.py progress
@@ -212,12 +188,19 @@ Update session.md with current phase, lesson slugs, and active teaching mode (tu
 
 **Teach from frontmatter first** — read `references/frontmatter-guide.md` for the full field-to-behavior mapping. Apply the session arc from `references/teaching-science.md`:
 
+- **Before teaching, read `teaching_guide` from frontmatter:**
+  - `misconceptions[]` — proactively address these during explanation
+  - `key_points[]` — ensure every key point is covered
+  - `discussion_prompts[]` — use these for Socratic questioning
+  - `teaching_tips[]` — follow the lesson author's pedagogical advice
+  - `assessment_quick_check[]` — use for formative checks between concepts
 - **Warm up**: Quick retrieval from previous lesson ("What do you remember about...?")
 - **Activate**: Connect new topic to what they know, preview what they'll be able to DO
 - **Teach**: Explain in your own words, formative checks every 2-3 concepts
 - **Scaffold based on MEMORY.md**: heavy scaffold (new/struggling) → light scaffold (practiced) → no scaffold (mastered)
 - For high cognitive load: break into 2-3 chunks, verify between each (Cognitive Load Theory)
 - Adapt to MEMORY.md: examples-first learner gets scenarios; theory-first gets principles
+- **Use `differentiation` from frontmatter:** `extension_for_advanced` for fast learners, `remedial_for_struggling` for those who need more support
 
 ### Step 6: Quiz — Verify Learning
 
@@ -241,7 +224,14 @@ Don't skip this. Testing IS learning (retrieval practice strengthens memory more
 python3 scripts/api.py complete {chapter} {lesson} {duration_secs}
 ```
 
-Celebrate with context: "You earned {xp} XP! That's {total} total — {n}/{total_lessons} lessons complete."
+**Check the response**: If `completed: true` and `xp_earned > 0` — celebrate! If `completed: false` or `xp_earned: 0`:
+
+1. **Retry once** after 3 seconds — the progress server may have been cold-starting
+2. If retry also fails, **record locally** in MEMORY.md session log: `"Pending: {chapter}/{lesson} completion not synced"`
+3. Tell the learner warmly: "Your progress is saved locally — it'll sync next time. You definitely earned this!"
+4. **Never let a server hiccup steal their achievement.** The learner did the work.
+
+On success, celebrate with context: "You earned {xp} XP! That's {total} total — {n}/{total_lessons} lessons complete."
 
 Update MEMORY.md: add session log entry, progress, observations about learning style.
 
@@ -342,10 +332,10 @@ User says: "I want to learn about AI agents"
 Actions:
   1. Run health → OK. Run progress → "Not authenticated"
   2. Show setup tracker: [x] API  [ ] Auth  [ ] Profile  [ ] First lesson
-  3. Run auth-start → get user_code "ABCD-1234", open browser automatically
-  4. Show code warmly: "I've opened your browser. Enter code: ABCD-1234"
-  5. While waiting: "What's one AI agent idea you'd love to build?"
-  6. Poll auth-poll every 5s → "pending"... "pending"... "complete"!
+  3. Run `python3 scripts/auth.py ensure` — opens browser automatically
+  4. Tell learner: "I'm opening your browser — click Authorize and I'll continue."
+  5. While command blocks: "What's one AI agent idea you'd love to build?"
+  6. Command returns (exit 0) → auth complete!
   7. Update tracker: [x] API  [x] Auth  [ ] Profile  [ ] First lesson
   8. Ask name, learning preference, tutor name
   9. User says "Call me Sarah, I like examples, call yourself Professor Ada"
@@ -399,16 +389,16 @@ All references live in `references/`. Read them on-demand — don't load all at 
 
 ## Commands Reference
 
-| Command                                                         | Description                                      |
-| --------------------------------------------------------------- | ------------------------------------------------ |
-| `python3 scripts/api.py health`                                 | API health check (no auth)                       |
-| `python3 scripts/api.py tree`                                   | Book structure JSON                              |
-| `python3 scripts/api.py lesson <part> <chapter> <lesson>`       | Lesson content + frontmatter                     |
-| `python3 scripts/api.py complete <chapter> <lesson> [duration]` | Mark complete, earn XP                           |
-| `python3 scripts/api.py progress`                               | Learning progress + total lessons                |
-| `python3 scripts/api.py auth-start`                             | Start device auth — returns code, non-blocking   |
-| `python3 scripts/api.py auth-poll`                              | Poll auth status once — returns JSON status      |
-| `python3 scripts/auth.py`                                       | Manual auth fallback (blocks until browser done) |
+| Command                                                         | Description                                    |
+| --------------------------------------------------------------- | ---------------------------------------------- |
+| `python3 scripts/api.py health`                                 | API health check (no auth)                     |
+| `python3 scripts/api.py tree`                                   | Book structure JSON                            |
+| `python3 scripts/api.py lesson <part> <chapter> <lesson>`       | Lesson content + frontmatter                   |
+| `python3 scripts/api.py complete <chapter> <lesson> [duration]` | Mark complete, earn XP                         |
+| `python3 scripts/api.py progress`                               | Learning progress + total lessons              |
+| `python3 scripts/auth.py ensure`                                | Authenticate (cached/refresh/browser). Blocks. |
+| `python3 scripts/auth.py token`                                 | Print cached id_token or fail                  |
+| `python3 scripts/auth.py login`                                 | Force fresh browser login                      |
 
 ## Configuration
 
@@ -419,12 +409,12 @@ All references live in `references/`. Read them on-demand — don't load all at 
 
 ## Error Handling
 
-Token auto-refreshes on 401 (max 1 retry). All errors print to stderr.
+`auth.py ensure` handles token refresh automatically. All errors print to stderr.
 
 | Error                 | Meaning          | Response                                                                                                                                            |
 | --------------------- | ---------------- | --------------------------------------------------------------------------------------------------------------------------------------------------- |
-| "Not authenticated"   | No credentials   | Run `auth-start` + `auth-poll` flow (see Step 1). Agent handles this — no user action needed except entering the code in browser.                   |
-| "Token expired"       | Refresh failed   | Auto-refresh handles most cases. If still failing, run `auth-start` + `auth-poll` to get fresh tokens.                                              |
+| "Not authenticated"   | No credentials   | Run `python3 scripts/auth.py ensure` (see Step 1). Agent handles this — opens browser automatically.                                                |
+| "Token expired"       | Refresh failed   | `auth.py ensure` handles refresh automatically. If still failing, run `python3 scripts/auth.py login` for a fresh browser login.                    |
 | "Payment required"    | 402 — no credits | Tell learner, don't crash                                                                                                                           |
 | "Not found"           | Wrong slugs      | Show tree, help pick correctly                                                                                                                      |
 | "Rate limited"        | 429              | Wait 30s, retry                                                                                                                                     |

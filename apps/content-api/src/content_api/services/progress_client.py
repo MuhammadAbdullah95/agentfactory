@@ -10,7 +10,7 @@ from ..config import settings
 
 logger = logging.getLogger(__name__)
 
-PROGRESS_TIMEOUT = 10.0
+PROGRESS_TIMEOUT = 15.0  # Match metering timeout — cold start includes JWKS + DB init
 
 
 class ProgressClient:
