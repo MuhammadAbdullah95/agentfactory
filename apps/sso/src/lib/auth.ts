@@ -7,7 +7,7 @@ import { organization } from "better-auth/plugins/organization";
 import { jwt } from "better-auth/plugins";
 import { username } from "better-auth/plugins";
 import { haveIBeenPwned } from "better-auth/plugins";
-import { apiKey, bearer, deviceAuthorization } from "better-auth/plugins";
+import { apiKey, bearer } from "better-auth/plugins";
 import { db } from "./db";
 import * as schema from "../../auth-schema"; // Use Better Auth generated schema
 import { member } from "../../auth-schema";
@@ -713,20 +713,6 @@ export const auth = betterAuth({
         max: 20, // Key updates (admin only)
       },
 
-      // Device Authorization endpoints (RFC 8628)
-      "/device/code": {
-        window: 60,
-        max: 10, // 10 device code requests per minute per IP
-      },
-      "/device": {
-        window: 60,
-        max: 20, // 20 code verification attempts per minute per IP
-      },
-      "/device/token": {
-        window: 60,
-        max: 30, // 30 token polling requests per minute per IP
-      },
-
       // Session management - no rate limit (called frequently by all clients)
       "/get-session": false, // Disable rate limiting for session checks
       "/session": false, // Disable rate limiting for session checks
@@ -996,21 +982,9 @@ export const auth = betterAuth({
     }),
 
     // Bearer Plugin - Enables Authorization header for session tokens
-    // Required for device flow: CLI sends raw session token as Bearer header,
-    // plugin signs it on-the-fly with HMAC and converts to session cookie internally.
-    // Without this, get-session only accepts HMAC-signed cookies (which CLI can't produce).
+    // Allows services to pass raw session tokens as Bearer headers;
+    // the plugin signs on-the-fly with HMAC and converts to session cookie internally.
     bearer(),
-
-    // Device Authorization Plugin - RFC 8628 OAuth 2.0 Device Authorization Grant
-    // Enables CLI tools (learn-agentfactory skill) to authenticate via device code flow
-    // Users enter a code at /device in their browser to authorize the CLI
-    // DEPLOY: Run `pnpm db:push` on prod before deploying — device_code table must exist
-    deviceAuthorization({
-      verificationUri: `${process.env.BETTER_AUTH_URL || process.env.NEXT_PUBLIC_BETTER_AUTH_URL || "http://localhost:3001"}/device`,
-      validateClient: async (clientId: string) => {
-        return TRUSTED_CLIENT_IDS.includes(clientId);
-      },
-    }),
   ],
 
   // Database hooks - Automatically add new users to default organization

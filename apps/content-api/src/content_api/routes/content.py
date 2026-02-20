@@ -165,7 +165,7 @@ async def get_lesson(
                 auth_token=auth_token,
             )
         except Exception as e:
-            logger.error(f"[Lesson] Metering deduct failed: {e}")
+            logger.error(f"[Lesson] Metering deduct failed for reservation={reservation_id}: {e}")
 
     # Set idempotency key (1 hour TTL)
     if redis and not already_accessed:
