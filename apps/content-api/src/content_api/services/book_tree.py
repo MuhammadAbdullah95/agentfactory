@@ -1,7 +1,7 @@
 """Book tree builder using GitHub Trees API.
 
 Single API call to get all files, then builds a hierarchy of Parts > Chapters > Lessons.
-Cached in Redis with key "book_tree:v1" (24h TTL, also invalidated by admin endpoint).
+Cached in Redis with key "book_tree:v1" (no TTL, invalidated by admin endpoint / CI on git push).
 """
 
 import json
@@ -22,7 +22,6 @@ from ..schemas.content import (
 logger = logging.getLogger(__name__)
 
 CACHE_KEY = "book_tree:v1"
-CACHE_TTL = 86400  # 24 hours — auto-refresh daily, admin can still invalidate
 DOCS_PREFIX = "apps/learn-app/docs/"
 
 
@@ -140,11 +139,11 @@ async def build_book_tree() -> BookTreeResponse:
         total_chapters=total_chapters,
     )
 
-    # Cache result with 24h TTL — also invalidated by admin endpoint
+    # Cache result (no TTL — invalidated by admin endpoint / CI on git push)
     redis = get_redis()
     if redis:
         try:
-            await redis.set(CACHE_KEY, json.dumps(result.model_dump()), ex=CACHE_TTL)
+            await redis.set(CACHE_KEY, json.dumps(result.model_dump()))
             logger.info(f"[BookTree] Cached: {total_lessons} lessons, {total_chapters} chapters")
         except Exception as e:
             logger.error(f"[BookTree] Cache set failed: {e}")

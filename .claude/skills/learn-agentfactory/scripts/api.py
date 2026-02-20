@@ -318,27 +318,6 @@ def cmd_auth_poll():
         CREDENTIALS_PATH.write_text(json.dumps(tokens, indent=2))
         CREDENTIALS_PATH.chmod(0o600)
 
-        # Exchange session token for JWT via /token endpoint.
-        # Device flow returns an opaque session token; the JWT plugin's
-        # /token endpoint converts it to a signed RS256 JWT that
-        # content-api and progress-api can verify locally via JWKS.
-        access_token = tokens.get("access_token", "")
-        if access_token:
-            try:
-                jwt_req = Request(
-                    f"{sso}/api/auth/token",
-                    method="GET",
-                )
-                jwt_req.add_header("Authorization", f"Bearer {access_token}")
-                with urlopen(jwt_req, timeout=15) as jwt_resp:
-                    jwt_data = json.loads(jwt_resp.read())
-                jwt_token = jwt_data.get("token", "")
-                if jwt_token:
-                    tokens["id_token"] = jwt_token
-                    CREDENTIALS_PATH.write_text(json.dumps(tokens, indent=2))
-            except Exception:
-                pass  # JWT upgrade is best-effort; opaque token still works
-
         # Clean up pending file
         DEVICE_PENDING_PATH.unlink(missing_ok=True)
 

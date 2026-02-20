@@ -358,11 +358,12 @@ export const auth = betterAuth({
     schema,
   }),
 
+  // Disable /token endpoint when using OIDC Provider (OAuth equivalent is /oauth2/token)
   // Disable /sign-in/username - users sign in with email only, username is for profiles
   // Disable API key management endpoints - use custom admin-only endpoints instead
   // Note: /api-key/verify is NOT disabled - it's needed for M2M services (handled by custom route)
-  // Note: /token is NOT disabled — device flow CLI needs it to convert session → JWT
   disabledPaths: [
+    "/token",
     "/sign-in/username",
     "/api-key/create", // Use /api/admin/api-keys/create instead
     "/api-key/delete", // Use /api/admin/api-keys/delete instead
@@ -761,10 +762,6 @@ export const auth = betterAuth({
         // Recommended by Better Auth for production environments
         disablePrivateKeyEncryption: false, // Enable encryption (production security)
       },
-      // Prevent JWT plugin from auto-setting JWT in response headers —
-      // OIDC provider handles id_token signing independently.
-      // /token endpoint is re-enabled for device flow CLI (session → JWT conversion).
-      disableSettingJwtHeader: true,
     }),
 
     // OIDC Provider - Makes auth-server an OAuth2/OIDC provider
