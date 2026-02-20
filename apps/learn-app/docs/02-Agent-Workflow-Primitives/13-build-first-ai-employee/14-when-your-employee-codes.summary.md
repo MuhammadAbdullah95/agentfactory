@@ -15,9 +15,9 @@ sidebar_position: 14.5
 ## The Delegation Chain
 
 ```
-You -> Phone -> Telegram -> OpenClaw Gateway -> coding-agent skill
+You -> Phone -> Messaging Channel -> OpenClaw Gateway -> coding-agent skill
   -> Claude Code (background PTY) -> code changes -> results
-    -> OpenClaw -> Telegram -> Phone -> You
+    -> OpenClaw -> Messaging Channel -> Phone -> You
 ```
 
 ## Safety Mechanisms

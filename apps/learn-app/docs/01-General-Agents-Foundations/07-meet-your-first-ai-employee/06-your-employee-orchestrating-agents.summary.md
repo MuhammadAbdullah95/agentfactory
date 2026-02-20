@@ -18,7 +18,7 @@ sidebar_position: 6.5
 ## The Delegation Chain
 
 ```
-You (Telegram) → Employee (OpenClaw) → Claude Code (in tmux) → Code/Files
+You (messaging channel) → Employee (OpenClaw) → Claude Code (in tmux) → Code/Files
                  ↑ reports status        ↑ you can attach and watch
 ```
 

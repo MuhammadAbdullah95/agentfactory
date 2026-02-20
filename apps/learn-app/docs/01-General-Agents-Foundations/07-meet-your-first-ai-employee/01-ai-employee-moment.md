@@ -131,7 +131,7 @@ This is the mental model you will carry through the rest of this chapter. Everyt
 | **Schedule**  | Only works when you are actively chatting | Works while you sleep, reports back when done               |
 | **Interface** | A chat window you must open               | Your existing messaging app (WhatsApp, Telegram, Slack)     |
 
-Consider the difference concretely. You ask a chatbot: "What is on my calendar tomorrow?" It cannot answer -- it has no access to your calendar. You ask an AI Employee: "Clear my schedule for Friday afternoon and reschedule any conflicts to next week." It does it. Then it messages you on Telegram at 9 AM Friday: "Done. Moved three meetings. Dr. Kim's appointment could not be moved -- her office is closed next week. Want me to call and find an alternative?"
+Consider the difference concretely. You ask a chatbot: "What is on my calendar tomorrow?" It cannot answer -- it has no access to your calendar. You ask an AI Employee: "Clear my schedule for Friday afternoon and reschedule any conflicts to next week." It does it. Then it messages you at 9 AM Friday: "Done. Moved three meetings. Dr. Kim's appointment could not be moved -- her office is closed next week. Want me to call and find an alternative?"
 
 One interaction, all six dimensions.
 

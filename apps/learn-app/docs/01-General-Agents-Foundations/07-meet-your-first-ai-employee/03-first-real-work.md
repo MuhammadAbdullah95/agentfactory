@@ -105,12 +105,12 @@ teaching_guide:
 
 # Your First Real Work
 
-In Lesson 2, you installed OpenClaw, connected Telegram, and confirmed your AI Employee responds. That proved the wiring works. Now make it earn its keep.
+In Lesson 2, you installed OpenClaw, connected your messaging channel, and confirmed your AI Employee responds. That proved the wiring works. Now make it earn its keep.
 
 Over the next 30 minutes, you will build artifacts you keep, iterate on output you disagree with, and configure a daily workflow that runs while you sleep. Four tasks. You walk away with real files on your machine and a working morning briefing on your phone.
 
-:::tip Using a Different Channel?
-If you set up Discord, Slack, or WhatsApp instead of Telegram, use that channel for these tasks. You can also use the Control UI at `http://127.0.0.1:18789/` or `openclaw tui` in your terminal. The tasks work identically across all channels.
+:::tip Control UI and Terminal
+You can also use the Control UI at `http://127.0.0.1:18789/` or `openclaw tui` in your terminal. The tasks work identically across all channels.
 :::
 
 ---
@@ -194,7 +194,7 @@ This is the task that turns a demo into a daily tool.
 I work as [YOUR ROLE] and my priorities this quarter are [2-3 PRIORITIES].
 Design a daily morning briefing that runs at 8 AM. It should check
 my recent files, summarize what I worked on yesterday, and suggest
-priorities for today. Send it to me on [Telegram/your channel].
+priorities for today. Send it to me on your messaging channel.
 ```
 
 **Step 2 -- Review the proposal (3 minutes):**

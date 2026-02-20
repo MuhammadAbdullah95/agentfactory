@@ -81,7 +81,7 @@ Chapter 6 synthesizes learnings from Chapters 1-5 into actionable problem-solvin
 
 ### Chapter 7: Meet Your First AI Employee
 
-Before you build domain skills, experience what you're building toward. Chapter 7 introduces OpenClaw — the fastest-growing AI Employee project with 209,000+ GitHub stars. You'll install it, delegate real tasks via Telegram, explore its architecture (six universal agent patterns), and understand the security implications. This isn't a demo — it's a working system that validates everything you learned in Chapters 1-6.
+Before you build domain skills, experience what you're building toward. Chapter 7 introduces OpenClaw — the fastest-growing AI Employee project with 209,000+ GitHub stars. You'll install it, delegate real tasks via WhatsApp or Telegram, explore its architecture (six universal agent patterns), and understand the security implications. This isn't a demo — it's a working system that validates everything you learned in Chapters 1-6.
 
 ## The Agent Factory Paradigm
 

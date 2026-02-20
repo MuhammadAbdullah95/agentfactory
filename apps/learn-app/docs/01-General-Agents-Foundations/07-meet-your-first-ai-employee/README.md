@@ -11,6 +11,7 @@ keywords:
     ai employee,
     openclaw,
     nanoclaw,
+    whatsapp ai agent,
     telegram bot,
     agent patterns,
     skills,
@@ -27,7 +28,7 @@ keywords:
 
 By February 2026, OpenClaw had crossed 209,000 GitHub stars — the fastest-growing repository in history. It proved something the industry had been debating: **AI Employees are real, they work, and people want them.**
 
-This chapter is your test drive. You will set up a working AI Employee on Telegram for free, give it real work, understand how it works under the hood, create a custom skill, learn the security realities, watch it delegate coding tasks to Claude Code, connect it to your actual Google Workspace. We will also assess what OpenClaw proved and what remains unsolved, and meet NanoClaw a different architecture that addresses the security problems connecting to the Agent Factory blueprint for building AI Employees for every profession. Everything you learn here transfers to any agent framework.
+This chapter is your test drive. You will set up a working AI Employee on WhatsApp or Telegram for free, give it real work, understand how it works under the hood, create a custom skill, learn the security realities, watch it delegate coding tasks to Claude Code, connect it to your actual Google Workspace. We will also assess what OpenClaw proved and what remains unsolved, and meet NanoClaw a different architecture that addresses the security problems connecting to the Agent Factory blueprint for building AI Employees for every profession. Everything you learn here transfers to any agent framework.
 
 ## 📚 Teaching Aid
 
@@ -35,7 +36,7 @@ This chapter is your test drive. You will set up a working AI Employee on Telegr
 
 By the end of this chapter, you'll be able to:
 
-- Set up a working AI Employee on Telegram for free
+- Set up a working AI Employee on WhatsApp or Telegram for free
 - Delegate real tasks (email drafts, research, file organization) and understand the agent loop
 - Explain the 6 universal agent patterns that appear in every agent framework
 - Create custom skills and evaluate security risks of giving AI real autonomy

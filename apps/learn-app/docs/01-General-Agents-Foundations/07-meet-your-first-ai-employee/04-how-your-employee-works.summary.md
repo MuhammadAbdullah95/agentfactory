@@ -9,7 +9,7 @@ sidebar_position: 4.5
 ## Key Concepts
 
 - **Gateway**: Central daemon that routes all messages, manages sessions, authenticates users, loads skills, and coordinates the queue.
-- **Channels**: I/O adapters (Telegram, WhatsApp, Discord, 30+) that normalize platform-specific messages into a common format.
+- **Channels**: I/O adapters (WhatsApp, Telegram, Discord, 30+) that normalize platform-specific messages into a common format.
 - **Sessions**: Isolated per-conversation state stored as append-only JSONL files with auto-compaction for long conversations.
 - **Agent Loop**: The 6-phase cycle (ingestion, access control, context assembly, model invocation, tool execution, response delivery) that processes every request.
 - **Lane Queue**: FIFO concurrency control serializing runs per-session (1), capping main parallelism (4) and subagent parallelism (8).

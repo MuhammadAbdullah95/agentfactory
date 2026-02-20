@@ -250,6 +250,8 @@ const config: Config = {
             require("remark-directive"),
             // OS-specific tabs: :::os-tabs with ::windows ::macos ::linux
             require("../../libs/docusaurus/remark-os-tabs"),
+            // Messaging channel tabs: :::channel-tabs with ::whatsapp ::telegram
+            require("../../libs/docusaurus/remark-channel-tabs"),
             // Auto-transform Python code blocks into interactive components
             [
               require("../../libs/docusaurus/remark-interactive-python"),

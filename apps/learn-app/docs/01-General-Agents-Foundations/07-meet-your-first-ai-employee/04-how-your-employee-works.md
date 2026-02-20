@@ -90,7 +90,7 @@ teaching_guide:
     - "Why does OpenClaw serialize agent runs per-session but allow parallelism across sessions? What real-world problem does this solve?"
     - "The Universal Pattern Map shows Claude Code and OpenClaw share the same SKILL.md format. Why might a standard skill format emerge across competing frameworks?"
   teaching_tips:
-    - "Walk through the agent loop diagram with a live trace: type a real message in Telegram and narrate each phase as it happens — ingestion, access control, context assembly, model invocation, tool execution, response delivery"
+    - "Walk through the agent loop diagram with a live trace: type a real message in your messaging channel and narrate each phase as it happens — ingestion, access control, context assembly, model invocation, tool execution, response delivery"
     - "The Universal Pattern Map is a whiteboard moment — draw the 7 columns and have students fill in what they remember before revealing the table"
     - "Spend extra time on the memory section — demo MEMORY.md and daily logs by opening the actual files at ~/.openclaw/workspace/ so students see the raw data"
     - "Use the 'What Breaks Without It' table as a pop quiz: describe a failure scenario and have students diagnose which missing pattern caused it"
@@ -143,7 +143,7 @@ Here are four representative channels:
 
 OpenClaw supports 30+ channels including Signal, iMessage, Matrix, and Microsoft Teams. The number does not matter. What matters is the design principle.
 
-When a message arrives from Telegram, the adapter strips away Telegram-specific formatting, extracts the text, user identity, and conversation context, then passes a normalized message to the Gateway. When a response comes back, the adapter translates it into Telegram's format -- respecting message length limits, markdown rendering, and media handling. The agent never knows which channel the message came from. It processes a clean, channel-agnostic payload.
+When a message arrives from WhatsApp or Telegram, the channel adapter strips away platform-specific formatting, extracts the text, user identity, and conversation context, then passes a normalized message to the Gateway. When a response comes back, the adapter translates it into the channel's native format -- respecting message length limits, markdown rendering, and media handling. The agent never knows which channel the message came from. It processes a clean, channel-agnostic payload.
 
 Adding a new channel means writing one adapter. No agent logic changes. No skill modifications. No model configuration updates.
 
@@ -204,9 +204,9 @@ Message In
 Message Out
 ```
 
-Let's trace a concrete example. You message your employee on Telegram: "Summarize the key trends in AI agents for 2026."
+Let's trace a concrete example. You message your employee through your messaging channel: "Summarize the key trends in AI agents for 2026."
 
-**Phase 1 -- Ingestion:** The Telegram adapter receives your message, normalizes it into OpenClaw's internal format, and hands it to the Gateway.
+**Phase 1 -- Ingestion:** Your channel's adapter receives your message, normalizes it into OpenClaw's internal format, and hands it to the Gateway.
 
 **Phase 2 -- Access Control:** The Gateway checks your pairing status and permissions; unpaired users get a pairing code instead of a response.
 
@@ -230,7 +230,7 @@ These files live in your workspace directory (`~/.openclaw/workspace/`). Togethe
 
 **Phase 5 -- Tool Execution:** If the model needs tools (web search, file reads, code execution), it calls them and feeds results back, looping until satisfied.
 
-**Phase 6 -- Response Delivery:** The final response flows back through the Gateway to the Telegram adapter and onto your phone.
+**Phase 6 -- Response Delivery:** The final response flows back through the Gateway to the channel adapter and onto your device.
 
 **The pattern: Autonomous Execution Loop.**
 
@@ -248,7 +248,7 @@ OpenClaw solves this with a **lane-aware FIFO queue**. Every agent run gets seri
 
 Here is how it works in practice:
 
-1. Your Telegram message arrives and gets placed in the queue for your session lane.
+1. Your message arrives and gets placed in the queue for your session lane.
 2. If no other run is active for your session, it starts immediately.
 3. If a previous run is still active, your message waits until it finishes.
 4. Messages from different sessions can run in parallel (up to the main lane cap of 4).
@@ -259,7 +259,7 @@ The queue supports multiple modes for handling bursts of messages:
 - **Steer:** Inject the new message into the current run (cancels pending tool calls at the next boundary).
 - **Followup:** Queue for the next agent turn after the current run ends.
 
-Typing indicators fire immediately when your message enters the queue, so you see the "thinking..." indicator on Telegram even while waiting for the queue to drain.
+Typing indicators fire immediately when your message enters the queue, so you see the "thinking..." indicator in your messaging app even while waiting for the queue to drain.
 
 **The pattern: Concurrency Control.** Skip concurrency control and two tasks writing to the same file will corrupt it.
 

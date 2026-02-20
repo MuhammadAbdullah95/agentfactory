@@ -32,7 +32,7 @@ skills:
     category: "Applied"
     bloom_level: "Apply"
     digcomp_area: "Computational Thinking"
-    measurable_at_this_level: "Student can delegate Gmail, Calendar, and Drive tasks to their AI Employee and receive results via Telegram"
+    measurable_at_this_level: "Student can delegate Gmail, Calendar, and Drive tasks to their AI Employee and receive results through their messaging channel"
 
   - name: "Security Risk Assessment (Applied)"
     proficiency_level: "B1"
@@ -50,7 +50,7 @@ learning_objectives:
   - objective: "Delegate real Gmail, Calendar, and Drive tasks to your AI Employee"
     proficiency_level: "A2"
     bloom_level: "Apply"
-    assessment_method: "Student sends 3 Telegram messages that trigger real Google Workspace operations and receives useful results"
+    assessment_method: "Student sends 3 messages through their messaging channel that trigger real Google Workspace operations and receives useful results"
 
   - objective: "Evaluate the security implications of granting OAuth access to an AI agent"
     proficiency_level: "B1"
@@ -77,7 +77,7 @@ teaching_guide:
   misconceptions:
     - "Students think OAuth setup is a one-time formality — emphasize that the scopes they granted determine what their agent can do with their real data, including sending emails as them"
     - "Students assume read-only access is safe — even read-only Gmail access means the agent (and any malicious skill) can see every email, including password resets and financial statements"
-    - "Students conflate the Google Cloud Console complexity with the actual integration — the OAuth setup is a one-time hurdle; daily use is just Telegram messages"
+    - "Students conflate the Google Cloud Console complexity with the actual integration — the OAuth setup is a one-time hurdle; daily use is just messages through your app"
     - "Students think they need all six gog services from the start — least privilege means starting with only what you need and adding incrementally"
   discussion_prompts:
     - "Now that your agent can read your email, how does your threat model change? What is the worst realistic thing a malicious skill could do with Gmail access?"
@@ -122,7 +122,7 @@ Your agent accesses all six through subcommands: `gog gmail`, `gog calendar`, `g
 ## Setting Up gog
 
 :::tip Google Cloud Console Feeling Overwhelming?
-The OAuth credential setup below is a one-time process. If you get stuck on any step, ask your AI Employee (via Telegram or TUI): "Help me set up Google Cloud OAuth credentials for a desktop app called gog." It can walk you through each screen. You can also skip this lesson entirely and return when you need Google Workspace access -- Lessons 1-6 work without it.
+The OAuth credential setup below is a one-time process. If you get stuck on any step, ask your AI Employee (through your messaging channel or TUI): "Help me set up Google Cloud OAuth credentials for a desktop app called gog." It can walk you through each screen. You can also skip this lesson entirely and return when you need Google Workspace access -- Lessons 1-6 work without it.
 :::
 
 The setup has three parts: install the CLI, register your Google OAuth credentials, and authorize your account.
@@ -281,7 +281,7 @@ If you see your labels, the connection works. Your agent can now access your Goo
 
 ## Real Employee Tasks
 
-Open your Telegram chat with your AI Employee. These tasks use your actual data -- not practice exercises.
+Open your chat with your AI Employee. These tasks use your actual data -- not practice exercises.
 
 ### Task 1: Email Summary (Gmail)
 
@@ -303,7 +303,7 @@ This is the moment. Not a demo email. Not sample data. Your actual unread messag
 | **Parse**   | Agent understands "top 5 unread" means Gmail search with `is:unread` filter, limit 5 |
 | **Plan**    | Search inbox, read each thread, extract sender/subject/intent, format as list        |
 | **Execute** | Calls `gog gmail search`, reads results, synthesizes summaries                       |
-| **Report**  | Delivers formatted summary to Telegram                                               |
+| **Report**  | Delivers formatted summary to your messaging channel                                 |
 
 ### Task 2: Calendar Check (Calendar)
 
@@ -385,7 +385,7 @@ This is why Lesson 5 came before this lesson. The security checklist you learned
 
 ### Prompt 1: Design a Daily Briefing
 
-**Setup:** Use your AI Employee on Telegram or Claude Code.
+**Setup:** Use your AI Employee through your messaging channel or Claude Code.
 
 ```
 Design a daily morning briefing for my AI Employee that combines
@@ -403,7 +403,7 @@ My role: [YOUR ROLE]
 
 ```
 Design the architecture for a Gmail push notification pipeline:
-detect important emails, summarize them, send to my Telegram.
+detect important emails, summarize them, send to my messaging channel.
 I know it involves Google Pub/Sub. Give me component architecture
 and data flow with an ASCII diagram, not a full implementation.
 ```

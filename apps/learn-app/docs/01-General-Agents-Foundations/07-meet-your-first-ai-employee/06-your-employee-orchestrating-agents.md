@@ -36,7 +36,7 @@ learning_objectives:
   - objective: "Set up real delegation from an AI Employee to Claude Code using tmux sessions"
     proficiency_level: "B1"
     bloom_level: "Apply"
-    assessment_method: "Student sends a coding task via Telegram, then runs tmux ls and tmux attach to confirm Claude Code is running in a live session"
+    assessment_method: "Student sends a coding task through their messaging channel, then runs tmux ls and tmux attach to confirm Claude Code is running in a live session"
 
   - objective: "Verify that an AI agent performed work rather than hallucinated it"
     proficiency_level: "B1"
@@ -82,7 +82,7 @@ teaching_guide:
   teaching_tips:
     - "Have students run tmux ls BEFORE telling them whether delegation worked — the discovery moment when they see a real session (or an empty list) is the most memorable part of this lesson"
     - "If a student's employee hallucinates delegation, do NOT fix it for them — have them send the correction message from the lesson and experience the recovery flow"
-    - "Demo Exercise 3 live: show the research phase on Telegram, then the approval step, then switch to terminal and attach to the tmux session — the visual transition from messaging to terminal makes the delegation chain tangible"
+    - "Demo Exercise 3 live: show the research phase in the messaging channel, then the approval step, then switch to terminal and attach to the tmux session — the visual transition from messaging to terminal makes the delegation chain tangible"
     - "Draw the three-layer delegation table on the whiteboard and have students fill in who does what — this reinforces the Agent Factory thesis without requiring re-reading Chapter 1"
   assessment_quick_check:
     - "Ask students: How do you verify your employee actually ran Claude Code? (tmux ls and tmux attach)"
@@ -116,14 +116,14 @@ The fix: tell your employee clearly that coding tasks go to Claude Code, and tha
 
 ### Step 1: Make Sure tmux Is Ready
 
-Send this to your AI Employee via Telegram:
+Send this to your AI Employee through your messaging channel:
 
 ```
 Check if tmux is installed on this machine. If not, install it.
 Confirm with the version number.
 ```
 
-tmux lets your employee run terminal sessions in the background. Your employee will create tmux sessions, run Claude Code inside them, and report back to you on Telegram. You can attach to these sessions from your own terminal and watch the work happen live.
+tmux lets your employee run terminal sessions in the background. Your employee will create tmux sessions, run Claude Code inside them, and report back to you in your messaging channel. You can attach to these sessions from your own terminal and watch the work happen live.
 
 ### Step 2: Set the Delegation Rule
 
@@ -241,13 +241,13 @@ You built a real delegation chain:
 
 | Layer                        | Who         | What They Did                                              |
 | ---------------------------- | ----------- | ---------------------------------------------------------- |
-| **You**                      | Manager     | Gave high-level instructions via Telegram                  |
+| **You**                      | Manager     | Gave high-level instructions through your messaging channel                  |
 | **Your Employee** (OpenClaw) | Coordinator | Spun up tmux sessions, launched Claude Code, reported back |
 | **Claude Code**              | Coder       | Wrote actual code in a verifiable tmux session             |
 
 This is the **two-tier delegation pattern** from Chapter 1 -- and you have seen it work. Not a textbook claim. You ran `tmux ls`, you attached to the session, you watched Claude Code writing code.
 
-The key insight: **you managed, your employee coordinated**. You set one rule -- "use Claude Code for coding tasks" -- and your employee handled the mechanics: creating sessions, launching the right tool, reporting session names. You never typed a single tmux command into Telegram. Your job was deciding what to build and verifying the work was real.
+The key insight: **you managed, your employee coordinated**. You set one rule -- "use Claude Code for coding tasks" -- and your employee handled the mechanics: creating sessions, launching the right tool, reporting session names. You never typed a single tmux command into your messaging app. Your job was deciding what to build and verifying the work was real.
 
 Compare this to Chapter 3, where you used Claude Code directly. You typed every instruction. You watched every output. Now your employee handles the coordination. You say what you want built; it manages the rest.
 

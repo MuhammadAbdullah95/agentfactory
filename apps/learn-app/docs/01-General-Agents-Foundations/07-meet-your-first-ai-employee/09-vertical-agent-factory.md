@@ -112,7 +112,7 @@ teaching_guide:
 
 # NanoClaw and the Agent Factory
 
-You have spent eight lessons with one AI Employee. You set it up on Telegram, gave it real work, watched it delegate to a coding agent, connected it to your actual Google Workspace, and assessed what works and what remains unsolved.
+You have spent eight lessons with one AI Employee. You set it up on your messaging channel, gave it real work, watched it delegate to a coding agent, connected it to your actual Google Workspace, and assessed what works and what remains unsolved.
 
 Through all of that, one truth kept reinforcing itself: the patterns work. Gateway, channels, memory, skills, scheduling, delegation -- these are universal. OpenClaw proved it at 209,000-star scale, and the ecosystem responded. Developers who saw the same patterns asked: what if I optimized for different constraints?
 
