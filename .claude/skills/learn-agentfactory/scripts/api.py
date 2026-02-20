@@ -2,7 +2,7 @@
 """Content API client for learn-agentfactory skill.
 
 Single entry point for all Content API operations.
-Handles token loading, auth headers, auto-refresh on 401, and error responses.
+Handles token loading (with expiry check), auth headers, and error responses.
 
 Uses only Python stdlib — no pip install required.
 
@@ -16,8 +16,8 @@ Usage:
 
 import json
 import os
-import stat
 import sys
+import time
 from pathlib import Path
 from urllib.error import HTTPError
 from urllib.parse import urlencode
@@ -30,16 +30,15 @@ CLIENT_ID = "learn-skill-cli-client"
 
 
 def _load_token() -> str:
-    """Load auth token from credentials file.
+    """Load auth token from credentials file, checking expiry first.
 
-    Prefers id_token (JWT) over access_token (opaque) because downstream
-    services like progress-api validate JWTs locally via JWKS, whereas
-    opaque tokens require a round-trip to SSO's userinfo endpoint.
+    Prefers id_token (JWT) over access_token (opaque session token).
+    Removes expired credentials automatically so the agent re-authenticates.
     """
     if not CREDENTIALS_PATH.exists():
         print(
             "ERROR: Not authenticated.\n"
-            "Run: python3 scripts/auth.py",
+            "Run: python3 scripts/api.py auth-start",
             file=sys.stderr,
         )
         sys.exit(1)
@@ -50,12 +49,26 @@ def _load_token() -> str:
         print(f"ERROR: Cannot read credentials: {e}", file=sys.stderr)
         sys.exit(1)
 
+    # Check expiry: authenticated_at + expires_in < now
+    authenticated_at = creds.get("authenticated_at", 0)
+    expires_in = creds.get("expires_in", 0)
+    if authenticated_at and expires_in:
+        if time.time() > authenticated_at + expires_in:
+            # Clean up expired credentials
+            CREDENTIALS_PATH.unlink(missing_ok=True)
+            print(
+                "ERROR: Token expired.\n"
+                "Run: python3 scripts/api.py auth-start",
+                file=sys.stderr,
+            )
+            sys.exit(1)
+
     # Prefer id_token (JWT) — validates locally at both content-api and progress-api
     token = creds.get("id_token") or creds.get("access_token")
     if not token:
         print(
             "ERROR: No token in credentials.\n"
-            "Run: python3 scripts/auth.py",
+            "Run: python3 scripts/api.py auth-start",
             file=sys.stderr,
         )
         sys.exit(1)
@@ -71,115 +84,47 @@ def _sso_url() -> str:
     return os.environ.get("PANAVERSITY_SSO_URL", DEFAULT_SSO_URL).rstrip("/")
 
 
-def _try_refresh() -> str | None:
-    """Attempt to refresh the access token using the stored refresh_token.
-
-    Returns the new access_token on success, None on failure.
-    """
-    if not CREDENTIALS_PATH.exists():
-        return None
-
-    try:
-        creds = json.loads(CREDENTIALS_PATH.read_text())
-    except (json.JSONDecodeError, OSError):
-        return None
-
-    refresh_token = creds.get("refresh_token")
-    if not refresh_token:
-        return None
-
-    body = urlencode({
-        "grant_type": "refresh_token",
-        "refresh_token": refresh_token,
-        "client_id": CLIENT_ID,
-    }).encode()
-
-    req = Request(
-        f"{_sso_url()}/api/auth/oauth2/token",
-        data=body,
-        method="POST",
-    )
-    req.add_header("Content-Type", "application/x-www-form-urlencoded")
-
-    try:
-        with urlopen(req, timeout=15) as resp:
-            new_tokens = json.loads(resp.read())
-    except Exception:
-        return None
-
-    new_access = new_tokens.get("access_token")
-    if not new_access:
-        return None
-
-    # Save updated tokens
-    creds["access_token"] = new_access
-    if new_tokens.get("refresh_token"):
-        creds["refresh_token"] = new_tokens["refresh_token"]
-    if new_tokens.get("id_token"):
-        creds["id_token"] = new_tokens["id_token"]
-
-    try:
-        CREDENTIALS_PATH.write_text(json.dumps(creds, indent=2))
-        CREDENTIALS_PATH.chmod(stat.S_IRUSR | stat.S_IWUSR)  # 600
-    except OSError:
-        pass  # token works even if save fails
-
-    return new_access
-
-
 def _api_get(path: str, params: dict | None = None) -> dict:
-    """Authenticated GET to Content API. Auto-refreshes token on 401."""
+    """Authenticated GET to Content API."""
     url = f"{_base_url()}{path}"
     if params:
         url += "?" + urlencode(params)
 
     token = _load_token()
-    for attempt in range(2):
-        req = Request(url)
-        req.add_header("Authorization", f"Bearer {token}")
-        req.add_header("Accept", "application/json")
+    req = Request(url)
+    req.add_header("Authorization", f"Bearer {token}")
+    req.add_header("Accept", "application/json")
 
-        try:
-            with urlopen(req, timeout=30) as resp:
-                return json.loads(resp.read())
-        except HTTPError as e:
-            if e.code == 401 and attempt == 0:
-                new_token = _try_refresh()
-                if new_token:
-                    token = new_token
-                    continue  # retry with refreshed token
-            _handle_http_error(e)
-        except OSError as e:
-            print(f"ERROR: Connection failed: {e}", file=sys.stderr)
-            sys.exit(1)
+    try:
+        with urlopen(req, timeout=30) as resp:
+            return json.loads(resp.read())
+    except HTTPError as e:
+        _handle_http_error(e)
+    except OSError as e:
+        print(f"ERROR: Connection failed: {e}", file=sys.stderr)
+        sys.exit(1)
     return {}  # unreachable
 
 
 def _api_post(path: str, data: dict) -> dict:
-    """Authenticated POST to Content API. Auto-refreshes token on 401."""
+    """Authenticated POST to Content API."""
     url = f"{_base_url()}{path}"
     body = json.dumps(data).encode()
 
     token = _load_token()
-    for attempt in range(2):
-        req = Request(url, data=body, method="POST")
-        req.add_header("Authorization", f"Bearer {token}")
-        req.add_header("Content-Type", "application/json")
-        req.add_header("Accept", "application/json")
+    req = Request(url, data=body, method="POST")
+    req.add_header("Authorization", f"Bearer {token}")
+    req.add_header("Content-Type", "application/json")
+    req.add_header("Accept", "application/json")
 
-        try:
-            with urlopen(req, timeout=30) as resp:
-                return json.loads(resp.read())
-        except HTTPError as e:
-            if e.code == 401 and attempt == 0:
-                new_token = _try_refresh()
-                if new_token:
-                    token = new_token
-                    continue  # retry with refreshed token
-            _handle_http_error(e)
-        except OSError as e:
-            print(f"ERROR: Connection failed: {e}", file=sys.stderr)
-            sys.exit(1)
+    try:
+        with urlopen(req, timeout=30) as resp:
+            return json.loads(resp.read())
+    except HTTPError as e:
+        _handle_http_error(e)
+    except OSError as e:
+        print(f"ERROR: Connection failed: {e}", file=sys.stderr)
+        sys.exit(1)
     return {}  # unreachable
 
 
@@ -367,7 +312,8 @@ def cmd_auth_poll():
         with urlopen(req, timeout=15) as resp:
             tokens = json.loads(resp.read())
 
-        # Success — save credentials
+        # Success — save credentials with timestamp for expiry checking
+        tokens["authenticated_at"] = int(time.time())
         CREDENTIALS_PATH.parent.mkdir(parents=True, exist_ok=True)
         CREDENTIALS_PATH.write_text(json.dumps(tokens, indent=2))
         CREDENTIALS_PATH.chmod(0o600)

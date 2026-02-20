@@ -76,7 +76,8 @@ def main():
             poll_resp = urlopen(poll_req)
             tokens = json.loads(poll_resp.read())
 
-            # Step 4: Save credentials
+            # Step 4: Save credentials with timestamp for expiry checking
+            tokens["authenticated_at"] = int(time.time())
             CREDENTIALS_PATH.parent.mkdir(parents=True, exist_ok=True)
             CREDENTIALS_PATH.write_text(json.dumps(tokens, indent=2))
             CREDENTIALS_PATH.chmod(0o600)

@@ -7,7 +7,7 @@ import { organization } from "better-auth/plugins/organization";
 import { jwt } from "better-auth/plugins";
 import { username } from "better-auth/plugins";
 import { haveIBeenPwned } from "better-auth/plugins";
-import { apiKey, deviceAuthorization } from "better-auth/plugins";
+import { apiKey, bearer, deviceAuthorization } from "better-auth/plugins";
 import { db } from "./db";
 import * as schema from "../../auth-schema"; // Use Better Auth generated schema
 import { member } from "../../auth-schema";
@@ -994,6 +994,12 @@ export const auth = betterAuth({
         maxExpiresIn: 365, // Maximum 1 year
       },
     }),
+
+    // Bearer Plugin - Enables Authorization header for session tokens
+    // Required for device flow: CLI sends raw session token as Bearer header,
+    // plugin signs it on-the-fly with HMAC and converts to session cookie internally.
+    // Without this, get-session only accepts HMAC-signed cookies (which CLI can't produce).
+    bearer(),
 
     // Device Authorization Plugin - RFC 8628 OAuth 2.0 Device Authorization Grant
     // Enables CLI tools (learn-agentfactory skill) to authenticate via device code flow

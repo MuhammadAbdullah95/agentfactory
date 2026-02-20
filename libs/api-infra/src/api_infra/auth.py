@@ -1,8 +1,8 @@
 """JWT/JWKS authentication against SSO.
 
 Supports two token types:
-1. JWT (id_token) - Verified locally using JWKS public keys
-2. Opaque (access_token) - Verified via SSO userinfo endpoint
+1. JWT (id_token from web auth code flow) - Verified locally using JWKS public keys
+2. Opaque (session token from device flow) - Verified via SSO get-session + Bearer plugin
 
 Dev mode bypass available for local development.
 """
@@ -138,14 +138,11 @@ async def verify_jwt(token: str) -> dict[str, Any]:
 
 
 async def verify_opaque_token(token: str) -> dict[str, Any]:
-    """Verify opaque token via SSO — tries session first, then OAuth2 userinfo.
+    """Verify opaque session token via SSO get-session + Bearer plugin.
 
-    Better Auth issues two kinds of opaque tokens:
-    1. Session tokens (from device flow) → validated via /get-session with cookie
-    2. OAuth2 access tokens (from authorization code flow) → validated via /userinfo
-
-    Session validation is tried first because device flow is the primary auth
-    path for CLI/skill users, and it avoids a wasted 401 round-trip to userinfo.
+    Device flow returns raw session tokens. The SSO Bearer plugin signs
+    the token on-the-fly with HMAC and converts it to a session cookie
+    internally, so get-session can validate it.
     """
     settings = get_settings()
     if not settings.sso_url:
@@ -155,65 +152,55 @@ async def verify_opaque_token(token: str) -> dict[str, Any]:
         )
 
     token_preview = f"{token[:10]}...{token[-10:]}" if len(token) > 25 else "[short]"
+    session_url = f"{settings.sso_url}/api/auth/get-session"
+    logger.info("[AUTH] Validating session token: %s", token_preview)
 
     try:
         async with httpx.AsyncClient(timeout=10.0) as client:
-            # Strategy 1: Session validation (for device flow session tokens)
-            # Device flow returns session tokens stored in the session table.
-            # This is the fast path for CLI/skill users.
-            cookie_prefix = getattr(settings, "sso_cookie_prefix", "better-auth")
-            cookie_name = f"{cookie_prefix}.session_token"
-            session_url = f"{settings.sso_url}/api/auth/get-session"
-            logger.info("[AUTH] Trying session validation for token: %s", token_preview)
-
-            session_resp = await client.get(
+            resp = await client.get(
                 session_url,
-                cookies={cookie_name: token},
-            )
-
-            if session_resp.status_code == 200:
-                data = session_resp.json()
-                user = data.get("user", {})
-                session = data.get("session", {})
-                if user.get("id"):
-                    logger.info(
-                        "[AUTH] Session token verified - id: %s, email: %s",
-                        user.get("id"),
-                        user.get("email"),
-                    )
-                    return {
-                        "sub": user.get("id", ""),
-                        "email": user.get("email", ""),
-                        "name": user.get("name", ""),
-                        "role": user.get("role", "user"),
-                        "organization_id": session.get("activeOrganizationId"),
-                    }
-
-            # Strategy 2: OAuth2 userinfo (for web app OAuth2 access tokens)
-            userinfo_url = f"{settings.sso_url}/api/auth/oauth2/userinfo"
-            logger.info("[AUTH] Session validation failed, trying userinfo")
-
-            response = await client.get(
-                userinfo_url,
                 headers={"Authorization": f"Bearer {token}"},
             )
 
-            if response.status_code == 200:
-                data = response.json()
-                logger.info(
-                    "[AUTH] Opaque token verified via userinfo - sub: %s, email: %s",
-                    data.get("sub"),
-                    data.get("email"),
-                )
-                return data
-
-            # Both strategies failed
-            logger.warning("[AUTH] All token validation strategies failed for: %s", token_preview)
+        if resp.status_code != 200:
+            logger.warning("[AUTH] get-session returned %d for: %s", resp.status_code, token_preview)
             raise HTTPException(
                 status_code=status.HTTP_401_UNAUTHORIZED,
                 detail="Token invalid or expired",
                 headers={"WWW-Authenticate": "Bearer"},
             )
+
+        data = resp.json()
+        if not isinstance(data, dict):
+            logger.warning("[AUTH] get-session returned non-dict: %s", type(data))
+            raise HTTPException(
+                status_code=status.HTTP_401_UNAUTHORIZED,
+                detail="Token invalid or expired",
+                headers={"WWW-Authenticate": "Bearer"},
+            )
+
+        user = data.get("user", {})
+        session = data.get("session", {})
+        if not user.get("id"):
+            logger.warning("[AUTH] get-session returned no user for: %s", token_preview)
+            raise HTTPException(
+                status_code=status.HTTP_401_UNAUTHORIZED,
+                detail="Token invalid or expired",
+                headers={"WWW-Authenticate": "Bearer"},
+            )
+
+        logger.info(
+            "[AUTH] Session token verified - id: %s, email: %s",
+            user.get("id"),
+            user.get("email"),
+        )
+        return {
+            "sub": user.get("id", ""),
+            "email": user.get("email", ""),
+            "name": user.get("name", ""),
+            "role": user.get("role", "user"),
+            "organization_id": session.get("activeOrganizationId"),
+        }
 
     except httpx.RequestError as e:
         logger.error("[AUTH] Token validation request failed: %s", e)
@@ -295,7 +282,7 @@ async def get_current_user(
         except HTTPException:
             logger.debug("[AUTH] JWT validation failed, trying opaque token...")
 
-    # Opaque token validation via userinfo endpoint
+    # Session token validation via SSO get-session
     payload = await verify_opaque_token(token)
     user = CurrentUser(payload)
     logger.info("[AUTH] Authenticated via opaque token: %s", user)
