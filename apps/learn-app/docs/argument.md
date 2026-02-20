@@ -48,11 +48,15 @@ That silence is not an accident. It is a failure. And until it is addressed hone
 
 The strongest objections to AI are not coming from people who misunderstand technology. They are coming from people who understand power. Dismiss them at your own risk.
 
-**Job displacement is not hypothetical. It is happening now.** Drivers, clerks, junior analysts, customer service agents—entry-level roles are already shrinking across call centers, logistics hubs, and back offices worldwide. The people hit first have the fewest resources to adapt, and no amount of "new jobs will emerge" rhetoric helps someone whose job vanishes next quarter.
+**Job displacement is not hypothetical. It is happening now.** And it is not limited to entry-level work. Drivers, clerks, and customer service agents are the first wave—but junior lawyers, analysts, copywriters, and mid-level knowledge workers are next. The scope is broader than any previous automation cycle, and the people hit first have the fewest resources to adapt.
+
+**The fabric of trust is tearing.** When AI can generate photorealistic images, clone voices, and produce text indistinguishable from human writing, the very concept of "real" becomes unstable. Deepfakes, synthetic media, and AI-generated misinformation are not edge cases—they are already eroding public trust in media, institutions, and each other. Nobody has a credible plan for restoring it.
 
 **AI hands extraordinary power to those who already have it.** In the hands of governments or corporations, this technology becomes the most efficient compliance machine ever built. Behavioral prediction, automated enforcement, social scoring—the infrastructure for all of it exists today. The question is not whether it _can_ be misused. It is whether guardrails arrive before or after the damage.
 
-**The industry destroyed its own credibility.** Predictions of artificial general intelligence "within two years" have quietly retreated to "maybe a decade." Grand promises were tuned to unlock investor capital, not to inform the public. The gap between what was sold and what was delivered has made every future claim harder to believe.
+**The energy and infrastructure costs are staggering.** Training and running large AI models requires enormous compute, enormous electricity, and enormous capital investment in data centers. The environmental and economic costs of this infrastructure buildout are real, and they are being borne by society at large—not just by the companies that profit from it.
+
+**The industry destroyed its own credibility.** Predictions of artificial general intelligence "within two years" have quietly retreated to "maybe a decade." Grand promises were tuned to unlock investor capital, not to inform the public. The gap between what was sold and what was delivered has made every future claim harder to believe. And beneath it all, a deeper fear: that this technology could become uncontrollable—that the systems we build might eventually outrun our ability to direct them.
 
 These concerns are legitimate. This book does not dismiss them. Anyone who does is selling something.
 
@@ -66,11 +70,15 @@ Traditional technology improved the **cost to serve**—the price of doing thing
 
 This distinction matters because the world has eight billion people and growing. Can we educate all of them? Provide healthcare? Legal aid? Agricultural expertise? Today the answer is no—not because we lack knowledge, but because we lack enough humans to deliver it. AI does not just automate what experts do. It multiplies how many people those experts can reach.
 
-**Education at a fraction of the cost.** Customized, adaptive learning available to anyone with a connection—not replacing great teachers, but reaching the billions who never had access to one.
+**Education at a fraction of the cost.** Customized, adaptive learning available to anyone with a connection—not replacing great teachers, but reaching the billions who never had access to one. What costs tens of thousands of dollars a year today could cost a fraction of that within a decade.
 
-**Healthcare breakthroughs that compound.** Faster diagnostics, drug discovery, personalized treatment. Early applications are already outperforming human baselines in domains like medical imaging and genomic analysis.
+**Healthcare breakthroughs that compound.** Faster diagnostics, drug discovery, personalized treatment plans. Early applications are already outperforming human baselines in domains like medical imaging and genomic analysis. The implications for life expectancy and quality of life are significant—not in some distant future, but within the careers of people reading this book.
+
+**Everyday costs that drop.** Beyond education and healthcare, the price of goods and services falls when logistics, manufacturing, and delivery are optimized by intelligent systems. Autonomous delivery, smarter supply chains, AI-assisted design—these are not speculative. They are entering production now.
 
 **New roles that did not exist before.** The SaaS era did not just automate clerical work—it created entirely new professions: developers, product managers, data analysts, UX designers. The pattern is consistent across every technology wave. Displacement is real. So is creation. The gap between them is where policy either succeeds or fails.
+
+**The practical value is arriving now.** The hype cycle promised artificial general intelligence. What arrived instead was something more useful: systems that handle real tasks—summarizing documents, generating code, automating workflows, answering questions from vast knowledge bases. The grand vision was wrong. The practical productivity gains are real, and they are compounding.
 
 ---
 
@@ -94,13 +102,15 @@ But within that messy middle, one pattern holds across every previous technology
 
 **AI is the enemy of mediocrity.**
 
-Professionals who deeply understand their domain—who can verify outcomes, catch errors, and direct AI toward the right problems—will not be displaced. They will do more. Those who relied on routine execution of predictable tasks are already being outperformed by systems that cost a fraction of what they do.
+This does not only apply to entry-level workers. Lawyers who rely on boilerplate, analysts who repackage data without insight, managers who coordinate without contributing—every role built on routine execution is exposed. But professionals who deeply understand their domain, who can verify outcomes, catch errors, and direct AI toward the right problems—they will not be displaced. They will do more.
 
 This is not comfortable. It is not fair across the board. But it answers the question: _How is this great for me?_
 
 It is great for you **if you become the person who builds, verifies, and directs these systems rather than competing with them.** It is a threat to you if you wait.
 
-The transition will be mismanaged in many places. Paced rollouts will matter—some countries are already licensing autonomous systems in deliberate stages, fast enough to innovate, slow enough to absorb the workforce impact. But no policy will protect individuals who choose not to adapt.
+**Retraining is not optional—it is infrastructure.** The transition will be mismanaged in many places. Some countries are already licensing autonomous systems in paced rollouts—fast enough to innovate, slow enough to absorb the workforce impact. Others are doing nothing. But regardless of policy, the need for reskilling programs, accessible technical education, and deliberate workforce transition planning is as urgent as any infrastructure project of the last century. No society can automate millions of roles and assume the market will sort it out.
+
+No policy, however, will protect individuals who choose not to adapt.
 
 ---
 
