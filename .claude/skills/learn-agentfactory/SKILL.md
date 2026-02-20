@@ -184,6 +184,26 @@ Read cache file. Display as navigable outline (parts > chapters > lessons). Sugg
 python3 scripts/api.py lesson {part} {chapter} {lesson} > ~/.agentfactory/learner/cache/current-lesson.json
 ```
 
+Read the cached file. **Before teaching, extract and review these frontmatter fields** (they drive your entire teaching approach):
+
+```
+From frontmatter, note:
+- title, description           → Opening framing
+- skills[]                     → What they'll DO (preview as learning goals)
+- learning_objectives[]        → What they'll UNDERSTAND (quiz against these)
+- cognitive_load.new_concepts  → How many chunks to break teaching into
+- teaching_guide.key_points[]  → Must-cover list (don't miss any)
+- teaching_guide.misconceptions[] → Proactively address before they form
+- teaching_guide.discussion_prompts[] → Use for Socratic questioning
+- teaching_guide.teaching_tips[] → Author's pedagogical advice
+- teaching_guide.assessment_quick_check[] → Formative checks mid-lesson
+- differentiation              → Advanced extensions, struggling support
+- duration_minutes             → Pace the session accordingly
+- practice_exercise            → If present, use for hands-on Mentor mode
+```
+
+If any of these are missing for a lesson, adapt — but never skip the ones that are present. The lesson author embedded expert guidance in these fields.
+
 Update session.md with current phase, lesson slugs, and active teaching mode (tutor/coach/socratic/mentor/simulator/manager). Update session.md again on every mode switch or phase transition.
 
 **Teach from frontmatter first** — read `references/frontmatter-guide.md` for the full field-to-behavior mapping. Apply the session arc from `references/teaching-science.md`:
@@ -206,7 +226,8 @@ Update session.md with current phase, lesson slugs, and active teaching mode (tu
 
 Don't skip this. Testing IS learning (retrieval practice strengthens memory more than re-reading).
 
-- **3-5 questions** from `learning_objectives` at the `bloom_level` specified in frontmatter
+- **3-5 questions** derived from `learning_objectives[]` — each objective has a `bloom_level` and `assessment_method` that tells you HOW to test it (e.g., "scenario analysis", "explain concept", "identify pattern")
+- Use `teaching_guide.assessment_quick_check[]` as ready-made formative check questions
 - Scenario-based: "Given [situation], what would you do?" — not definitions
 - **Elaborative interrogation**: On correct answers, ask "WHY is that the answer?"
 - **On wrong answers**: "What led you to that?" — guide, don't just correct (growth mindset)

@@ -78,11 +78,12 @@ class TestGetLesson:
                 "lesson_slug": "01-welcome",
                 "found": True,
             }
-            with patch("api_infra.core.redis_cache._aredis", None):
-                response = client.get(
-                    "/api/v1/content/lesson?part=01-Foundations&chapter=01-intro&lesson=01-welcome",
-                    headers=_auth_headers(),
-                )
+            with patch("content_api.routes.content.get_metering_client", return_value=None):
+                with patch("api_infra.core.redis_cache._aredis", None):
+                    response = client.get(
+                        "/api/v1/content/lesson?part=01-Foundations&chapter=01-intro&lesson=01-welcome",
+                        headers=_auth_headers(),
+                    )
 
         assert response.status_code == 200
         data = response.json()
@@ -100,11 +101,12 @@ class TestGetLesson:
                 "lesson_slug": "99-nonexistent",
                 "found": False,
             }
-            with patch("api_infra.core.redis_cache._aredis", None):
-                response = client.get(
-                    "/api/v1/content/lesson?part=01-Foundations&chapter=01-intro&lesson=99-nonexistent",
-                    headers=_auth_headers(),
-                )
+            with patch("content_api.routes.content.get_metering_client", return_value=None):
+                with patch("api_infra.core.redis_cache._aredis", None):
+                    response = client.get(
+                        "/api/v1/content/lesson?part=01-Foundations&chapter=01-intro&lesson=99-nonexistent",
+                        headers=_auth_headers(),
+                    )
 
         assert response.status_code == 404
 
@@ -158,11 +160,12 @@ class TestGetLesson:
                 "lesson_slug": "ls",
                 "found": True,
             }
-            with patch("api_infra.core.redis_cache._aredis", None):
-                response = client.get(
-                    "/api/v1/content/lesson?part=pt&chapter=ch&lesson=ls",
-                    headers=_auth_headers(),
-                )
+            with patch("content_api.routes.content.get_metering_client", return_value=None):
+                with patch("api_infra.core.redis_cache._aredis", None):
+                    response = client.get(
+                        "/api/v1/content/lesson?part=pt&chapter=ch&lesson=ls",
+                        headers=_auth_headers(),
+                    )
 
         assert response.status_code == 200
         fm = response.json()["frontmatter"]
