@@ -11,8 +11,9 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
+from api_infra.core.rate_limit import rate_limit  # noqa: E402
 from api_infra.core.redis_cache import get_redis  # noqa: E402
-from fastapi import FastAPI, HTTPException, Request  # noqa: E402
+from fastapi import FastAPI, HTTPException, Request, Response  # noqa: E402
 from fastapi.middleware.cors import CORSMiddleware  # noqa: E402
 from pydantic import BaseModel  # noqa: E402
 
@@ -33,6 +34,9 @@ app = FastAPI(
     description="Book tree, lessons, and progress tracking",
     version="0.1.0",
     lifespan=lifespan,
+    docs_url=None,
+    redoc_url=None,
+    openapi_url=None,
 )
 
 # CORS
@@ -49,7 +53,8 @@ app.include_router(content_router)
 
 
 @app.get("/health")
-async def health_check():
+@rate_limit("health", max_requests=500, period_minutes=1)
+async def health_check(request: Request, response: Response):
     """Health check endpoint with Redis status."""
     status = {"status": "healthy", "version": "0.1.0", "services": {}}
 
@@ -131,21 +136,6 @@ async def invalidate_cache(
     except Exception as e:
         logger.error("[Cache] Invalidation failed: %s", e)
         raise HTTPException(status_code=500, detail=str(e))
-
-
-@app.get("/")
-async def root():
-    """Root endpoint with API information."""
-    return {
-        "name": "Content API",
-        "version": "0.1.0",
-        "endpoints": {
-            "tree": "GET /api/v1/content/tree",
-            "lesson": "GET /api/v1/content/lesson",
-            "complete": "POST /api/v1/content/complete",
-            "health": "GET /health",
-        },
-    }
 
 
 if __name__ == "__main__":

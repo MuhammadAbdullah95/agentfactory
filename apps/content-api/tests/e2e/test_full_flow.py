@@ -29,14 +29,9 @@ class TestHealthAndRoot:
         assert data["status"] == "healthy"
         assert data["services"]["redis"] == "ok"
 
-    async def test_root_returns_api_info(self, client):
+    async def test_root_returns_404(self, client):
         resp = await client.get("/")
-
-        assert resp.status_code == 200
-        data = resp.json()
-        assert data["name"] == "Content API"
-        assert "tree" in data["endpoints"]
-        assert "lesson" in data["endpoints"]
+        assert resp.status_code == 404
 
 
 # ═══════════════════════════════════════════════════════════════════════════
