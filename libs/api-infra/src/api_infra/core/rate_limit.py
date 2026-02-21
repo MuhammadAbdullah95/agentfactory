@@ -72,16 +72,18 @@ class RateLimiter:
 
     @staticmethod
     def _default_identifier(request: Request) -> str:
-        """Default function to identify clients (by IP or user ID)."""
-        # Try to get user_id from header first (ChatKit internal requests)
-        user_id = request.headers.get("X-User-ID")
-        if not user_id:
-            # Then try query params (direct API calls)
-            user_id = request.query_params.get("user_id")
-        if user_id:
-            return f"user:{user_id}"
+        """Identify clients by authenticated user ID or IP address.
 
-        # Fall back to IP address
+        Prefers the authenticated user attached by the rate_limit wrapper
+        (from FastAPI's dependency-injected CurrentUser). Falls back to IP.
+        Never trusts client-supplied headers like X-User-ID for identification.
+        """
+        # Prefer authenticated user from FastAPI dependency injection
+        auth_user_id = getattr(request.state, "rate_limit_user_id", None)
+        if auth_user_id:
+            return f"user:{auth_user_id}"
+
+        # Fall back to IP address (for unauthenticated endpoints like /health)
         forwarded = request.headers.get("X-Forwarded-For")
         if forwarded:
             return f"ip:{forwarded.split(',')[0].strip()}"
@@ -93,7 +95,7 @@ class RateLimiter:
     ) -> None:
         """Default callback when rate limit is exceeded."""
         logger.warning(
-            f"Rate limit exceeded for {request.client.host if request.client else 'unknown'}"
+            "Rate limit exceeded for %s", request.client.host if request.client else "unknown"
         )
         raise HTTPException(
             status_code=429,
@@ -119,14 +121,31 @@ class RateLimiter:
             }
 
         try:
-            script_sha = await self._load_lua_script(redis_client)
+            result = await self._execute_lua(redis_client, request)
+            return result
+        except Exception as e:
+            # Fail open but log the error
+            logger.error("Rate limit check failed: %s", e)
+            return {
+                "current": 1,
+                "limit": self.config.times,
+                "remaining": self.config.times - 1,
+                "reset_after": self.config.get_window(),
+            }
 
-            # Get identifier (e.g., user ID or IP address)
-            identifier = self._default_identifier(request)
-            key = f"rate_limit:{self.redis_key}:{identifier}"
-            window_ms = self.config.get_window()
-            logger.info(f"[RateLimit] Identifier resolved: {identifier}")
+    async def _execute_lua(
+        self, redis_client, request: Request, *, _retried: bool = False
+    ) -> dict[str, int | str]:
+        """Execute rate limit Lua script with NOSCRIPT retry."""
+        script_sha = await self._load_lua_script(redis_client)
 
+        # Get identifier (e.g., user ID or IP address)
+        identifier = self.identifier(request)
+        key = f"rate_limit:{self.redis_key}:{identifier}"
+        window_ms = self.config.get_window()
+        logger.info("[RateLimit] Identifier resolved: %s", identifier)
+
+        try:
             # Execute Lua script for atomic operations
             current, window, ttl = await redis_client.evalsha(
                 script_sha,
@@ -135,32 +154,29 @@ class RateLimiter:
                 str(self.config.times),  # limit
                 str(window_ms),  # window in ms
             )
-
-            logger.info(
-                f"[RateLimit] Redis key={key}, current={current}, "
-                f"limit={self.config.times}, window={window_ms}ms, ttl={ttl}ms"
-            )
-
-            remaining = max(0, self.config.times - current)
-            if current > self.config.times:
-                remaining = -1
-
-            return {
-                "current": current,
-                "limit": self.config.times,
-                "remaining": remaining,
-                "reset_after": ttl if ttl > 0 else window_ms,
-            }
-
         except Exception as e:
-            # Fail open but log the error
-            logger.error(f"Rate limit check failed: {e}")
-            return {
-                "current": 1,
-                "limit": self.config.times,
-                "remaining": self.config.times - 1,
-                "reset_after": self.config.get_window(),
-            }
+            # NOSCRIPT = Redis restarted and lost the cached script
+            if "NOSCRIPT" in str(e) and not _retried:
+                logger.warning("[RateLimit] NOSCRIPT error, reloading Lua script")
+                self._lua_script_sha = None
+                return await self._execute_lua(redis_client, request, _retried=True)
+            raise
+
+        logger.info(
+            "[RateLimit] Redis key=%s, current=%d, limit=%d, window=%dms, ttl=%dms",
+            key, current, self.config.times, window_ms, ttl,
+        )
+
+        remaining = max(0, self.config.times - current)
+        if current > self.config.times:
+            remaining = -1
+
+        return {
+            "current": current,
+            "limit": self.config.times,
+            "remaining": remaining,
+            "reset_after": ttl if ttl > 0 else window_ms,
+        }
 
 
 def rate_limit(
@@ -207,6 +223,13 @@ def rate_limit(
                 logger.error("Rate limit decorator requires Request and Response objects")
                 return await func(*args, **kwargs)
 
+            # Attach authenticated user ID to request.state for the identifier.
+            # FastAPI resolves Depends() before calling the wrapper, so
+            # kwargs["user"] is the CurrentUser when the route declares one.
+            user = kwargs.get("user")
+            if user and hasattr(user, "id") and user.id:
+                request.state.rate_limit_user_id = user.id
+
             # Check rate limit
             rate_limit_info = await limiter._check_rate_limit(request)
 
@@ -217,7 +240,8 @@ def rate_limit(
 
             # Handle rate limit exceeded
             if rate_limit_info["remaining"] < 0:
-                await limiter._default_callback(
+                callback = getattr(limiter, "callback", limiter._default_callback)
+                await callback(
                     request, response, rate_limit_info["reset_after"]
                 )
 

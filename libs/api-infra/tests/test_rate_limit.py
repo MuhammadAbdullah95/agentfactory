@@ -8,7 +8,7 @@ from unittest.mock import AsyncMock, MagicMock, patch
 import pytest
 from fastapi import HTTPException, Request, Response
 
-from study_mode_api.core.rate_limit import (
+from api_infra.core.rate_limit import (
     RATE_LIMIT_SCRIPT,
     RateLimitConfig,
     RateLimiter,
@@ -49,9 +49,10 @@ class TestRateLimiter:
     """Test RateLimiter class."""
 
     def test_default_identifier_with_user_id(self):
-        """Test identifier extraction from user_id query param."""
+        """Test identifier extraction from request.state.rate_limit_user_id."""
         mock_request = MagicMock(spec=Request)
-        mock_request.query_params = {"user_id": "user-123"}
+        mock_request.state = MagicMock()
+        mock_request.state.rate_limit_user_id = "user-123"
         mock_request.headers = {}
         mock_request.client = MagicMock(host="192.168.1.1")
 
@@ -60,9 +61,9 @@ class TestRateLimiter:
         assert identifier == "user:user-123"
 
     def test_default_identifier_falls_back_to_ip(self):
-        """Test identifier falls back to IP when no user_id."""
+        """Test identifier falls back to IP when no authenticated user."""
         mock_request = MagicMock(spec=Request)
-        mock_request.query_params = {}
+        mock_request.state = MagicMock(spec=[])  # empty spec = no attributes
         mock_request.headers = {}
         mock_request.client = MagicMock(host="192.168.1.1")
 
@@ -73,7 +74,7 @@ class TestRateLimiter:
     def test_default_identifier_uses_forwarded_header(self):
         """Test identifier uses X-Forwarded-For header."""
         mock_request = MagicMock(spec=Request)
-        mock_request.query_params = {}
+        mock_request.state = MagicMock(spec=[])  # no rate_limit_user_id
         mock_request.headers = {"X-Forwarded-For": "10.0.0.1, 10.0.0.2"}
         mock_request.client = MagicMock(host="192.168.1.1")
 
@@ -86,7 +87,7 @@ class TestRateLimiter:
         """Test rate limiter allows request under limit."""
         mock_redis.evalsha = AsyncMock(return_value=[1, 60000, 0])
 
-        with patch("study_mode_api.core.rate_limit.get_redis", return_value=mock_redis):
+        with patch("api_infra.core.rate_limit.get_redis", return_value=mock_redis):
             limiter = RateLimiter("test", RateLimitConfig(times=20, minutes=1))
             limiter._lua_script_sha = "mock_sha"
 
@@ -107,7 +108,7 @@ class TestRateLimiter:
         # Simulate 21st request (over limit of 20)
         mock_redis.evalsha = AsyncMock(return_value=[21, 60000, 45000])
 
-        with patch("study_mode_api.core.rate_limit.get_redis", return_value=mock_redis):
+        with patch("api_infra.core.rate_limit.get_redis", return_value=mock_redis):
             limiter = RateLimiter("test", RateLimitConfig(times=20, minutes=1))
             limiter._lua_script_sha = "mock_sha"
 
@@ -124,7 +125,7 @@ class TestRateLimiter:
     @pytest.mark.asyncio
     async def test_check_rate_limit_fail_open(self):
         """Test rate limiter fails open when Redis unavailable (T024)."""
-        with patch("study_mode_api.core.rate_limit.get_redis", return_value=None):
+        with patch("api_infra.core.rate_limit.get_redis", return_value=None):
             limiter = RateLimiter("test", RateLimitConfig(times=20, minutes=1))
 
             mock_request = MagicMock(spec=Request)
@@ -149,7 +150,7 @@ class TestRateLimitDecorator:
         mock_redis.script_load = AsyncMock(return_value="mock_sha")
 
         # Create a fresh decorator with mocked redis
-        with patch("study_mode_api.core.rate_limit.get_redis", return_value=mock_redis):
+        with patch("api_infra.core.rate_limit.get_redis", return_value=mock_redis):
             limiter = RateLimiter("test", RateLimitConfig(times=20, minutes=1))
 
             mock_request = MagicMock(spec=Request)
@@ -170,7 +171,7 @@ class TestRateLimitDecorator:
         mock_redis.evalsha = AsyncMock(return_value=[21, 60000, 45000])
         mock_redis.script_load = AsyncMock(return_value="mock_sha")
 
-        with patch("study_mode_api.core.rate_limit.get_redis", return_value=mock_redis):
+        with patch("api_infra.core.rate_limit.get_redis", return_value=mock_redis):
             limiter = RateLimiter("test", RateLimitConfig(times=20, minutes=1))
 
             mock_request = MagicMock(spec=Request)

@@ -5,11 +5,11 @@ Success Criteria SC-002: Cached content should be retrieved in <50ms.
 
 import json
 import time
-from unittest.mock import AsyncMock, patch
+from unittest.mock import AsyncMock, MagicMock, patch
 
 import pytest
 
-from study_mode_api.core.redis_cache import (
+from api_infra.core.redis_cache import (
     CustomJSONEncoder,
     cache_response,
     safe_redis_get,
@@ -26,37 +26,42 @@ class TestRedisConnection:
     @pytest.mark.asyncio
     async def test_start_redis_success(self, mock_redis):
         """Test successful Redis connection."""
-        with patch("study_mode_api.core.redis_cache.settings") as mock_settings:
-            mock_settings.redis_url = "redis://localhost:6379"
-            mock_settings.redis_password = "test"
-            mock_settings.redis_max_connections = 10
+        import api_infra
+        import api_infra.core.redis_cache as redis_module
 
-            with patch("redis.asyncio.Redis.from_url", return_value=mock_redis):
-                await start_redis()
+        mock_settings = MagicMock()
+        mock_settings.redis_url = "redis://localhost:6379"
+        mock_settings.redis_password = "test"
+        mock_settings.redis_max_connections = 10
+        mock_settings.content_cache_ttl = 2592000
+        api_infra.configure(mock_settings)
 
-                mock_redis.ping.assert_called_once()
+        with patch("redis.asyncio.Redis.from_url", return_value=mock_redis):
+            await start_redis()
+            mock_redis.ping.assert_called_once()
 
     @pytest.mark.asyncio
     async def test_start_redis_no_url(self):
         """Test Redis initialization skipped when no URL provided."""
-        # Reset global state
-        import study_mode_api.core.redis_cache as redis_module
+        import api_infra
+        import api_infra.core.redis_cache as redis_module
+
+        mock_settings = MagicMock()
+        mock_settings.redis_url = ""
+        mock_settings.redis_password = ""
+        mock_settings.redis_max_connections = 10
+        mock_settings.content_cache_ttl = 2592000
+        api_infra.configure(mock_settings)
+
         redis_module._aredis = None
-
-        with patch("study_mode_api.core.redis_cache.settings") as mock_settings:
-            mock_settings.redis_url = ""
-
-            await start_redis()
-
-            # Should not raise, just log warning
-            assert redis_module._aredis is None
+        await start_redis()
+        assert redis_module._aredis is None
 
     @pytest.mark.asyncio
     async def test_stop_redis_closes_connection(self, mock_redis):
         """Test Redis connection is properly closed."""
-        with patch("study_mode_api.core.redis_cache._aredis", mock_redis):
+        with patch("api_infra.core.redis_cache._aredis", mock_redis):
             await stop_redis()
-
             mock_redis.aclose.assert_called_once()
 
 
@@ -68,7 +73,7 @@ class TestSafeRedisOperations:
         """Test safe_redis_get returns cached value."""
         mock_redis.get = AsyncMock(return_value='{"test": "data"}')
 
-        with patch("study_mode_api.core.redis_cache._aredis", mock_redis):
+        with patch("api_infra.core.redis_cache._aredis", mock_redis):
             result = await safe_redis_get("test_key")
 
             assert result == '{"test": "data"}'
@@ -79,7 +84,7 @@ class TestSafeRedisOperations:
         """Test safe_redis_get returns None on error (graceful degradation)."""
         mock_redis.get = AsyncMock(side_effect=Exception("Connection error"))
 
-        with patch("study_mode_api.core.redis_cache._aredis", mock_redis):
+        with patch("api_infra.core.redis_cache._aredis", mock_redis):
             result = await safe_redis_get("test_key")
 
             assert result is None
@@ -87,7 +92,7 @@ class TestSafeRedisOperations:
     @pytest.mark.asyncio
     async def test_safe_redis_get_returns_none_when_not_initialized(self):
         """Test safe_redis_get returns None when Redis not initialized."""
-        with patch("study_mode_api.core.redis_cache._aredis", None):
+        with patch("api_infra.core.redis_cache._aredis", None):
             result = await safe_redis_get("test_key")
 
             assert result is None
@@ -95,7 +100,7 @@ class TestSafeRedisOperations:
     @pytest.mark.asyncio
     async def test_safe_redis_set_stores_value(self, mock_redis):
         """Test safe_redis_set stores value with TTL."""
-        with patch("study_mode_api.core.redis_cache._aredis", mock_redis):
+        with patch("api_infra.core.redis_cache._aredis", mock_redis):
             await safe_redis_set("test_key", '{"data": "value"}', 3600)
 
             mock_redis.setex.assert_called_once_with("test_key", 3600, '{"data": "value"}')
@@ -105,7 +110,7 @@ class TestSafeRedisOperations:
         """Test safe_redis_set doesn't raise on error."""
         mock_redis.setex = AsyncMock(side_effect=Exception("Write error"))
 
-        with patch("study_mode_api.core.redis_cache._aredis", mock_redis):
+        with patch("api_infra.core.redis_cache._aredis", mock_redis):
             # Should not raise
             await safe_redis_set("test_key", '{"data": "value"}', 3600)
 
@@ -126,7 +131,7 @@ class TestCacheResponseDecorator:
             call_count += 1
             return {"result": arg1}
 
-        with patch("study_mode_api.core.redis_cache._aredis", mock_redis):
+        with patch("api_infra.core.redis_cache._aredis", mock_redis):
             result = await test_func("test")
 
             assert result == {"result": "test"}
@@ -146,7 +151,7 @@ class TestCacheResponseDecorator:
             call_count += 1
             return {"result": "fresh"}
 
-        with patch("study_mode_api.core.redis_cache._aredis", mock_redis):
+        with patch("api_infra.core.redis_cache._aredis", mock_redis):
             start = time.time()
             result = await test_func("test")
             elapsed_ms = (time.time() - start) * 1000
@@ -162,7 +167,7 @@ class TestCacheResponseDecorator:
         async def test_func() -> dict:
             return {"result": "direct"}
 
-        with patch("study_mode_api.core.redis_cache._aredis", None):
+        with patch("api_infra.core.redis_cache._aredis", None):
             result = await test_func()
 
             assert result == {"result": "direct"}

@@ -13,39 +13,50 @@ import redis.backoff
 import redis.exceptions
 from pydantic import BaseModel
 
-from ..config import settings
-
 logger = logging.getLogger(__name__)
 
-CACHE_TTL = settings.content_cache_ttl
+# Module-level settings, configured via _configure_settings()
+_settings: Any = None
+_default_cache_ttl: int = 2592000  # 30 days fallback
 
 _aredis: redis.asyncio.Redis | None = None
+
+
+def _configure_settings(settings: Any) -> None:
+    """Called by api_infra.configure() to push settings into this module."""
+    global _settings, _default_cache_ttl
+    _settings = settings
+    _default_cache_ttl = getattr(settings, "content_cache_ttl", 2592000)
 
 
 async def start_redis() -> None:
     """Initialize Redis connection with retry and exponential backoff."""
     global _aredis
 
-    if not settings.redis_url or settings.redis_url.strip() == "":
+    if _settings is None:
+        logger.warning("[Redis] Settings not configured, call api_infra.configure() first")
+        return
+
+    if not _settings.redis_url or _settings.redis_url.strip() == "":
         logger.warning("[Redis] REDIS_URL not provided, caching will be disabled")
         return
 
     # Log connection attempt (mask password)
-    url_parts = settings.redis_url.split("@")
+    url_parts = _settings.redis_url.split("@")
     if len(url_parts) > 1:
         safe_url = f"redis://***@{url_parts[-1]}"
     else:
         safe_url = "redis://***"
-    logger.info(f"[Redis] Connecting to: {safe_url}")
-    logger.info(f"[Redis] Using SSL: {'rediss://' in settings.redis_url}")
-    logger.info(f"[Redis] Password provided: {bool(settings.redis_password)}")
+    logger.info("[Redis] Connecting to: %s", safe_url)
+    logger.info("[Redis] Using SSL: %s", "rediss://" in _settings.redis_url)
+    logger.info("[Redis] Password provided: %s", bool(_settings.redis_password))
 
     try:
         _aredis = redis.asyncio.Redis.from_url(
-            settings.redis_url,
-            password=settings.redis_password if settings.redis_password else None,
+            _settings.redis_url,
+            password=_settings.redis_password if _settings.redis_password else None,
             decode_responses=True,
-            max_connections=settings.redis_max_connections,
+            max_connections=_settings.redis_max_connections,
             retry=redis.asyncio.retry.Retry(
                 backoff=redis.backoff.ExponentialBackoff(),
                 retries=5,
@@ -60,21 +71,21 @@ async def start_redis() -> None:
         await _aredis.ping()
         logger.info("[Redis] Connected successfully!")
     except redis.exceptions.ConnectionError as e:
-        logger.error(f"[Redis] Connection FAILED: {e}")
+        logger.error("[Redis] Connection FAILED: %s", e)
         logger.warning(
             "[Redis] Check: 1) REDIS_URL format (rediss:// for SSL) "
             "2) REDIS_PASSWORD (no prefix)"
         )
         _aredis = None
     except redis.exceptions.AuthenticationError as e:
-        logger.error(f"[Redis] Authentication FAILED: {e}")
+        logger.error("[Redis] Authentication FAILED: %s", e)
         logger.warning(
             "[Redis] Check REDIS_PASSWORD - should be just the token, "
             "no 'UPSTASH_REDIS_REST_TOKEN=' prefix"
         )
         _aredis = None
     except Exception as e:
-        logger.error(f"[Redis] Unexpected error: {e}")
+        logger.error("[Redis] Unexpected error: %s", e)
         _aredis = None
 
 
@@ -108,10 +119,10 @@ async def safe_redis_get(cache_key: str) -> str | None:
     try:
         if not _aredis:
             return None
-        logger.debug(f"Attempting to get cache for key={cache_key}")
+        logger.debug("Attempting to get cache for key=%s", cache_key)
         return await _aredis.get(cache_key)
     except Exception as e:
-        logger.error(f"Failed to get cache for key={cache_key}: {e}")
+        logger.error("Failed to get cache for key=%s: %s", cache_key, e)
         return None
 
 
@@ -120,10 +131,10 @@ async def safe_redis_set(cache_key: str, value: str, ttl: int) -> None:
     try:
         if not _aredis:
             return
-        logger.debug(f"Attempting to set cache for key={cache_key}")
+        logger.debug("Attempting to set cache for key=%s", cache_key)
         await _aredis.setex(cache_key, ttl, value)
     except Exception as e:
-        logger.error(f"Failed to set cache for key={cache_key}: {e}")
+        logger.error("Failed to set cache for key=%s: %s", cache_key, e)
 
 
 def serialize_result(result: Any) -> str:
@@ -141,7 +152,7 @@ def serialize_result(result: Any) -> str:
         return json.dumps(result, cls=CustomJSONEncoder)
 
 
-def cache_response(ttl: int = CACHE_TTL):
+def cache_response(ttl: int | None = None):
     """
     Caching decorator with Pydantic model handling.
 
@@ -155,10 +166,11 @@ def cache_response(ttl: int = CACHE_TTL):
         async def get_lesson_content(lesson_id: str) -> dict:
             ...
     """
-
     def decorator(func: Callable[..., Any]):
         @wraps(func)
         async def wrapper(*args: Any, **kwargs: Any) -> Any:
+            # Resolve TTL at call time so settings.content_cache_ttl is available
+            effective_ttl = ttl if ttl is not None else _default_cache_ttl
             if not _aredis:
                 logger.debug("Redis not available, executing function directly")
                 return await func(*args, **kwargs)
@@ -174,10 +186,10 @@ def cache_response(ttl: int = CACHE_TTL):
             cached_data = await safe_redis_get(cache_key)
             if cached_data:
                 try:
-                    logger.info(f"Cache hit for key={cache_key}")
+                    logger.info("Cache hit for key=%s", cache_key)
                     return json.loads(cached_data)
                 except Exception as e:
-                    logger.error(f"Error deserializing cache for key={cache_key}: {e}")
+                    logger.error("Error deserializing cache for key=%s: %s", cache_key, e)
 
             # Call the original function
             result = await func(*args, **kwargs)
@@ -186,10 +198,10 @@ def cache_response(ttl: int = CACHE_TTL):
             if result is not None:
                 try:
                     cache_value = serialize_result(result)
-                    await safe_redis_set(cache_key, cache_value, ttl)
-                    logger.info(f"Cache set for key={cache_key}")
+                    await safe_redis_set(cache_key, cache_value, effective_ttl)
+                    logger.info("Cache set for key=%s", cache_key)
                 except Exception as e:
-                    logger.error(f"Error serializing result for cache key={cache_key}: {e}")
+                    logger.error("Error serializing result for cache key=%s: %s", cache_key, e)
 
             return result
 

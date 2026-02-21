@@ -1,6 +1,6 @@
 """Tests for authentication module.
 
-Tests JWT/JWKS verification, opaque token fallback, and dev mode bypass.
+Tests JWT/JWKS verification and dev mode bypass.
 """
 
 from unittest.mock import AsyncMock, MagicMock, patch
@@ -8,13 +8,11 @@ from unittest.mock import AsyncMock, MagicMock, patch
 import pytest
 from fastapi import HTTPException
 
-from study_mode_api.auth import (
+from api_infra.auth import (
     CurrentUser,
     get_current_user,
-    get_current_user_optional,
     get_jwks,
     verify_jwt,
-    verify_opaque_token,
 )
 
 
@@ -51,13 +49,11 @@ class TestCurrentUser:
         user = CurrentUser({
             "sub": "user-123",
             "email": "test@example.com",
-            "client_name": "Test Client",
         })
 
         repr_str = repr(user)
         assert "user-123" in repr_str
         assert "test@example.com" in repr_str
-        assert "Test Client" in repr_str
 
 
 class TestJWKS:
@@ -71,8 +67,10 @@ class TestJWKS:
         mock_response.json.return_value = sample_jwks
         mock_response.raise_for_status = MagicMock()
 
-        with patch("study_mode_api.auth.settings") as mock_settings:
+        with patch("api_infra.auth.get_settings") as mock_get_settings:
+            mock_settings = MagicMock()
             mock_settings.sso_url = "https://sso.example.com"
+            mock_get_settings.return_value = mock_settings
 
             with patch("httpx.AsyncClient") as mock_client:
                 mock_client_instance = AsyncMock()
@@ -81,7 +79,7 @@ class TestJWKS:
                 mock_client.return_value.__aexit__ = AsyncMock(return_value=None)
 
                 # Clear cache
-                import study_mode_api.auth as auth_module
+                import api_infra.auth as auth_module
                 auth_module._jwks_cache = None
                 auth_module._jwks_cache_time = 0
 
@@ -95,7 +93,7 @@ class TestJWKS:
         """Test JWKS cache is used within TTL."""
         import time
 
-        import study_mode_api.auth as auth_module
+        import api_infra.auth as auth_module
 
         # Set cache
         auth_module._jwks_cache = sample_jwks
@@ -112,13 +110,15 @@ class TestJWKS:
     @pytest.mark.asyncio
     async def test_get_jwks_raises_when_sso_not_configured(self):
         """Test error when SSO URL not configured."""
-        import study_mode_api.auth as auth_module
+        import api_infra.auth as auth_module
 
         auth_module._jwks_cache = None
         auth_module._jwks_cache_time = 0
 
-        with patch("study_mode_api.auth.settings") as mock_settings:
+        with patch("api_infra.auth.get_settings") as mock_get_settings:
+            mock_settings = MagicMock()
             mock_settings.sso_url = ""
+            mock_get_settings.return_value = mock_settings
 
             with pytest.raises(HTTPException) as exc_info:
                 await get_jwks()
@@ -132,11 +132,11 @@ class TestVerifyJWT:
     @pytest.mark.asyncio
     async def test_verify_jwt_success(self, sample_jwt_payload, sample_jwks):
         """Test successful JWT verification."""
-        with patch("study_mode_api.auth.get_jwks", return_value=sample_jwks):
-            with patch("study_mode_api.auth.jwt.get_unverified_header") as mock_header:
+        with patch("api_infra.auth.get_jwks", return_value=sample_jwks):
+            with patch("api_infra.auth.jwt.get_unverified_header") as mock_header:
                 mock_header.return_value = {"kid": "test-key-1", "alg": "RS256"}
 
-                with patch("study_mode_api.auth.jwt.decode") as mock_decode:
+                with patch("api_infra.auth.jwt.decode") as mock_decode:
                     mock_decode.return_value = sample_jwt_payload
 
                     result = await verify_jwt("test.jwt.token")
@@ -147,8 +147,8 @@ class TestVerifyJWT:
     @pytest.mark.asyncio
     async def test_verify_jwt_key_not_found(self, sample_jwks):
         """Test error when signing key not in JWKS."""
-        with patch("study_mode_api.auth.get_jwks", return_value=sample_jwks):
-            with patch("study_mode_api.auth.jwt.get_unverified_header") as mock_header:
+        with patch("api_infra.auth.get_jwks", return_value=sample_jwks):
+            with patch("api_infra.auth.jwt.get_unverified_header") as mock_header:
                 mock_header.return_value = {"kid": "unknown-key", "alg": "RS256"}
 
                 with pytest.raises(HTTPException) as exc_info:
@@ -158,61 +158,19 @@ class TestVerifyJWT:
         assert "not found" in str(exc_info.value.detail)
 
 
-class TestVerifyOpaqueToken:
-    """Test opaque token verification."""
-
-    @pytest.mark.asyncio
-    async def test_verify_opaque_token_success(self, sample_jwt_payload):
-        """Test successful opaque token verification."""
-        mock_response = MagicMock()
-        mock_response.status_code = 200
-        mock_response.json.return_value = sample_jwt_payload
-
-        with patch("study_mode_api.auth.settings") as mock_settings:
-            mock_settings.sso_url = "https://sso.example.com"
-
-            with patch("httpx.AsyncClient") as mock_client:
-                mock_client_instance = AsyncMock()
-                mock_client_instance.get = AsyncMock(return_value=mock_response)
-                mock_client.return_value.__aenter__ = AsyncMock(return_value=mock_client_instance)
-                mock_client.return_value.__aexit__ = AsyncMock(return_value=None)
-
-                result = await verify_opaque_token("opaque-token-123")
-
-        assert result["sub"] == "user-123"
-
-    @pytest.mark.asyncio
-    async def test_verify_opaque_token_invalid(self):
-        """Test error for invalid opaque token."""
-        mock_response = MagicMock()
-        mock_response.status_code = 401
-
-        with patch("study_mode_api.auth.settings") as mock_settings:
-            mock_settings.sso_url = "https://sso.example.com"
-
-            with patch("httpx.AsyncClient") as mock_client:
-                mock_client_instance = AsyncMock()
-                mock_client_instance.get = AsyncMock(return_value=mock_response)
-                mock_client.return_value.__aenter__ = AsyncMock(return_value=mock_client_instance)
-                mock_client.return_value.__aexit__ = AsyncMock(return_value=None)
-
-                with pytest.raises(HTTPException) as exc_info:
-                    await verify_opaque_token("invalid-token")
-
-        assert exc_info.value.status_code == 401
-
-
 class TestGetCurrentUser:
     """Test get_current_user dependency."""
 
     @pytest.mark.asyncio
     async def test_dev_mode_bypass(self):
         """Test dev mode bypasses authentication (T028)."""
-        with patch("study_mode_api.auth.settings") as mock_settings:
+        with patch("api_infra.auth.get_settings") as mock_get_settings:
+            mock_settings = MagicMock()
             mock_settings.dev_mode = True
             mock_settings.dev_user_id = "dev-123"
             mock_settings.dev_user_email = "dev@test.com"
             mock_settings.dev_user_name = "Dev User"
+            mock_get_settings.return_value = mock_settings
 
             mock_request = MagicMock()
             user = await get_current_user(mock_request, None)
@@ -223,8 +181,10 @@ class TestGetCurrentUser:
     @pytest.mark.asyncio
     async def test_requires_auth_in_production(self):
         """Test authentication required when not in dev mode."""
-        with patch("study_mode_api.auth.settings") as mock_settings:
+        with patch("api_infra.auth.get_settings") as mock_get_settings:
+            mock_settings = MagicMock()
             mock_settings.dev_mode = False
+            mock_get_settings.return_value = mock_settings
 
             mock_request = MagicMock()
 
@@ -233,13 +193,3 @@ class TestGetCurrentUser:
 
         assert exc_info.value.status_code == 401
 
-    @pytest.mark.asyncio
-    async def test_optional_auth_returns_none(self):
-        """Test optional auth returns None without credentials."""
-        with patch("study_mode_api.auth.settings") as mock_settings:
-            mock_settings.dev_mode = False
-
-            mock_request = MagicMock()
-            result = await get_current_user_optional(mock_request, None)
-
-        assert result is None
