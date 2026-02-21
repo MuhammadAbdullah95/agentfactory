@@ -138,7 +138,10 @@ class CurrentUser:
     """Authenticated user extracted from JWT claims."""
 
     def __init__(self, payload: dict[str, Any]) -> None:
-        self.id: str = payload.get("sub", "")
+        sub = payload.get("sub", "")
+        if not sub:
+            raise ValueError("JWT missing required 'sub' claim")
+        self.id: str = sub
         self.email: str = payload.get("email", "")
         self.name: str = payload.get("name", "")
         self.role: str = payload.get("role", "user")
@@ -187,6 +190,13 @@ async def get_current_user(
     token = credentials.credentials
 
     payload = await verify_jwt(token)
-    user = CurrentUser(payload)
+    try:
+        user = CurrentUser(payload)
+    except ValueError as e:
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            detail=str(e),
+            headers={"WWW-Authenticate": "Bearer"},
+        ) from e
     logger.info("[AUTH] Authenticated via JWT: %s", user)
     return user

@@ -119,7 +119,7 @@ async def get_lesson(
                 auth_token=auth_token,
             )
 
-            if not check_result.get("allowed", True):
+            if not check_result.get("allowed", False):
                 error_code = check_result.get("error_code", "UNKNOWN")
                 message = check_result.get("message", "Access denied")
 

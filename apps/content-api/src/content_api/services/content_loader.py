@@ -105,7 +105,7 @@ async def fetch_from_github(lesson_path: str) -> tuple[str, bool]:
 
 
 @cache_response(ttl=CONTENT_CACHE_TTL)
-async def load_lesson_content(lesson_path: str) -> dict:
+async def load_lesson_content(lesson_path: str) -> dict | None:
     """Load lesson content with caching.
 
     Args:

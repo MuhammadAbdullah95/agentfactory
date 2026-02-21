@@ -226,7 +226,8 @@ def rate_limit(
 
             # Handle rate limit exceeded
             if rate_limit_info["remaining"] < 0:
-                await limiter._default_callback(
+                callback = getattr(limiter, "callback", limiter._default_callback)
+                await callback(
                     request, response, rate_limit_info["reset_after"]
                 )
 

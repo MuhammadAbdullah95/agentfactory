@@ -3,6 +3,7 @@
 Slim FastAPI app with Redis only (no Postgres, no ChatKit).
 """
 
+import hmac
 import logging
 import os
 
@@ -80,7 +81,7 @@ async def invalidate_cache(
     admin_secret = os.getenv("ADMIN_SECRET", "")
     provided_secret = request.headers.get("X-Admin-Secret", "")
 
-    if not admin_secret or provided_secret != admin_secret:
+    if not admin_secret or not hmac.compare_digest(provided_secret, admin_secret):
         raise HTTPException(status_code=403, detail="Invalid admin secret")
 
     redis_client = get_redis()

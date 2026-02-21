@@ -26,5 +26,6 @@ def configure(settings: Any) -> None:
 
 def get_settings() -> Any:
     """Get the settings object. Raises if configure() hasn't been called."""
-    assert _settings is not None, "Call api_infra.configure(settings) at app startup first"
+    if _settings is None:
+        raise RuntimeError("Call api_infra.configure(settings) at app startup first")
     return _settings
