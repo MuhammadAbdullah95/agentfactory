@@ -56,7 +56,7 @@ def parse_frontmatter(content: str) -> tuple[dict[str, Any], str]:
             return {}, content
         return frontmatter, body
     except yaml.YAMLError as e:
-        logger.warning(f"[ContentLoader] Malformed YAML frontmatter: {e}")
+        logger.warning("[ContentLoader] Malformed YAML frontmatter: %s", e)
         return {}, content
 
 
@@ -94,11 +94,11 @@ async def fetch_from_github(lesson_path: str) -> tuple[str, bool]:
             response = await client.get(url, headers=headers)
 
             if response.status_code == 200:
-                logger.debug(f"Fetched content from GitHub: {url}")
+                logger.debug("Fetched content from GitHub: %s", url)
                 return response.text, True
 
         except Exception as e:
-            logger.warning(f"Failed to fetch from GitHub {url}: {e}")
+            logger.warning("Failed to fetch from GitHub %s: %s", url, e)
             continue
 
     return "", False
@@ -122,13 +122,9 @@ async def load_lesson_content(lesson_path: str) -> dict:
     content, success = await fetch_from_github(lesson_path)
 
     if not success:
-        return {
-            "content": "",
-            "frontmatter_dict": {},
-            "chapter_slug": chapter_slug,
-            "lesson_slug": lesson_slug,
-            "found": False,
-        }
+        # Return None so @cache_response skips caching not-found results.
+        # Otherwise a missing lesson would be cached for 30 days.
+        return None
 
     frontmatter_dict, body = parse_frontmatter(content)
 

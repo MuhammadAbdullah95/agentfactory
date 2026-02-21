@@ -47,9 +47,9 @@ async def start_redis() -> None:
         safe_url = f"redis://***@{url_parts[-1]}"
     else:
         safe_url = "redis://***"
-    logger.info(f"[Redis] Connecting to: {safe_url}")
-    logger.info(f"[Redis] Using SSL: {'rediss://' in _settings.redis_url}")
-    logger.info(f"[Redis] Password provided: {bool(_settings.redis_password)}")
+    logger.info("[Redis] Connecting to: %s", safe_url)
+    logger.info("[Redis] Using SSL: %s", "rediss://" in _settings.redis_url)
+    logger.info("[Redis] Password provided: %s", bool(_settings.redis_password))
 
     try:
         _aredis = redis.asyncio.Redis.from_url(
@@ -71,21 +71,21 @@ async def start_redis() -> None:
         await _aredis.ping()
         logger.info("[Redis] Connected successfully!")
     except redis.exceptions.ConnectionError as e:
-        logger.error(f"[Redis] Connection FAILED: {e}")
+        logger.error("[Redis] Connection FAILED: %s", e)
         logger.warning(
             "[Redis] Check: 1) REDIS_URL format (rediss:// for SSL) "
             "2) REDIS_PASSWORD (no prefix)"
         )
         _aredis = None
     except redis.exceptions.AuthenticationError as e:
-        logger.error(f"[Redis] Authentication FAILED: {e}")
+        logger.error("[Redis] Authentication FAILED: %s", e)
         logger.warning(
             "[Redis] Check REDIS_PASSWORD - should be just the token, "
             "no 'UPSTASH_REDIS_REST_TOKEN=' prefix"
         )
         _aredis = None
     except Exception as e:
-        logger.error(f"[Redis] Unexpected error: {e}")
+        logger.error("[Redis] Unexpected error: %s", e)
         _aredis = None
 
 
@@ -119,10 +119,10 @@ async def safe_redis_get(cache_key: str) -> str | None:
     try:
         if not _aredis:
             return None
-        logger.debug(f"Attempting to get cache for key={cache_key}")
+        logger.debug("Attempting to get cache for key=%s", cache_key)
         return await _aredis.get(cache_key)
     except Exception as e:
-        logger.error(f"Failed to get cache for key={cache_key}: {e}")
+        logger.error("Failed to get cache for key=%s: %s", cache_key, e)
         return None
 
 
@@ -131,10 +131,10 @@ async def safe_redis_set(cache_key: str, value: str, ttl: int) -> None:
     try:
         if not _aredis:
             return
-        logger.debug(f"Attempting to set cache for key={cache_key}")
+        logger.debug("Attempting to set cache for key=%s", cache_key)
         await _aredis.setex(cache_key, ttl, value)
     except Exception as e:
-        logger.error(f"Failed to set cache for key={cache_key}: {e}")
+        logger.error("Failed to set cache for key=%s: %s", cache_key, e)
 
 
 def serialize_result(result: Any) -> str:
@@ -186,10 +186,10 @@ def cache_response(ttl: int | None = None):
             cached_data = await safe_redis_get(cache_key)
             if cached_data:
                 try:
-                    logger.info(f"Cache hit for key={cache_key}")
+                    logger.info("Cache hit for key=%s", cache_key)
                     return json.loads(cached_data)
                 except Exception as e:
-                    logger.error(f"Error deserializing cache for key={cache_key}: {e}")
+                    logger.error("Error deserializing cache for key=%s: %s", cache_key, e)
 
             # Call the original function
             result = await func(*args, **kwargs)
@@ -199,9 +199,9 @@ def cache_response(ttl: int | None = None):
                 try:
                     cache_value = serialize_result(result)
                     await safe_redis_set(cache_key, cache_value, effective_ttl)
-                    logger.info(f"Cache set for key={cache_key}")
+                    logger.info("Cache set for key=%s", cache_key)
                 except Exception as e:
-                    logger.error(f"Error serializing result for cache key={cache_key}: {e}")
+                    logger.error("Error serializing result for cache key=%s: %s", cache_key, e)
 
             return result
 

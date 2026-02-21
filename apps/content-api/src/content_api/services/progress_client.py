@@ -69,16 +69,16 @@ class ProgressClient:
                 return response.json()
             else:
                 logger.error(
-                    f"[Progress] Complete failed: status={response.status_code}, "
-                    f"body={response.text}"
+                    "[Progress] Complete failed: status=%d, body=%s",
+                    response.status_code, response.text,
                 )
                 return {"completed": False, "xp_earned": 0}
 
         except httpx.TimeoutException as e:
-            logger.error(f"[Progress] Complete timeout: {type(e).__name__}")
+            logger.error("[Progress] Complete timeout: %s", type(e).__name__)
             return {"completed": False, "xp_earned": 0}
         except httpx.HTTPError as e:
-            logger.error(f"[Progress] Complete failed: {type(e).__name__}: {e}")
+            logger.error("[Progress] Complete failed: %s: %s", type(e).__name__, e)
             return {"completed": False, "xp_earned": 0}
 
     async def get_progress(
@@ -102,16 +102,16 @@ class ProgressClient:
                 return response.json()
             else:
                 logger.error(
-                    f"[Progress] Get progress failed: status={response.status_code}, "
-                    f"body={response.text}"
+                    "[Progress] Get progress failed: status=%d, body=%s",
+                    response.status_code, response.text,
                 )
                 return {}
 
         except httpx.TimeoutException as e:
-            logger.error(f"[Progress] Get progress timeout: {type(e).__name__}")
+            logger.error("[Progress] Get progress timeout: %s", type(e).__name__)
             return {}
         except httpx.HTTPError as e:
-            logger.error(f"[Progress] Get progress failed: {type(e).__name__}: {e}")
+            logger.error("[Progress] Get progress failed: %s: %s", type(e).__name__, e)
             return {}
 
 

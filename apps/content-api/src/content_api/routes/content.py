@@ -26,6 +26,24 @@ logger = logging.getLogger(__name__)
 content_router = APIRouter(prefix="/api/v1/content", tags=["content"])
 
 
+async def _release_reservation(
+    metering, reservation_id: str | None, user_id: str, request_id: str, request: Request
+) -> None:
+    """Release a metering reservation on failure. No-op if no reservation exists."""
+    if not reservation_id or not metering:
+        return
+    try:
+        auth_token = request.headers.get("Authorization")
+        await metering.release(
+            user_id=user_id,
+            request_id=request_id,
+            reservation_id=reservation_id,
+            auth_token=auth_token,
+        )
+    except Exception as e:
+        logger.error("[Lesson] Release failed: %s", e)
+
+
 @content_router.get("/tree", response_model=BookTreeResponse)
 @rate_limit("content_tree", max_requests=10, period_minutes=1)
 async def get_tree(
@@ -34,7 +52,7 @@ async def get_tree(
     user: CurrentUser = Depends(get_current_user),
 ) -> BookTreeResponse:
     """Get the full book tree structure."""
-    logger.info(f"[Tree] User {user.id} requesting book tree")
+    logger.info("[Tree] User %s requesting book tree", user.id)
     return await build_book_tree()
 
 
@@ -67,15 +85,15 @@ async def get_lesson(
     else:
         raise HTTPException(status_code=400, detail="Provide 'path' or 'part'+'chapter'+'lesson'")
 
-    logger.info(f"[Lesson] User {user.id}: {lesson_path}")
+    logger.info("[Lesson] User %s: %s", user.id, lesson_path)
 
     credit_charged = False
     reservation_id: str | None = None
     request_id = str(uuid.uuid4())
 
-    # Idempotency check: content-access:{user_id}:{chapter}:{lesson} (1h TTL)
+    # Idempotency check: content-access:{user_id}:{lesson_path} (1h TTL)
     redis = get_redis()
-    idempotency_key = f"content-access:{user.id}:{chapter}:{lesson}"
+    idempotency_key = f"content-access:{user.id}:{lesson_path}"
     already_accessed = False
 
     if redis:
@@ -83,9 +101,9 @@ async def get_lesson(
             existing = await redis.get(idempotency_key)
             if existing:
                 already_accessed = True
-                logger.info(f"[Lesson] Idempotent hit: {idempotency_key}")
+                logger.info("[Lesson] Idempotent hit: %s", idempotency_key)
         except Exception as e:
-            logger.warning(f"[Lesson] Redis idempotency check failed: {e}")
+            logger.warning("[Lesson] Redis idempotency check failed: %s", e)
 
     # Metering check (only if not already accessed and metering enabled)
     metering = get_metering_client()
@@ -126,7 +144,7 @@ async def get_lesson(
             raise
         except Exception as e:
             # Fail-closed: if metering is down, don't serve content
-            logger.error(f"[Lesson] Metering check failed (fail-closed): {e}")
+            logger.error("[Lesson] Metering check failed (fail-closed): %s", e)
             raise HTTPException(
                 status_code=503,
                 detail="Credit verification service unavailable. Please try again later.",
@@ -136,37 +154,13 @@ async def get_lesson(
     try:
         result = await load_lesson_content(lesson_path)
     except Exception as e:
-        logger.error(f"[Lesson] Content load failed: {e}")
-        # Release reservation if content load fails
-        if reservation_id and metering:
-            try:
-                auth_token = request.headers.get("Authorization")
-                await metering.release(
-                    user_id=user.id,
-                    request_id=request_id,
-                    reservation_id=reservation_id,
-                    auth_token=auth_token,
-                )
-                credit_charged = False
-            except Exception as release_err:
-                logger.error(f"[Lesson] Release failed: {release_err}")
+        logger.error("[Lesson] Content load failed: %s", e)
+        await _release_reservation(metering, reservation_id, user.id, request_id, request)
         raise HTTPException(status_code=500, detail="Failed to load content")
 
-    if not result.get("found", False):
-        # Release reservation if content not found
-        if reservation_id and metering:
-            try:
-                auth_token = request.headers.get("Authorization")
-                await metering.release(
-                    user_id=user.id,
-                    request_id=request_id,
-                    reservation_id=reservation_id,
-                    auth_token=auth_token,
-                )
-                credit_charged = False
-            except Exception as release_err:
-                logger.error(f"[Lesson] Release failed: {release_err}")
-        raise HTTPException(status_code=404, detail=f"Lesson not found: {chapter}/{lesson}")
+    if result is None:
+        await _release_reservation(metering, reservation_id, user.id, request_id, request)
+        raise HTTPException(status_code=404, detail=f"Lesson not found: {lesson_path}")
 
     # Finalize metering deduction
     if reservation_id and metering and credit_charged:
@@ -183,14 +177,14 @@ async def get_lesson(
                 auth_token=auth_token,
             )
         except Exception as e:
-            logger.error(f"[Lesson] Metering deduct failed for reservation={reservation_id}: {e}")
+            logger.error("[Lesson] Metering deduct failed for reservation=%s: %s", reservation_id, e)
 
     # Set idempotency key (1 hour TTL)
     if redis and not already_accessed:
         try:
             await redis.setex(idempotency_key, 3600, "1")
         except Exception as e:
-            logger.warning(f"[Lesson] Redis idempotency set failed: {e}")
+            logger.warning("[Lesson] Redis idempotency set failed: %s", e)
 
     # Parse frontmatter (pass extra fields through via model_config)
     frontmatter_dict = result.get("frontmatter_dict", {})
@@ -198,7 +192,7 @@ async def get_lesson(
         frontmatter = LessonFrontmatter(**frontmatter_dict)
     except Exception as e:
         fm_keys = list(frontmatter_dict.keys())
-        logger.warning(f"[Lesson] Frontmatter parse failed: {e} — keys: {fm_keys}")
+        logger.warning("[Lesson] Frontmatter parse failed: %s — keys: %s", e, fm_keys)
         frontmatter = LessonFrontmatter()
 
     return LessonContentResponse(
@@ -219,7 +213,7 @@ async def complete_lesson(
     user: CurrentUser = Depends(get_current_user),
 ) -> CompleteResponse:
     """Record lesson completion."""
-    logger.info(f"[Complete] User {user.id}: {body.chapter_slug}/{body.lesson_slug}")
+    logger.info("[Complete] User %s: %s/%s", user.id, body.chapter_slug, body.lesson_slug)
 
     progress = get_progress_client()
     if not progress:
@@ -251,7 +245,7 @@ async def get_progress(
     user: CurrentUser = Depends(get_current_user),
 ) -> ProgressResponse:
     """Get user's learning progress."""
-    logger.info(f"[Progress] User {user.id} requesting progress")
+    logger.info("[Progress] User %s requesting progress", user.id)
 
     progress = get_progress_client()
     if not progress:

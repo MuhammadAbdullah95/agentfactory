@@ -77,8 +77,8 @@ Then say:
 - [ ] Claude runs `health` check first (not progress)
 - [ ] Claude detects "Not authenticated" on first API call
 - [ ] Claude runs `scripts/auth.py` automatically
-- [ ] Device flow: shows verification URL + code
-- [ ] Browser opens to localhost:3001/device
+- [ ] Auth code + PKCE: browser opens for SSO login
+- [ ] Callback received on localhost:9876/callback
 - [ ] After approving: "Authenticated successfully!"
 - [ ] Credentials saved to `~/.agentfactory/credentials.json`
 

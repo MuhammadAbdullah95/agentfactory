@@ -150,9 +150,9 @@ async def build_book_tree() -> BookTreeResponse:
     if redis:
         try:
             await redis.set(CACHE_KEY, json.dumps(result.model_dump()))
-            logger.info(f"[BookTree] Cached: {total_lessons} lessons, {total_chapters} chapters")
+            logger.info("[BookTree] Cached: %d lessons, %d chapters", total_lessons, total_chapters)
         except Exception as e:
-            logger.error(f"[BookTree] Cache set failed: {e}")
+            logger.error("[BookTree] Cache set failed: %s", e)
 
     return result
 
@@ -172,5 +172,5 @@ async def _fetch_github_tree() -> list[dict]:
             data = response.json()
             return data.get("tree", [])
     except httpx.HTTPError as e:
-        logger.error(f"[BookTree] GitHub API error: {e}")
+        logger.error("[BookTree] GitHub API error: %s", e)
         return []

@@ -108,7 +108,7 @@ async def invalidate_cache(
                         invalidated.extend([k for k in keys])
                     if cursor == 0:
                         break
-                logger.info(f"[Cache] Invalidated path: {path} by {request.client.host if request.client else 'unknown'}")
+                logger.info("[Cache] Invalidated path: %s by %s", path, request.client.host if request.client else "unknown")
         else:
             # Invalidate book tree and all content
             await redis_client.delete("book_tree:v1")
@@ -121,14 +121,14 @@ async def invalidate_cache(
                     invalidated.extend([k for k in keys])
                 if cursor == 0:
                     break
-            logger.info(f"[Cache] Invalidated {len(invalidated)} keys by {request.client.host if request.client else 'unknown'}")
+            logger.info("[Cache] Invalidated %d keys by %s", len(invalidated), request.client.host if request.client else "unknown")
 
         return {
             "status": "ok",
             "invalidated_count": len(invalidated),
         }
     except Exception as e:
-        logger.error(f"[Cache] Invalidation failed: {e}")
+        logger.error("[Cache] Invalidation failed: %s", e)
         raise HTTPException(status_code=500, detail=str(e))
 
 
@@ -152,7 +152,7 @@ if __name__ == "__main__":
 
     port = settings.port
     logger.info("\n=== Content API v0.1 ===")
-    logger.info(f"Dev Mode: {settings.dev_mode}")
-    logger.info(f"Health:  http://localhost:{port}/health\n")
+    logger.info("Dev Mode: %s", settings.dev_mode)
+    logger.info("Health:  http://localhost:%d/health\n", port)
 
     uvicorn.run(app, host="0.0.0.0", port=port)

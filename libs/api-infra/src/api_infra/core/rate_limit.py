@@ -95,7 +95,7 @@ class RateLimiter:
     ) -> None:
         """Default callback when rate limit is exceeded."""
         logger.warning(
-            f"Rate limit exceeded for {request.client.host if request.client else 'unknown'}"
+            "Rate limit exceeded for %s", request.client.host if request.client else "unknown"
         )
         raise HTTPException(
             status_code=429,
@@ -127,7 +127,7 @@ class RateLimiter:
             identifier = self.identifier(request)
             key = f"rate_limit:{self.redis_key}:{identifier}"
             window_ms = self.config.get_window()
-            logger.info(f"[RateLimit] Identifier resolved: {identifier}")
+            logger.info("[RateLimit] Identifier resolved: %s", identifier)
 
             # Execute Lua script for atomic operations
             current, window, ttl = await redis_client.evalsha(
@@ -139,8 +139,8 @@ class RateLimiter:
             )
 
             logger.info(
-                f"[RateLimit] Redis key={key}, current={current}, "
-                f"limit={self.config.times}, window={window_ms}ms, ttl={ttl}ms"
+                "[RateLimit] Redis key=%s, current=%d, limit=%d, window=%dms, ttl=%dms",
+                key, current, self.config.times, window_ms, ttl,
             )
 
             remaining = max(0, self.config.times - current)
@@ -156,7 +156,7 @@ class RateLimiter:
 
         except Exception as e:
             # Fail open but log the error
-            logger.error(f"Rate limit check failed: {e}")
+            logger.error("Rate limit check failed: %s", e)
             return {
                 "current": 1,
                 "limit": self.config.times,

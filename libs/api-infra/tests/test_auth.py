@@ -1,6 +1,6 @@
 """Tests for authentication module.
 
-Tests JWT/JWKS verification, opaque token fallback, and dev mode bypass.
+Tests JWT/JWKS verification and dev mode bypass.
 """
 
 from unittest.mock import AsyncMock, MagicMock, patch
@@ -11,10 +11,8 @@ from fastapi import HTTPException
 from api_infra.auth import (
     CurrentUser,
     get_current_user,
-    get_current_user_optional,
     get_jwks,
     verify_jwt,
-    verify_opaque_token,
 )
 
 
@@ -51,13 +49,11 @@ class TestCurrentUser:
         user = CurrentUser({
             "sub": "user-123",
             "email": "test@example.com",
-            "client_name": "Test Client",
         })
 
         repr_str = repr(user)
         assert "user-123" in repr_str
         assert "test@example.com" in repr_str
-        assert "Test Client" in repr_str
 
 
 class TestJWKS:
@@ -162,54 +158,6 @@ class TestVerifyJWT:
         assert "not found" in str(exc_info.value.detail)
 
 
-class TestVerifyOpaqueToken:
-    """Test opaque token verification."""
-
-    @pytest.mark.asyncio
-    async def test_verify_opaque_token_success(self, sample_jwt_payload):
-        """Test successful opaque token verification."""
-        mock_response = MagicMock()
-        mock_response.status_code = 200
-        mock_response.json.return_value = sample_jwt_payload
-
-        with patch("api_infra.auth.get_settings") as mock_get_settings:
-            mock_settings = MagicMock()
-            mock_settings.sso_url = "https://sso.example.com"
-            mock_get_settings.return_value = mock_settings
-
-            with patch("httpx.AsyncClient") as mock_client:
-                mock_client_instance = AsyncMock()
-                mock_client_instance.get = AsyncMock(return_value=mock_response)
-                mock_client.return_value.__aenter__ = AsyncMock(return_value=mock_client_instance)
-                mock_client.return_value.__aexit__ = AsyncMock(return_value=None)
-
-                result = await verify_opaque_token("opaque-token-123")
-
-        assert result["sub"] == "user-123"
-
-    @pytest.mark.asyncio
-    async def test_verify_opaque_token_invalid(self):
-        """Test error for invalid opaque token."""
-        mock_response = MagicMock()
-        mock_response.status_code = 401
-
-        with patch("api_infra.auth.get_settings") as mock_get_settings:
-            mock_settings = MagicMock()
-            mock_settings.sso_url = "https://sso.example.com"
-            mock_get_settings.return_value = mock_settings
-
-            with patch("httpx.AsyncClient") as mock_client:
-                mock_client_instance = AsyncMock()
-                mock_client_instance.get = AsyncMock(return_value=mock_response)
-                mock_client.return_value.__aenter__ = AsyncMock(return_value=mock_client_instance)
-                mock_client.return_value.__aexit__ = AsyncMock(return_value=None)
-
-                with pytest.raises(HTTPException) as exc_info:
-                    await verify_opaque_token("invalid-token")
-
-        assert exc_info.value.status_code == 401
-
-
 class TestGetCurrentUser:
     """Test get_current_user dependency."""
 
@@ -245,15 +193,3 @@ class TestGetCurrentUser:
 
         assert exc_info.value.status_code == 401
 
-    @pytest.mark.asyncio
-    async def test_optional_auth_returns_none(self):
-        """Test optional auth returns None without credentials."""
-        with patch("api_infra.auth.get_settings") as mock_get_settings:
-            mock_settings = MagicMock()
-            mock_settings.dev_mode = False
-            mock_get_settings.return_value = mock_settings
-
-            mock_request = MagicMock()
-            result = await get_current_user_optional(mock_request, None)
-
-        assert result is None

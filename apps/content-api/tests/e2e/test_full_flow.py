@@ -257,6 +257,48 @@ class TestLessonContent:
 
         assert resp.status_code == 404
 
+    async def test_lesson_by_path_parameter(self, client, make_token):
+        """Lesson endpoint accepts `path` parameter (preferred, from tree)."""
+        token = make_token()
+
+        resp = await client.get(
+            "/api/v1/content/lesson",
+            params={"path": "01-Foundations/01-intro/01-welcome"},
+            headers=auth_header(token),
+        )
+
+        assert resp.status_code == 200
+        data = resp.json()
+        assert data["chapter_slug"] == "01-intro"
+        assert data["lesson_slug"] == "01-welcome"
+        assert "# Welcome to the Course" in data["content"]
+
+    async def test_lesson_by_path_with_sub_chapter(self, client, make_token):
+        """Path parameter works for nested sub-chapter paths."""
+        token = make_token()
+
+        resp = await client.get(
+            "/api/v1/content/lesson",
+            params={"path": "01-Foundations/02-basics/01-first-steps"},
+            headers=auth_header(token),
+        )
+
+        assert resp.status_code == 200
+        data = resp.json()
+        assert data["chapter_slug"] == "02-basics"
+        assert data["lesson_slug"] == "01-first-steps"
+
+    async def test_lesson_missing_params_returns_400(self, client, make_token):
+        """Lesson endpoint requires either path or part+chapter+lesson."""
+        token = make_token()
+
+        resp = await client.get(
+            "/api/v1/content/lesson",
+            headers=auth_header(token),
+        )
+
+        assert resp.status_code == 400
+
     async def test_metering_not_charged_when_disabled(self, client, make_token):
         """With metering disabled, credit_charged should be false."""
         token = make_token()
@@ -299,8 +341,8 @@ class TestIdempotency:
         )
         assert resp.status_code == 200
 
-        # Verify idempotency key was set in Redis
-        key = "content-access:idempotent-user-1:01-intro:01-welcome"
+        # Verify idempotency key was set in Redis (uses full lesson_path)
+        key = "content-access:idempotent-user-1:01-Foundations/01-intro/01-welcome"
         value = await fake_redis_client.get(key)
         assert value == "1"
 
@@ -350,9 +392,9 @@ class TestIdempotency:
         token_b = make_token(sub="user-B")
         await client.get("/api/v1/content/lesson", params=params, headers=auth_header(token_b))
 
-        # Both should have separate idempotency keys
-        key_a = await fake_redis_client.get("content-access:user-A:01-intro:01-welcome")
-        key_b = await fake_redis_client.get("content-access:user-B:01-intro:01-welcome")
+        # Both should have separate idempotency keys (uses full lesson_path)
+        key_a = await fake_redis_client.get("content-access:user-A:01-Foundations/01-intro/01-welcome")
+        key_b = await fake_redis_client.get("content-access:user-B:01-Foundations/01-intro/01-welcome")
         assert key_a == "1"
         assert key_b == "1"
 
@@ -493,3 +535,53 @@ class TestMultiUserIsolation:
         assert resp_b.status_code == 200
         # Same content served to both
         assert resp_a.json()["content"] == resp_b.json()["content"]
+
+
+# ═══════════════════════════════════════════════════════════════════════════
+# Rate Limiting — 429 when exceeding request limit
+# ═══════════════════════════════════════════════════════════════════════════
+
+
+class TestRateLimiting:
+    """Rate limiter returns 429 when requests exceed threshold."""
+
+    async def test_exceeding_rate_limit_returns_429(
+        self, client, make_token, fake_redis_client, monkeypatch
+    ):
+        """When Redis Lua reports over-limit, the rate limiter returns 429.
+
+        fakeredis doesn't support Lua scripting, so we monkeypatch script_load
+        and evalsha on the fake Redis client to simulate the Lua script behavior.
+        """
+        token = make_token(sub="rate-limited-user")
+        headers = auth_header(token)
+
+        # Track call count to simulate incrementing counter
+        call_count = {"n": 0}
+
+        async def fake_script_load(script):
+            return "fake-sha"
+
+        async def fake_evalsha(sha, numkeys, *args):
+            call_count["n"] += 1
+            limit = int(args[1])   # ARGV[1] = limit
+            window = int(args[2])  # ARGV[2] = window_ms
+            current = call_count["n"]
+            # Return [current, window, ttl] — ttl > 0 means over-limit
+            if current > limit:
+                return [current, window, window]
+            return [current, window, 0]
+
+        monkeypatch.setattr(fake_redis_client, "script_load", fake_script_load)
+        monkeypatch.setattr(fake_redis_client, "evalsha", fake_evalsha)
+
+        # Make 10 requests (at the limit for content_tree)
+        for i in range(10):
+            resp = await client.get("/api/v1/content/tree", headers=headers)
+            assert resp.status_code == 200, f"Request {i+1} failed with {resp.status_code}"
+
+        # 11th request should be rate limited
+        resp = await client.get("/api/v1/content/tree", headers=headers)
+        assert resp.status_code == 429
+        data = resp.json()
+        assert "retry_after_ms" in data["detail"]

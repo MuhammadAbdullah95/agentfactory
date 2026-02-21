@@ -277,19 +277,6 @@ def _mock_external_http(jwks_dict):
             return_value=Response(200, json=jwks_dict)
         )
 
-        # SSO userinfo endpoint (returns 401 for all opaque tokens).
-        # When JWT verification fails, auth falls back to opaque token
-        # validation via this endpoint.
-        respx.get("http://test-sso:3001/api/auth/oauth2/userinfo").mock(
-            return_value=Response(401, json={"error": "invalid_token"})
-        )
-
-        # SSO session endpoint (fallback for device flow session tokens).
-        # Returns 401 in tests since we only use JWTs.
-        respx.get("http://test-sso:3001/api/auth/get-session").mock(
-            return_value=Response(401, json={"error": "no_session"})
-        )
-
         # GitHub Trees API (book_tree.py uses this)
         respx.get(url__regex=r"https://api\.github\.com/repos/.+/git/trees/.+").mock(
             return_value=Response(200, json=GITHUB_TREE_RESPONSE)

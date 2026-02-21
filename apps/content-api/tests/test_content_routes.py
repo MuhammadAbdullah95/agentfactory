@@ -94,13 +94,7 @@ class TestGetLesson:
     def test_get_lesson_404_not_found(self):
         """Test 404 when lesson not found."""
         with patch("content_api.routes.content.load_lesson_content") as mock_load:
-            mock_load.return_value = {
-                "content": "",
-                "frontmatter_dict": {},
-                "chapter_slug": "01-intro",
-                "lesson_slug": "99-nonexistent",
-                "found": False,
-            }
+            mock_load.return_value = None
             with patch("content_api.routes.content.get_metering_client", return_value=None):
                 with patch("api_infra.core.redis_cache._aredis", None):
                     response = client.get(
@@ -198,13 +192,7 @@ class TestGetLesson:
 
         with patch("content_api.routes.content.get_metering_client", return_value=mock_metering):
             with patch("content_api.routes.content.load_lesson_content") as mock_load:
-                mock_load.return_value = {
-                    "content": "",
-                    "frontmatter_dict": {},
-                    "chapter_slug": "ch",
-                    "lesson_slug": "ls",
-                    "found": False,
-                }
+                mock_load.return_value = None
                 with patch("api_infra.core.redis_cache._aredis", None):
                     response = client.get(
                         "/api/v1/content/lesson?part=pt&chapter=ch&lesson=ls",

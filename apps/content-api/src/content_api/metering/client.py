@@ -117,7 +117,7 @@ class MeteringClient:
                 }
             else:
                 logger.error(
-                    f"[Metering] Check failed: status={response.status_code}, body={response.text}"
+                    "[Metering] Check failed: status=%d, body=%s", response.status_code, response.text
                 )
                 return {
                     "allowed": False,
@@ -126,14 +126,14 @@ class MeteringClient:
                 }
 
         except httpx.TimeoutException as e:
-            logger.error(f"[Metering] Check request timeout: {type(e).__name__}")
+            logger.error("[Metering] Check request timeout: %s", type(e).__name__)
             return {
                 "allowed": False,
                 "error_code": "SERVICE_UNAVAILABLE",
                 "message": "Credit verification service timed out",
             }
         except httpx.HTTPError as e:
-            logger.error(f"[Metering] Check request failed: {type(e).__name__}: {e}")
+            logger.error("[Metering] Check request failed: %s: %s", type(e).__name__, e)
             return {
                 "allowed": False,
                 "error_code": "SERVICE_UNAVAILABLE",
@@ -180,15 +180,15 @@ class MeteringClient:
                 return response.json()
             else:
                 logger.error(
-                    f"[Metering] Deduct failed: status={response.status_code}, body={response.text}"
+                    "[Metering] Deduct failed: status=%d, body=%s", response.status_code, response.text
                 )
                 return {"status": "failed", "error": response.text}
 
         except httpx.TimeoutException as e:
-            logger.error(f"[Metering] Deduct request timeout: {type(e).__name__}")
+            logger.error("[Metering] Deduct request timeout: %s", type(e).__name__)
             return {"status": "failed", "error": "timeout"}
         except httpx.HTTPError as e:
-            logger.error(f"[Metering] Deduct request failed: {type(e).__name__}: {e}")
+            logger.error("[Metering] Deduct request failed: %s: %s", type(e).__name__, e)
             return {"status": "failed", "error": str(e)}
 
     async def release(
@@ -222,16 +222,16 @@ class MeteringClient:
                 return response.json()
             else:
                 logger.warning(
-                    f"[Metering] Release failed: status={response.status_code}, "
-                    f"body={response.text}"
+                    "[Metering] Release failed: status=%d, body=%s",
+                    response.status_code, response.text,
                 )
                 return {"status": "failed", "error": response.text}
 
         except httpx.TimeoutException as e:
-            logger.warning(f"[Metering] Release request timeout: {type(e).__name__}")
+            logger.warning("[Metering] Release request timeout: %s", type(e).__name__)
             return {"status": "failed", "error": "timeout"}
         except httpx.HTTPError as e:
-            logger.warning(f"[Metering] Release request failed: {type(e).__name__}: {e}")
+            logger.warning("[Metering] Release request failed: %s: %s", type(e).__name__, e)
             return {"status": "failed", "error": str(e)}
 
 

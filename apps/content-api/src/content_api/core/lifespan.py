@@ -55,16 +55,16 @@ async def lifespan(app: FastAPI):
                 await content_loader._http_client.aclose()
                 logger.info("[SHUTDOWN] Closed content_loader httpx client")
             except Exception as e:
-                logger.warning(f"[SHUTDOWN] Error closing content_loader: {e}")
+                logger.warning("[SHUTDOWN] Error closing content_loader: %s", e)
 
         # metering and progress clients have .close() methods
         for name, client in [("metering", metering_client), ("progress", progress_client)]:
             if client is not None:
                 try:
                     await client.close()
-                    logger.info(f"[SHUTDOWN] Closed {name} client")
+                    logger.info("[SHUTDOWN] Closed %s client", name)
                 except Exception as e:
-                    logger.warning(f"[SHUTDOWN] Error closing {name}: {e}")
+                    logger.warning("[SHUTDOWN] Error closing %s: %s", name, e)
 
         await stop_redis()
 

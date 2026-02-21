@@ -90,16 +90,16 @@ ENV PATH="/app/.venv/bin:$PATH" \
     PYTHONUNBUFFERED=1 \
     PYTHONDONTWRITEBYTECODE=1 \
     PIP_DISABLE_PIP_VERSION_CHECK=1 \
-    PORT=8001
+    PORT=8003
 
 # Switch to non-root user
 USER app
 
-EXPOSE 8001
+EXPOSE 8003
 
 # Health check using Python stdlib (no curl needed)
 HEALTHCHECK --interval=30s --timeout=5s --start-period=15s --retries=3 \
-    CMD python -c "import urllib.request; urllib.request.urlopen('http://127.0.0.1:8001/health', timeout=3)" || exit 1
+    CMD python -c "import urllib.request; urllib.request.urlopen('http://127.0.0.1:8003/health', timeout=3)" || exit 1
 
 STOPSIGNAL SIGTERM
 

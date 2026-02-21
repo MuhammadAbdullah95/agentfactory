@@ -43,7 +43,7 @@ class Settings(BaseSettings):
     dev_user_name: str = "Dev User"
 
     # Server
-    port: int = 8001
+    port: int = 8003
 
     # Token Metering API
     metering_api_url: str = ""

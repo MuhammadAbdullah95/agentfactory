@@ -1,9 +1,6 @@
 """JWT/JWKS authentication against SSO.
 
-Supports two token types:
-1. JWT (id_token from web auth code flow) - Verified locally using JWKS public keys
-2. Opaque (session token from device flow) - Verified via SSO get-session + Bearer plugin
-
+Verifies JWT id_tokens (from auth code + PKCE flow) locally using JWKS public keys.
 Dev mode bypass available for local development.
 """
 
@@ -137,79 +134,6 @@ async def verify_jwt(token: str) -> dict[str, Any]:
         ) from e
 
 
-async def verify_opaque_token(token: str) -> dict[str, Any]:
-    """Verify opaque session token via SSO get-session + Bearer plugin.
-
-    Device flow returns raw session tokens. The SSO Bearer plugin signs
-    the token on-the-fly with HMAC and converts it to a session cookie
-    internally, so get-session can validate it.
-    """
-    settings = get_settings()
-    if not settings.sso_url:
-        raise HTTPException(
-            status_code=status.HTTP_503_SERVICE_UNAVAILABLE,
-            detail="SSO not configured",
-        )
-
-    token_preview = f"{token[:10]}...{token[-10:]}" if len(token) > 25 else "[short]"
-    session_url = f"{settings.sso_url}/api/auth/get-session"
-    logger.info("[AUTH] Validating session token: %s", token_preview)
-
-    try:
-        async with httpx.AsyncClient(timeout=10.0) as client:
-            resp = await client.get(
-                session_url,
-                headers={"Authorization": f"Bearer {token}"},
-            )
-
-        if resp.status_code != 200:
-            logger.warning("[AUTH] get-session returned %d for: %s", resp.status_code, token_preview)
-            raise HTTPException(
-                status_code=status.HTTP_401_UNAUTHORIZED,
-                detail="Token invalid or expired",
-                headers={"WWW-Authenticate": "Bearer"},
-            )
-
-        data = resp.json()
-        if not isinstance(data, dict):
-            logger.warning("[AUTH] get-session returned non-dict: %s", type(data))
-            raise HTTPException(
-                status_code=status.HTTP_401_UNAUTHORIZED,
-                detail="Token invalid or expired",
-                headers={"WWW-Authenticate": "Bearer"},
-            )
-
-        user = data.get("user", {})
-        session = data.get("session", {})
-        if not user.get("id"):
-            logger.warning("[AUTH] get-session returned no user for: %s", token_preview)
-            raise HTTPException(
-                status_code=status.HTTP_401_UNAUTHORIZED,
-                detail="Token invalid or expired",
-                headers={"WWW-Authenticate": "Bearer"},
-            )
-
-        logger.info(
-            "[AUTH] Session token verified - id: %s, email: %s",
-            user.get("id"),
-            user.get("email"),
-        )
-        return {
-            "sub": user.get("id", ""),
-            "email": user.get("email", ""),
-            "name": user.get("name", ""),
-            "role": user.get("role", "user"),
-            "organization_id": session.get("activeOrganizationId"),
-        }
-
-    except httpx.RequestError as e:
-        logger.error("[AUTH] Token validation request failed: %s", e)
-        raise HTTPException(
-            status_code=status.HTTP_503_SERVICE_UNAVAILABLE,
-            detail=f"Authentication service unavailable: {e}",
-        ) from e
-
-
 class CurrentUser:
     """Authenticated user extracted from JWT claims."""
 
@@ -225,12 +149,9 @@ class CurrentUser:
             or (org_ids[0] if org_ids else None)
         )
         self.organization_ids: list[str] = org_ids if isinstance(org_ids, list) else []
-        self.client_id: str | None = payload.get("client_id")
-        self.client_name: str | None = payload.get("client_name")
 
     def __repr__(self) -> str:
-        client_info = f", client={self.client_name!r}" if self.client_name else ""
-        return f"CurrentUser(id={self.id!r}, email={self.email!r}{client_info})"
+        return f"CurrentUser(id={self.id!r}, email={self.email!r})"
 
 
 async def get_current_user(
@@ -264,52 +185,8 @@ async def get_current_user(
         )
 
     token = credentials.credentials
-    token_parts = token.count(".")
 
-    logger.debug(
-        "[AUTH] Token validation - segments: %d, type: %s",
-        token_parts + 1,
-        "JWT" if token_parts == 2 else "opaque",
-    )
-
-    # Try JWT first if it looks like a JWT
-    if token_parts == 2:
-        try:
-            payload = await verify_jwt(token)
-            user = CurrentUser(payload)
-            logger.info("[AUTH] Authenticated via JWT: %s", user)
-            return user
-        except HTTPException:
-            logger.debug("[AUTH] JWT validation failed, trying opaque token...")
-
-    # Session token validation via SSO get-session
-    payload = await verify_opaque_token(token)
+    payload = await verify_jwt(token)
     user = CurrentUser(payload)
-    logger.info("[AUTH] Authenticated via opaque token: %s", user)
+    logger.info("[AUTH] Authenticated via JWT: %s", user)
     return user
-
-
-async def get_current_user_optional(
-    request: Request,
-    credentials: HTTPAuthorizationCredentials | None = Depends(security),
-) -> CurrentUser | None:
-    """Optional authentication - returns None if no credentials provided.
-
-    Useful for endpoints that work both authenticated and anonymous.
-    """
-    settings = get_settings()
-
-    if settings.dev_mode:
-        return CurrentUser(
-            {
-                "sub": settings.dev_user_id,
-                "email": settings.dev_user_email,
-                "name": settings.dev_user_name,
-                "role": "admin",
-            }
-        )
-
-    if not credentials:
-        return None
-
-    return await get_current_user(request, credentials)
