@@ -3,11 +3,6 @@ title: "Why AI Is Non-Negotiable"
 description: "Hundreds of billions spent and nobody has answered the simplest question: How is this great for me? Here is the honest debate—the fears, the stakes, the uncomfortable truth—and what it means for anyone deciding whether to build or to wait."
 sidebar_position: -1
 pagination_prev: thesis
-slides:
-  source: "https://pub-80f166e40b854371ac7b05053b435162.r2.dev/books/ai-native-dev/static/slides/part-0/chapter-00/why-ai-is-non-negotiable.pdf"
-  title: "Why AI Is Non-Negotiable"
-  placement: "after-intro"
-  height: 700
 keywords:
   - AI debate
   - job displacement
@@ -22,6 +17,8 @@ keywords:
 # Why AI Is Non-Negotiable?
 
 ## 📚 Teaching Aid
+
+<PDFViewer src="https://pub-80f166e40b854371ac7b05053b435162.r2.dev/books/ai-native-dev/static/slides/part-0/chapter-00/why-ai-is-non-negotiable.pdf" title="Why AI Is Non-Negotiable" height={700} />
 
 Human evolution has never been strictly biological. It has always been technological. Fire extended the day. Agriculture freed us from constant foraging. The printing press democratized knowledge. The steam engine industrialized muscle. The computer industrialized calculation. None of these were optional. The societies that adopted them flourished. The ones that resisted were absorbed by those that didn't.
 

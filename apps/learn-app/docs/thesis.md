@@ -3,11 +3,6 @@ title: "The Agent Factory Thesis"
 description: "In the AI era, the most valuable companies won't sell software—they'll manufacture AI employees that compose tools, spawn specialist agents, and deliver outcomes at scale."
 sidebar_position: -2
 pagination_prev: null
-slides:
-  source: "https://pub-80f166e40b854371ac7b05053b435162.r2.dev/books/ai-native-dev/static/slides/part-0/chapter-00/the-agent-factory-thesis.pdf"
-  title: "The Agent Factory Thesis"
-  placement: "after-intro"
-  height: 700
 keywords:
   - AI employees
   - Digital FTE
@@ -59,6 +54,8 @@ What remains: Intent. Verification. Outcome.
 </div>
 
 ## 📚 Teaching Aid
+
+<PDFViewer src="https://pub-80f166e40b854371ac7b05053b435162.r2.dev/books/ai-native-dev/static/slides/part-0/chapter-00/the-agent-factory-thesis.pdf" title="The Agent Factory Thesis" height={700} />
 
 ---
 
