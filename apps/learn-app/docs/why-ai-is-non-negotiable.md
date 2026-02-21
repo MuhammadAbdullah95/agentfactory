@@ -197,7 +197,7 @@ explanation: "The text summarizes the skeptic's position in one line: 'the risks
 source: "Section: The Objections"
 },
 {
-question: "Which of the following is NOT listed as one of the five core objections to AI?",
+question: "Which of the following is NOT listed as one of the eight core objections to AI?",
 options: [
 "AI will concentrate wealth among a small number of technology billionaires",
 "Mass unemployment from job displacement",
@@ -205,7 +205,7 @@ options: [
 "The erosion of shared reality through AI-generated content"
 ],
 correctOption: 0,
-explanation: "The five objections listed are: mass unemployment, no clear consumer benefit, surveillance and authoritarian control, geopolitical arms race, and erosion of reality. Wealth concentration, while related, is not listed as one of the five core objections.",
+explanation: "The eight objections listed are: mass unemployment, no clear consumer benefit, surveillance and authoritarian control, geopolitical arms race, and erosion of reality. Wealth concentration, while related, is not listed as one of the eight core objections.",
 source: "Section: The Objections"
 },
 {
