@@ -5,7 +5,6 @@ description = "Content API - book tree, lessons, and progress tracking"
 readme = { text = "", content-type = "text/markdown" }
 requires-python = ">=3.12"
 dependencies = [
-    "api-infra",
     "fastapi>=0.115.0",
     "pydantic>=2.10.0",
     "pydantic-settings>=2.6.0",
@@ -13,6 +12,8 @@ dependencies = [
     "uvicorn[standard]>=0.32.0",
     "python-dotenv>=1.0.0",
     "pyyaml>=6.0.0",
+    "python-jose[cryptography]>=3.3.0",
+    "redis>=5.0.0",
 ]
 
 [dependency-groups]
@@ -26,9 +27,6 @@ dev = [
     "ruff>=0.8.0",
     "mypy>=1.13.0",
 ]
-
-[tool.uv.sources]
-api-infra = { workspace = true }
 
 [build-system]
 requires = ["hatchling"]

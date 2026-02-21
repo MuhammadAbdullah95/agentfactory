@@ -2,8 +2,7 @@
 # Study Mode API - Production Dockerfile (Hardened)
 # Multi-stage build | Non-root | Minimal attack surface | OCI compliant
 #
-# Build context: MONOREPO ROOT (not apps/study-mode-api/)
-#   docker build -f apps/study-mode-api/Dockerfile .
+# Build context: apps/study-mode-api/
 # =============================================================================
 
 ARG PYTHON_VERSION=3.13
@@ -28,21 +27,14 @@ COPY --from=ghcr.io/astral-sh/uv:0.5 /uv /usr/local/bin/uv
 
 WORKDIR /build
 
-# Copy workspace root (uv needs this to resolve workspace members)
-COPY pyproject.toml uv.lock ./
+# Copy dependency + source files
+COPY pyproject.toml README.md ./
+COPY src/ ./src/
 
-# Copy shared library (workspace dependency)
-COPY libs/api-infra/ ./libs/api-infra/
-
-# Copy application
-COPY apps/study-mode-api/ ./apps/study-mode-api/
-
-# Install into isolated venv using workspace-aware sync
-# --package: install only this app (+ its workspace deps like api-infra)
-# --frozen: use lockfile as-is, don't re-resolve
-# --no-dev: skip dev dependencies
-ENV UV_PROJECT_ENVIRONMENT=/app/.venv
-RUN uv sync --package study-mode-api --frozen --no-dev --compile-bytecode
+# Install app + deps into isolated venv
+RUN uv venv /app/.venv && \
+    . /app/.venv/bin/activate && \
+    uv pip install . --compile-bytecode
 
 # Aggressive cleanup to minimize venv size
 RUN rm -rf /app/.venv/lib/python*/site-packages/pip* \
@@ -86,10 +78,8 @@ WORKDIR /app
 # Copy ONLY the venv from builder (uv stays in builder, not copied here)
 COPY --from=builder --chown=app:app /app/.venv /app/.venv
 
-# Copy application source + workspace library source
-# (uv installs workspace deps as editable .pth links to /build/libs/...)
-COPY --from=builder --chown=app:app /build/libs/api-infra/src/ /build/libs/api-infra/src/
-COPY --chown=app:app apps/study-mode-api/src/ ./src/
+# Copy application source (includes api_infra alongside study_mode_api)
+COPY --chown=app:app src/ ./src/
 
 # Environment configuration
 ENV PATH="/app/.venv/bin:$PATH" \
