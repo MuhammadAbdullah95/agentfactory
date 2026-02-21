@@ -4,6 +4,7 @@ Verifies JWT id_tokens (from auth code + PKCE flow) locally using JWKS public ke
 Dev mode bypass available for local development.
 """
 
+import asyncio
 import logging
 import time
 from typing import Any
@@ -22,6 +23,7 @@ security = HTTPBearer(auto_error=False)  # Don't auto-error, we handle it
 # JWKS cache - fetched once, reused for 1 hour
 _jwks_cache: dict[str, Any] | None = None
 _jwks_cache_time: float = 0
+_jwks_lock = asyncio.Lock()
 JWKS_CACHE_TTL = 3600  # 1 hour
 
 
@@ -30,6 +32,7 @@ async def get_jwks() -> dict[str, Any]:
 
     Called once per hour, not per request.
     Keys are used to verify JWT signatures locally.
+    Uses asyncio.Lock to prevent thundering herd on cache expiry.
     """
     global _jwks_cache, _jwks_cache_time
 
@@ -39,35 +42,41 @@ async def get_jwks() -> dict[str, Any]:
         logger.debug("[AUTH] Using cached JWKS (age: %.0fs)", now - _jwks_cache_time)
         return _jwks_cache
 
-    if not settings.sso_url:
-        raise HTTPException(
-            status_code=status.HTTP_503_SERVICE_UNAVAILABLE,
-            detail="SSO not configured",
-        )
-
-    jwks_url = f"{settings.sso_url}/api/auth/jwks"
-    logger.info("[AUTH] Fetching JWKS from %s", jwks_url)
-
-    try:
-        async with httpx.AsyncClient(timeout=10.0) as client:
-            response = await client.get(jwks_url)
-            response.raise_for_status()
-            _jwks_cache = response.json()
-            _jwks_cache_time = now
-            key_count = len(_jwks_cache.get("keys", []))
-            logger.info("[AUTH] JWKS fetched successfully: %d keys", key_count)
+    async with _jwks_lock:
+        # Double-check after acquiring lock — another coroutine may have refreshed
+        now = time.time()
+        if _jwks_cache and (now - _jwks_cache_time) < JWKS_CACHE_TTL:
             return _jwks_cache
-    except httpx.HTTPError as e:
-        logger.error("[AUTH] JWKS fetch failed: %s", e)
-        # If we have cached keys, use them even if expired
-        if _jwks_cache:
-            logger.warning("[AUTH] Using expired JWKS cache as fallback")
-            return _jwks_cache
-        logger.error("[AUTH] No cached JWKS available, auth will fail")
-        raise HTTPException(
-            status_code=status.HTTP_503_SERVICE_UNAVAILABLE,
-            detail=f"Authentication service unavailable: {e}",
-        ) from e
+
+        if not settings.sso_url:
+            raise HTTPException(
+                status_code=status.HTTP_503_SERVICE_UNAVAILABLE,
+                detail="SSO not configured",
+            )
+
+        jwks_url = f"{settings.sso_url}/api/auth/jwks"
+        logger.info("[AUTH] Fetching JWKS from %s", jwks_url)
+
+        try:
+            async with httpx.AsyncClient(timeout=10.0) as client:
+                response = await client.get(jwks_url)
+                response.raise_for_status()
+                _jwks_cache = response.json()
+                _jwks_cache_time = now
+                key_count = len(_jwks_cache.get("keys", []))
+                logger.info("[AUTH] JWKS fetched successfully: %d keys", key_count)
+                return _jwks_cache
+        except httpx.HTTPError as e:
+            logger.error("[AUTH] JWKS fetch failed: %s", e)
+            # If we have cached keys, use them even if expired
+            if _jwks_cache:
+                logger.warning("[AUTH] Using expired JWKS cache as fallback")
+                return _jwks_cache
+            logger.error("[AUTH] No cached JWKS available, auth will fail")
+            raise HTTPException(
+                status_code=status.HTTP_503_SERVICE_UNAVAILABLE,
+                detail=f"Authentication service unavailable: {e}",
+            ) from e
 
 
 async def verify_jwt(token: str) -> dict[str, Any]:

@@ -121,39 +121,8 @@ class RateLimiter:
             }
 
         try:
-            script_sha = await self._load_lua_script(redis_client)
-
-            # Get identifier (e.g., user ID or IP address)
-            identifier = self.identifier(request)
-            key = f"rate_limit:{self.redis_key}:{identifier}"
-            window_ms = self.config.get_window()
-            logger.info("[RateLimit] Identifier resolved: %s", identifier)
-
-            # Execute Lua script for atomic operations
-            current, window, ttl = await redis_client.evalsha(
-                script_sha,
-                1,  # number of keys
-                key,  # key
-                str(self.config.times),  # limit
-                str(window_ms),  # window in ms
-            )
-
-            logger.info(
-                "[RateLimit] Redis key=%s, current=%d, limit=%d, window=%dms, ttl=%dms",
-                key, current, self.config.times, window_ms, ttl,
-            )
-
-            remaining = max(0, self.config.times - current)
-            if current > self.config.times:
-                remaining = -1
-
-            return {
-                "current": current,
-                "limit": self.config.times,
-                "remaining": remaining,
-                "reset_after": ttl if ttl > 0 else window_ms,
-            }
-
+            result = await self._execute_lua(redis_client, request)
+            return result
         except Exception as e:
             # Fail open but log the error
             logger.error("Rate limit check failed: %s", e)
@@ -163,6 +132,51 @@ class RateLimiter:
                 "remaining": self.config.times - 1,
                 "reset_after": self.config.get_window(),
             }
+
+    async def _execute_lua(
+        self, redis_client, request: Request, *, _retried: bool = False
+    ) -> dict[str, int | str]:
+        """Execute rate limit Lua script with NOSCRIPT retry."""
+        script_sha = await self._load_lua_script(redis_client)
+
+        # Get identifier (e.g., user ID or IP address)
+        identifier = self.identifier(request)
+        key = f"rate_limit:{self.redis_key}:{identifier}"
+        window_ms = self.config.get_window()
+        logger.info("[RateLimit] Identifier resolved: %s", identifier)
+
+        try:
+            # Execute Lua script for atomic operations
+            current, window, ttl = await redis_client.evalsha(
+                script_sha,
+                1,  # number of keys
+                key,  # key
+                str(self.config.times),  # limit
+                str(window_ms),  # window in ms
+            )
+        except Exception as e:
+            # NOSCRIPT = Redis restarted and lost the cached script
+            if "NOSCRIPT" in str(e) and not _retried:
+                logger.warning("[RateLimit] NOSCRIPT error, reloading Lua script")
+                self._lua_script_sha = None
+                return await self._execute_lua(redis_client, request, _retried=True)
+            raise
+
+        logger.info(
+            "[RateLimit] Redis key=%s, current=%d, limit=%d, window=%dms, ttl=%dms",
+            key, current, self.config.times, window_ms, ttl,
+        )
+
+        remaining = max(0, self.config.times - current)
+        if current > self.config.times:
+            remaining = -1
+
+        return {
+            "current": current,
+            "limit": self.config.times,
+            "remaining": remaining,
+            "reset_after": ttl if ttl > 0 else window_ms,
+        }
 
 
 def rate_limit(

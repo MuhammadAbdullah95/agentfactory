@@ -170,7 +170,16 @@ async def _fetch_github_tree() -> list[dict]:
             response = await client.get(url, headers=headers)
             response.raise_for_status()
             data = response.json()
+            if data.get("truncated"):
+                logger.warning(
+                    "[BookTree] GitHub tree response was truncated — "
+                    "repo may have >100k files or entries >7MB. "
+                    "Some lessons may be missing from the tree."
+                )
             return data.get("tree", [])
+    except httpx.TimeoutException as e:
+        logger.error("[BookTree] GitHub API timeout after 30s: %s", e)
+        return []
     except httpx.HTTPError as e:
         logger.error("[BookTree] GitHub API error: %s", e)
         return []

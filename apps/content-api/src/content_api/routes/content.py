@@ -178,6 +178,11 @@ async def get_lesson(
             )
         except Exception as e:
             logger.error("[Lesson] Metering deduct failed for reservation=%s: %s", reservation_id, e)
+            # Fail-closed: don't serve content if we can't confirm the charge
+            raise HTTPException(
+                status_code=503,
+                detail="Credit deduction failed. Your reservation will be released automatically. Please try again.",
+            )
 
     # Set idempotency key (1 hour TTL)
     if redis and not already_accessed:
