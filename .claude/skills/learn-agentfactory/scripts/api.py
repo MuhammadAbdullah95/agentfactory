@@ -82,21 +82,47 @@ def _base_url() -> str:
     return os.environ.get("CONTENT_API_URL", DEFAULT_API_URL).rstrip("/")
 
 
+def _refresh_and_retry(make_request) -> dict:
+    """On 401, run auth.py ensure to refresh token, then retry once."""
+    import subprocess
+
+    script_dir = Path(__file__).parent
+    auth_script = script_dir / "auth.py"
+    result = subprocess.run(
+        [sys.executable, str(auth_script), "ensure"],
+        capture_output=True, text=True, timeout=120,
+    )
+    if result.returncode != 0:
+        print("ERROR: Token refresh failed.\n"
+              "Run: python3 scripts/auth.py login", file=sys.stderr)
+        sys.exit(1)
+
+    # Retry with fresh token
+    return make_request()
+
+
 def _api_get(path: str, params: dict | None = None) -> dict:
-    """Authenticated GET to Content API."""
-    url = f"{_base_url()}{path}"
-    if params:
-        url += "?" + urlencode(params)
+    """Authenticated GET to Content API. Auto-retries once on 401."""
+    def _do_request():
+        url = f"{_base_url()}{path}"
+        if params:
+            url_with_params = url + "?" + urlencode(params)
+        else:
+            url_with_params = url
 
-    token = _load_token()
-    req = Request(url)
-    req.add_header("Authorization", f"Bearer {token}")
-    req.add_header("Accept", "application/json")
+        token = _load_token()
+        req = Request(url_with_params)
+        req.add_header("Authorization", f"Bearer {token}")
+        req.add_header("Accept", "application/json")
 
-    try:
         with urlopen(req, timeout=30) as resp:
             return json.loads(resp.read())
+
+    try:
+        return _do_request()
     except HTTPError as e:
+        if e.code == 401:
+            return _refresh_and_retry(_do_request)
         _handle_http_error(e)
     except OSError as e:
         print(f"ERROR: Connection failed: {e}", file=sys.stderr)
@@ -105,20 +131,25 @@ def _api_get(path: str, params: dict | None = None) -> dict:
 
 
 def _api_post(path: str, data: dict) -> dict:
-    """Authenticated POST to Content API."""
-    url = f"{_base_url()}{path}"
-    body = json.dumps(data).encode()
+    """Authenticated POST to Content API. Auto-retries once on 401."""
+    def _do_request():
+        url = f"{_base_url()}{path}"
+        body = json.dumps(data).encode()
 
-    token = _load_token()
-    req = Request(url, data=body, method="POST")
-    req.add_header("Authorization", f"Bearer {token}")
-    req.add_header("Content-Type", "application/json")
-    req.add_header("Accept", "application/json")
+        token = _load_token()
+        req = Request(url, data=body, method="POST")
+        req.add_header("Authorization", f"Bearer {token}")
+        req.add_header("Content-Type", "application/json")
+        req.add_header("Accept", "application/json")
 
-    try:
         with urlopen(req, timeout=30) as resp:
             return json.loads(resp.read())
+
+    try:
+        return _do_request()
     except HTTPError as e:
+        if e.code == 401:
+            return _refresh_and_retry(_do_request)
         _handle_http_error(e)
     except OSError as e:
         print(f"ERROR: Connection failed: {e}", file=sys.stderr)
