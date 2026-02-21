@@ -12,8 +12,6 @@ from ..config import settings
 
 logger = logging.getLogger(__name__)
 
-CONTENT_CACHE_TTL = settings.content_cache_ttl
-
 # Reusable httpx client for GitHub fetches (connection pooling)
 _http_client: httpx.AsyncClient | None = None
 _http_client_lock = asyncio.Lock()
@@ -104,7 +102,7 @@ async def fetch_from_github(lesson_path: str) -> tuple[str, bool]:
     return "", False
 
 
-@cache_response(ttl=CONTENT_CACHE_TTL)
+@cache_response()
 async def load_lesson_content(lesson_path: str) -> dict | None:
     """Load lesson content with caching.
 

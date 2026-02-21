@@ -166,11 +166,11 @@ def cache_response(ttl: int | None = None):
         async def get_lesson_content(lesson_id: str) -> dict:
             ...
     """
-    effective_ttl = ttl if ttl is not None else _default_cache_ttl
-
     def decorator(func: Callable[..., Any]):
         @wraps(func)
         async def wrapper(*args: Any, **kwargs: Any) -> Any:
+            # Resolve TTL at call time so settings.content_cache_ttl is available
+            effective_ttl = ttl if ttl is not None else _default_cache_ttl
             if not _aredis:
                 logger.debug("Redis not available, executing function directly")
                 return await func(*args, **kwargs)

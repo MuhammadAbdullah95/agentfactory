@@ -1,5 +1,5 @@
 """Token metering integration for content-api."""
 
-from .client import MeteringClient, get_metering_client
+from .client import CheckResult, MeteringClient, MutationResult, get_metering_client
 
-__all__ = ["MeteringClient", "get_metering_client"]
+__all__ = ["CheckResult", "MeteringClient", "MutationResult", "get_metering_client"]

@@ -49,9 +49,10 @@ class TestRateLimiter:
     """Test RateLimiter class."""
 
     def test_default_identifier_with_user_id(self):
-        """Test identifier extraction from user_id query param."""
+        """Test identifier extraction from request.state.rate_limit_user_id."""
         mock_request = MagicMock(spec=Request)
-        mock_request.query_params = {"user_id": "user-123"}
+        mock_request.state = MagicMock()
+        mock_request.state.rate_limit_user_id = "user-123"
         mock_request.headers = {}
         mock_request.client = MagicMock(host="192.168.1.1")
 
@@ -60,9 +61,9 @@ class TestRateLimiter:
         assert identifier == "user:user-123"
 
     def test_default_identifier_falls_back_to_ip(self):
-        """Test identifier falls back to IP when no user_id."""
+        """Test identifier falls back to IP when no authenticated user."""
         mock_request = MagicMock(spec=Request)
-        mock_request.query_params = {}
+        mock_request.state = MagicMock(spec=[])  # empty spec = no attributes
         mock_request.headers = {}
         mock_request.client = MagicMock(host="192.168.1.1")
 
@@ -73,7 +74,7 @@ class TestRateLimiter:
     def test_default_identifier_uses_forwarded_header(self):
         """Test identifier uses X-Forwarded-For header."""
         mock_request = MagicMock(spec=Request)
-        mock_request.query_params = {}
+        mock_request.state = MagicMock(spec=[])  # no rate_limit_user_id
         mock_request.headers = {"X-Forwarded-For": "10.0.0.1, 10.0.0.2"}
         mock_request.client = MagicMock(host="192.168.1.1")
 

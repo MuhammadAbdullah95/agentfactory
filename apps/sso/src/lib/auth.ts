@@ -24,11 +24,7 @@ import {
 import { eq, and } from "drizzle-orm";
 import { Resend } from "resend";
 import * as nodemailer from "nodemailer";
-import {
-  TRUSTED_CLIENTS,
-  TRUSTED_CLIENT_IDS,
-  DEFAULT_ORG_ID,
-} from "./trusted-clients";
+import { TRUSTED_CLIENTS, DEFAULT_ORG_ID } from "./trusted-clients";
 import { redis, redisStorage } from "./redis";
 import bcrypt from "bcryptjs";
 
