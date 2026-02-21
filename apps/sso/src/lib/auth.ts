@@ -7,7 +7,7 @@ import { organization } from "better-auth/plugins/organization";
 import { jwt } from "better-auth/plugins";
 import { username } from "better-auth/plugins";
 import { haveIBeenPwned } from "better-auth/plugins";
-import { apiKey, bearer } from "better-auth/plugins";
+import { apiKey } from "better-auth/plugins";
 import { db } from "./db";
 import * as schema from "../../auth-schema"; // Use Better Auth generated schema
 import { member } from "../../auth-schema";
@@ -976,11 +976,6 @@ export const auth = betterAuth({
         maxExpiresIn: 365, // Maximum 1 year
       },
     }),
-
-    // Bearer Plugin - Enables Authorization header for session tokens
-    // Allows services to pass raw session tokens as Bearer headers;
-    // the plugin signs on-the-fly with HMAC and converts to session cookie internally.
-    bearer(),
   ],
 
   // Database hooks - Automatically add new users to default organization

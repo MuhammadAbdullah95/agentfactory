@@ -27,7 +27,6 @@ class Settings(BaseSettings):
 
     # SSO (required for production)
     sso_url: str = ""
-    sso_cookie_prefix: str = "robolearn"
 
     # CORS
     allowed_origins: str = "http://localhost:3000"
