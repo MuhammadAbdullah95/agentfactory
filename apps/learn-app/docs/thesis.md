@@ -58,6 +58,8 @@ What remains: Intent. Verification. Outcome.
 
 </div>
 
+## 📚 Teaching Aid
+
 ---
 
 ### The Paradigm Shift
