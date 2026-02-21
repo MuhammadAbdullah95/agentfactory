@@ -30,7 +30,7 @@ Yet this rapid technological shift has fractured public opinion. Society is divi
 
 ### The Objections
 
-Critics raise five core objections. These aren't fringe concerns—they surface in boardrooms, legislative hearings, and prime-time debates alike. The skeptic's position can be summarized in one line: _the risks are obvious, and nobody has explained the upside._
+Critics raise eight core objections. These aren't fringe concerns—they surface in boardrooms, legislative hearings, and prime-time debates alike. The skeptic's position can be summarized in one line: _the risks are obvious, and nobody has explained the upside._
 
 **1. Mass Unemployment.** AI will eliminate millions of jobs—entry-level positions first, then white-collar work like law, accounting, and content creation. The disruption will hit before any safety net is in place, and the people who lose the most will have the least power to adapt.
 
@@ -95,7 +95,7 @@ But the logic of the existential risk argument, followed to its conclusion, does
 The more productive path—and the one serious alignment researchers actually advocate—is not to stop building but to massively increase investment in safety research, interpretability, and alignment alongside capability development. Organizations like Anthropic, DeepMind, and the growing academic alignment community are doing exactly this: developing techniques to understand what models are doing internally, to specify human values in ways machines can follow, and to build systems that remain controllable as they grow more capable. This work is early. It is not sufficient. But it exists, it is scaling, and it is only possible because the people doing it are working at the frontier—not watching from the sidelines.
 
 There is a deeper point worth making. Every catastrophic technology risk humanity has faced—nuclear weapons, engineered pathogens, climate change—has been managed not by abandoning the underlying science but by building institutions of oversight, norms of restraint, and technical safeguards around it. The track record is imperfect. The stakes with AI may be higher. But the pattern holds: the societies that engage with dangerous capabilities are the ones that develop the expertise to govern them. The ones that disengage forfeit their seat at the table.
-The existential risk argument is not a reason to stop. It is the strongest possible reason to ensure that the people building the most powerful systems are the ones most committed to solving the safety problem—and that they are supported, funded, and held accountable by democratic societies rather than left to operate in the shadows.v
+The existential risk argument is not a reason to stop. It is the strongest possible reason to ensure that the people building the most powerful systems are the ones most committed to solving the safety problem—and that they are supported, funded, and held accountable by democratic societies rather than left to operate in the shadows.
 
 **On Environmental Cost:** The energy footprint of AI training is real and should not be minimized. Training GPT-4-class models requires computational resources that would have been unimaginable a decade ago, and the projected growth in data center power demand—Goldman Sachs estimated a 160% increase by 2030—is staggering on its face. This is a legitimate engineering and policy challenge. It is not, however, a reason to abandon the technology. It is a reason to fix the energy infrastructure.
 
