@@ -119,8 +119,6 @@ None of this happens automatically. Left unchecked, AI will absolutely scale dis
 
 The fears are legitimate. Every single one of them deserves serious engagement, not dismissal. But every single one of them is an argument for building AI _better_—not for building less of it. The frameworks emerging to govern AI development don't dismiss the risks. They are engineered around them. Specifications enforce intent. Verification loops catch errors. Humans remain in the loop. The economic model rewards outcomes, not opacity.
 
-The empirical evidence confirms the urgency. The [MIT AI Agent Index](https://aiagentindex.mit.edu/) documents 30 production AI agents across chat, browser, and enterprise categories—with 24 of them launched or significantly updated in 2024–2025 alone. The index reveals both the acceleration and the gap: nearly all agents depend on just three foundation model families (GPT, Claude, Gemini), only 4 of 13 frontier-autonomy agents publicly disclose safety evaluations, and no established standards exist for how agents should behave on the open web. The agents are arriving faster than the guardrails. That is not an argument against building—it is the strongest possible argument for building the standards, the verification loops, and the human oversight systems alongside the agents themselves.
-
 History is unambiguous on this point: no society has ever prospered by rejecting a foundational technology. The ones that thrived were the ones that mastered it on their own terms. We are not choosing between safety and progress. We are choosing between shaping a tool that will exist regardless, and letting someone else shape it for us. The shopkeeper in Karachi, the student in rural Mexico, the patient in a village with no doctor—they don't need us to debate whether AI should exist. They need us to make sure it works for them.
 
 <div style={{
@@ -833,20 +831,6 @@ options: ["Audit the algorithm, retrain on balanced data, run demographic impact
 correctOption: 0,
 explanation: "The text argues the answer is to mandate checks: bias audits, demographic impact assessments, transparent training data documentation, and independent review. The goal is AI that is measurably less biased than any human — achievable through build, deploy, measure, and correct cycles. Not achievable from the sidelines.",
 source: "Section: Why None of These Are Reasons to Stop — Bias and Discrimination"
-},
-{
-question: "The MIT AI Agent Index (2025) documents 30 production AI agents. What key gap does the index reveal about the current state of the agent ecosystem?",
-options: ["Nearly all agents depend on just three foundation model families, only 4 of 13 frontier agents disclose safety evaluations, and no standards exist for agent web behavior", "All 30 agents are fully autonomous and require no human oversight or supervision", "The agents are evenly distributed across dozens of foundation models with strong safety standards", "Most agents are still in research labs and none have been deployed in production environments"],
-correctOption: 0,
-explanation: "The MIT AI Agent Index reveals concentration (GPT, Claude, Gemini families), a safety transparency gap (only 4 of 13 frontier-autonomy agents disclose safety evaluations), and a standards vacuum (no established standards for how agents should behave on the web). This validates the argument that standards and oversight must be built alongside the agents.",
-source: "Section: The Bottom Line — MIT AI Agent Index"
-},
-{
-question: "According to the text, what does the MIT AI Agent Index data prove about the urgency of building AI standards?",
-options: ["The agents are arriving faster than the guardrails — making it the strongest argument for building standards alongside the agents", "Agent development has slowed enough that there is plenty of time to create standards before deployment", "Standards are unnecessary because all frontier agents already self-regulate through voluntary safety disclosures", "The data proves that a global moratorium on agent development is the only responsible path forward"],
-correctOption: 0,
-explanation: "The text uses the MIT data — 24 of 30 agents launched or updated in 2024-2025, with minimal safety disclosure and no web behavior standards — to argue that the pace of agent deployment demands parallel investment in standards, verification, and human oversight. The gap is the argument for building, not stopping.",
-source: "Section: The Bottom Line — MIT AI Agent Index"
 }
 ]}
 />
